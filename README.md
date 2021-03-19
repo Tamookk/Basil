@@ -9,4 +9,5 @@ This project includes a game engine (Basil), set to be built as a dll, and a tes
 
 ## Third-Party Dependencies
 A list of third-party software used in this project:
-* [spdlog](https://github.com/gabime/spdlog)
+* [spdlog](https://github.com/gabime/spdlog) for logging
+* [premake](https://github.com/premake/premake-core) for generating project files
