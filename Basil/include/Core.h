@@ -1,5 +1,6 @@
 /*
- * Used by the engine and games created using it whether to dllexport or dllimport. 
+ * This header file is used by the engine, and games 
+ * created using it, to determine whether to dllexport or dllimport
  */
 
 #pragma once

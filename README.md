@@ -6,3 +6,7 @@ A game engine using the OpenGL API based on the tutorial found [here](https://ww
 This project was created and developed in Visual Studio Community 2019.
 
 This project includes a game engine (Basil), set to be built as a dll, and a test application (Sandbox), for testing the game engine as I develop it. Currently, this engine only supports Windows. I'm hoping that one day I can expand it to work on other platforms, however.
+
+## Third-Party Dependencies
+A list of third-party software used in this project:
+* [spdlog](https://github.com/gabime/spdlog)

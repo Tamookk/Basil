@@ -1,5 +1,5 @@
 /*
- * This header file declares the Application class.
+ * This class manages application run-time
  */
 #pragma once
 

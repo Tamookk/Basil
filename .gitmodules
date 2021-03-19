@@ -1,0 +1,3 @@
+[submodule "Basil/vendor/spdlog"]
+	path = Basil/vendor/spdlog
+	url = https://github.com/gabime/spdlog
