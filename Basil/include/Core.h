@@ -14,4 +14,3 @@
 #else
 	#error Basil only supports Windows
 #endif
-

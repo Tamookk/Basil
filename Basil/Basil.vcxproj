@@ -99,16 +99,24 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\ApplicationEvent.h" />
     <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\Basil.h" />
     <ClInclude Include="include\Core.h" />
     <ClInclude Include="include\EntryPoint.h" />
+    <ClInclude Include="include\Event.h" />
+    <ClInclude Include="include\KeyEvent.h" />
     <ClInclude Include="include\Log.h" />
+    <ClInclude Include="include\MouseEvent.h" />
     <ClInclude Include="include\Test.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ApplicationEvent.cpp" />
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Event.cpp" />
+    <ClCompile Include="src\KeyEvent.cpp" />
     <ClCompile Include="src\Log.cpp" />
+    <ClCompile Include="src\MouseEvent.cpp" />
     <ClCompile Include="src\Test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -27,6 +27,10 @@
     <ClInclude Include="include\Test.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Event.h" />
+    <ClInclude Include="include\ApplicationEvent.h" />
+    <ClInclude Include="include\KeyEvent.h" />
+    <ClInclude Include="include\MouseEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -38,5 +42,9 @@
     <ClCompile Include="src\Test.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Event.cpp" />
+    <ClCompile Include="src\ApplicationEvent.cpp" />
+    <ClCompile Include="src\KeyEvent.cpp" />
+    <ClCompile Include="src\MouseEvent.cpp" />
   </ItemGroup>
 </Project>
