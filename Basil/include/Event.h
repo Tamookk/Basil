@@ -53,7 +53,15 @@ namespace Basil
 		public:
 			EventDispatcher(Event& e);
 			template <typename T>
-			bool dispatch(EventFunction<T> eventFunction);
+			bool dispatch(EventFunction<T> eventFunction)
+			{
+				if (event.getEventType() == T::getStaticType())
+				{
+					event.handled = eventFunction(*(T*)&event);
+					return true;
+				}
+				return false;
+			}
 		private:
 			Event& event;
 	};

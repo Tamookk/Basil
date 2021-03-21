@@ -3,8 +3,8 @@ project "GLFW"
 	kind "StaticLib"
 	language "C"
 	glfwdir = "Basil/vendor/GLFW/"
-	targetdir (glfwdir .. "bin/" .. outputdir .. "/%{prj.name}")
-	objdir (glfwdir .. "bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
 	files
 	{

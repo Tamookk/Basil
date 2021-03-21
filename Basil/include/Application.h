@@ -17,7 +17,9 @@ namespace Basil
 			Application();
 			virtual ~Application();
 			void run();
+			void onEvent(Event& e);
 		private:
+			bool onWindowClose(WindowCloseEvent& e);
 			std::unique_ptr<Window> window;
 			bool running;
 	};

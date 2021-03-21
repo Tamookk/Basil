@@ -26,16 +26,4 @@ namespace Basil
 	// -- Event Dispatcher -- //
 	// Constructor
 	EventDispatcher::EventDispatcher(Event& e) : event(e) {}
-
-	// Dispatch an event
-	template <typename T>
-	bool EventDispatcher::dispatch(EventFunction<T> function)
-	{
-		if (event.getEventType == T::getStaticType())
-		{
-			event.handled = function(*(T*)&event);
-			return true;
-		}
-		return false;
-	}
 }

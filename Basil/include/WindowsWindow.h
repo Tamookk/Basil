@@ -3,6 +3,9 @@
  */
 #pragma once
 
+#include "ApplicationEvent.h"
+#include "KeyEvent.h"
+#include "MouseEvent.h"
 #include "Window.h"
 #include "GLFW/glfw3.h"
 
