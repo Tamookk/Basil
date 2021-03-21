@@ -5,6 +5,8 @@ workspace "Basil"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+include "premake5_glfw.lua"
+
 project "Basil"
 	location "Basil"
 	kind "SharedLib"
@@ -14,7 +16,13 @@ project "Basil"
 	pchheader "pch.h"
 	pchsource "Basil/src/pch.cpp"
 	files { "%{prj.name}/src/**.cpp", "%{prj.name}/include/**.h" }
-	includedirs { "%{prj.name}/include", "%{prj.name}/vendor/spdlog/include" }
+	includedirs
+	{
+		"%{prj.name}/include",
+		"%{prj.name}/vendor/spdlog/include",
+		"%{prj.name}/vendor/GLFW/include"
+	}
+	links { "GLFW", "opengl32.lib" }
 	
 	filter "system:windows"
 		cppdialect "C++17"
@@ -38,7 +46,13 @@ project "Sandbox"
 	targetdir("bin/" .. outputdir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
 	files { "%{prj.name}/src/**.cpp", "%{prj.name}/include/**.h" }
-	includedirs { "%{prj.name}/include",  "Basil/include", "Basil/vendor/spdlog/include"}
+	includedirs
+	{
+		"%{prj.name}/include",
+		"Basil/include",
+		"Basil/vendor/spdlog/include",
+		"Basil/vendor/GLFW/include"
+	}
 	links { "Basil" }
 
 	filter "system:windows"

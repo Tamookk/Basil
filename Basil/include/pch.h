@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+#include "Log.h"
+
 #ifdef PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif

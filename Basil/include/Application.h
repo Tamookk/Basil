@@ -6,7 +6,8 @@
 #include "ApplicationEvent.h"
 #include "Core.h"
 #include "Event.h"
-#include "Log.h"
+#include "Window.h"
+#include "GLFW/glfw3.h"
 
 namespace Basil
 {
@@ -16,6 +17,9 @@ namespace Basil
 			Application();
 			virtual ~Application();
 			void run();
+		private:
+			std::unique_ptr<Window> window;
+			bool running;
 	};
 
 	// To be defined in the client

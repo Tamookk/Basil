@@ -1,3 +1,6 @@
 [submodule "Basil/vendor/spdlog"]
 	path = Basil/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Basil/vendor/GLFW"]
+	path = Basil/vendor/GLFW
+	url = https://github.com/glfw/glfw

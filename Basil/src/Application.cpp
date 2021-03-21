@@ -7,7 +7,8 @@ namespace Basil
 	// Constructor
 	Application::Application()
 	{
-
+		window = std::unique_ptr<Window>(Window::create());
+		running = true;
 	}
 
 	// Destructor
@@ -26,6 +27,11 @@ namespace Basil
 		if (e.isInCategory(EventCategory::InputEvent))
 			LOG_TRACE(e);
 
-		while (true);
+		while (running)
+		{
+			glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+			window->onUpdate();
+		}
 	}
 }

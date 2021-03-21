@@ -14,3 +14,11 @@
 #else
 	#error Basil only supports Windows
 #endif
+
+#ifdef ENABLE_ASSERTS
+	#define ASSERT(x, ...) { if(!(x)) { LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#define ASSERT_CLIENT(x, ...) { if(!(x)) { LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#else
+	#define ASSERT(x, ...)
+	#define ASSERT_CLIENT(x, ...)
+#endif

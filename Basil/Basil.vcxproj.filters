@@ -39,6 +39,12 @@
     <ClInclude Include="include\Test.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Window.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WindowsWindow.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -63,6 +69,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Test.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowsWindow.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp">
