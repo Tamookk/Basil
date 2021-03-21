@@ -3,10 +3,7 @@
  */
 #pragma once
 
-#include <functional>
-#include <ostream>
-#include <string>
-
+#include "pch.h"
 #include "Core.h"
 
 namespace Basil

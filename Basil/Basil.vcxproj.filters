@@ -12,6 +12,9 @@
     <ClInclude Include="include\Application.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\ApplicationEvent.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\Basil.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -21,30 +24,49 @@
     <ClInclude Include="include\EntryPoint.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Event.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\KeyEvent.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\Log.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MouseEvent.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Test.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Event.h" />
-    <ClInclude Include="include\ApplicationEvent.h" />
-    <ClInclude Include="include\KeyEvent.h" />
-    <ClInclude Include="include\MouseEvent.h" />
+    <ClInclude Include="include\pch.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\ApplicationEvent.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Event.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KeyEvent.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\Log.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MouseEvent.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Test.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Event.cpp" />
-    <ClCompile Include="src\ApplicationEvent.cpp" />
-    <ClCompile Include="src\KeyEvent.cpp" />
-    <ClCompile Include="src\MouseEvent.cpp" />
+    <ClCompile Include="src\pch.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

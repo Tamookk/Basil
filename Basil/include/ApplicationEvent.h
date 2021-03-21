@@ -3,8 +3,6 @@
  */
 #pragma once
 
-#include <sstream>
-
 #include "Event.h"
 
 namespace Basil

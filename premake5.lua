@@ -11,6 +11,8 @@ project "Basil"
 	language "C++"
 	targetdir("bin/" .. outputdir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
+	pchheader "pch.h"
+	pchsource "Basil/src/pch.cpp"
 	files { "%{prj.name}/src/**.cpp", "%{prj.name}/include/**.h" }
 	includedirs { "%{prj.name}/include", "%{prj.name}/vendor/spdlog/include" }
 	
