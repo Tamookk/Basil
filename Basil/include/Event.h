@@ -41,7 +41,6 @@ namespace Basil
 			virtual std::string toString() const;
 			virtual int getCategory() const = 0;
 			bool isInCategory(EventCategory category);
-		protected:
 			bool handled;
 	};
 

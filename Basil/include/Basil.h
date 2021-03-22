@@ -9,4 +9,5 @@
 
 #include "Application.h"
 #include "EntryPoint.h"
+#include "Layer.h"
 #include "Log.h"

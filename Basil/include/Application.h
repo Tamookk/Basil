@@ -3,10 +3,11 @@
  */
 #pragma once
 
-#include "ApplicationEvent.h"
 #include "Core.h"
-#include "Event.h"
 #include "Window.h"
+#include "LayerStack.h"
+#include "Event.h"
+#include "ApplicationEvent.h"
 #include "GLFW/glfw3.h"
 
 namespace Basil
@@ -18,10 +19,13 @@ namespace Basil
 			virtual ~Application();
 			void run();
 			void onEvent(Event& e);
+			void pushLayer(Layer* layer);
+			void pushOverlay(Layer* layer);
 		private:
 			bool onWindowClose(WindowCloseEvent& e);
 			std::unique_ptr<Window> window;
 			bool running;
+			LayerStack layerStack;
 	};
 
 	// To be defined in the client

@@ -33,10 +33,12 @@ project "Basil"
 
 	filter "configurations:Debug"
 		defines { "DEBUG" }
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines { "RELEASE" }
+		buildoptions "/MD"
 		optimize "On"
 
 project "Sandbox"

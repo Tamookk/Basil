@@ -22,3 +22,6 @@ A list of third-party software used in this project:
 * [spdlog](https://github.com/gabime/spdlog) for logging
 * [premake](https://github.com/premake/premake-core) for generating project files
 * [GLFW](https://github.com/glfw/glfw) for OpenGL development
+
+## Known Issues
+* For some reason a mouse move event will kill the program if the line `LOG_CLIENT_TRACE("{0}", e);` is enabled in SandboxApp.cpp:19. Clearly something to do with client logging. An investigation is required.

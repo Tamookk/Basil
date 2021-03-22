@@ -32,6 +32,10 @@ namespace Basil
 		{
 			glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			for (Layer* layer : layerStack)
+				layer->onUpdate();
+
 			window->onUpdate();
 		}
 	}
@@ -45,6 +49,25 @@ namespace Basil
 		// Dispatch event
 		EventDispatcher dispatcher(e);
 		dispatcher.dispatch<WindowCloseEvent>(std::bind(&Application::onWindowClose, this, std::placeholders::_1));
+
+		for (auto it = layerStack.end(); it != layerStack.begin();)
+		{
+			(*--it)->onEvent(e);
+			if (e.handled)
+				break;
+		}
+	}
+
+	// Push layer to layer stack
+	void Application::pushLayer(Layer* layer)
+	{
+		layerStack.pushLayer(layer);
+	}
+
+	// Push overlay to layer stack
+	void Application::pushOverlay(Layer* layer)
+	{
+		layerStack.pushOverlay(layer);
 	}
 
 	// Process window close event

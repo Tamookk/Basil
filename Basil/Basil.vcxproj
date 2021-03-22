@@ -64,6 +64,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -89,6 +90,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -110,6 +112,8 @@
     <ClInclude Include="include\EntryPoint.h" />
     <ClInclude Include="include\Event.h" />
     <ClInclude Include="include\KeyEvent.h" />
+    <ClInclude Include="include\Layer.h" />
+    <ClInclude Include="include\LayerStack.h" />
     <ClInclude Include="include\Log.h" />
     <ClInclude Include="include\MouseEvent.h" />
     <ClInclude Include="include\Test.h" />
@@ -122,6 +126,8 @@
     <ClCompile Include="src\ApplicationEvent.cpp" />
     <ClCompile Include="src\Event.cpp" />
     <ClCompile Include="src\KeyEvent.cpp" />
+    <ClCompile Include="src\Layer.cpp" />
+    <ClCompile Include="src\LayerStack.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\MouseEvent.cpp" />
     <ClCompile Include="src\Test.cpp" />

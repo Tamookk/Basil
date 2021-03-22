@@ -30,6 +30,12 @@
     <ClInclude Include="include\KeyEvent.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Layer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LayerStack.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\Log.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -60,6 +66,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\KeyEvent.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Layer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LayerStack.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Log.cpp">
