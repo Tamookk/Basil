@@ -40,8 +40,10 @@ project "GLFW"
 
 	filter "configurations:Debug"
 		runtime "Debug"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		runtime "Release"
+		buildoptions "/MD"
 		optimize "On"

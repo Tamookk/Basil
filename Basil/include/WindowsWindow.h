@@ -7,6 +7,7 @@
 #include "KeyEvent.h"
 #include "MouseEvent.h"
 #include "Window.h"
+#include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
 namespace Basil
