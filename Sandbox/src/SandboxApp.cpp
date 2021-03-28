@@ -15,8 +15,7 @@ class ExampleLayer : public Basil::Layer
 
 		void onEvent(Basil::Event& e) override
 		{
-			// A mouse move event kills the program if this is uncommented...
-			//LOG_CLIENT_TRACE("{0}", e);
+			LOG_CLIENT_TRACE("{0}", e);
 		}
 };
 
