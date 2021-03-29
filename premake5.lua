@@ -7,6 +7,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 include "premake5_glfw.lua"
 include "premake5_glad.lua"
+include "premake5_imgui.lua"
 
 project "Basil"
 	location "Basil"
@@ -22,9 +23,10 @@ project "Basil"
 		"%{prj.name}/include",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{prj.name}/vendor/GLFW/include",
-		"%{prj.name}/vendor/glad/include"
+		"%{prj.name}/vendor/glad/include",
+		"%{prj.name}/vendor/imgui"
 	}
-	links { "GLFW", "GLAD", "opengl32.lib" }
+	links { "GLFW", "GLAD", "ImGui", "opengl32.lib" }
 	
 	filter "system:windows"
 		cppdialect "C++17"
@@ -56,7 +58,8 @@ project "Sandbox"
 		"Basil/include",
 		"Basil/vendor/spdlog/include",
 		"Basil/vendor/GLFW/include",
-		"Basil/vendor/glad/include"
+		"Basil/vendor/glad/include",
+		"Basil/vendor/imgui"
 	}
 	links { "Basil" }
 

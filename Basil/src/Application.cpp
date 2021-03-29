@@ -3,12 +3,22 @@
 
 namespace Basil
 {
+	// Make Application a singleton
+	Application* Application::instance = nullptr;
 
 	// Constructor
 	Application::Application()
 	{
+		// Check we only have one application
+		ASSERT(!instance, "Application already exists!");
+
+		// Set application instance
+		instance = this;
+
+		// Set create the window and set the window callback
 		window = std::unique_ptr<Window>(Window::create());
 		window->setEventCallback(std::bind(&Application::onEvent, this, std::placeholders::_1));
+
 		running = true;
 	}
 
@@ -62,12 +72,26 @@ namespace Basil
 	void Application::pushLayer(Layer* layer)
 	{
 		layerStack.pushLayer(layer);
+		layer->onAttach();
 	}
 
 	// Push overlay to layer stack
 	void Application::pushOverlay(Layer* layer)
 	{
 		layerStack.pushOverlay(layer);
+		layer->onAttach();
+	}
+
+	// Return the application instance
+	Application& Application::get()
+	{
+		return *instance;
+	}
+
+	// Return the window pointer
+	Window& Application::getWindow()
+	{
+		return *window;
 	}
 
 	// Process window close event

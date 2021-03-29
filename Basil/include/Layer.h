@@ -1,3 +1,6 @@
+/*
+ * This header is for defining an API layer class 
+ */
 #pragma once
 
 #include "Core.h"

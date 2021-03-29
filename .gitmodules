@@ -4,3 +4,7 @@
 [submodule "Basil/vendor/GLFW"]
 	path = Basil/vendor/GLFW
 	url = https://github.com/glfw/glfw
+[submodule "Basil/vendor/imgui"]
+	path = Basil/vendor/imgui
+	url = https://github.com/ocornut/imgui
+	ignore = untracked

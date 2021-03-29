@@ -23,5 +23,7 @@ A list of third-party software used in this project:
 * [premake](https://github.com/premake/premake-core) for generating project files
 * [GLFW](https://github.com/glfw/glfw) for OpenGL development
 * [glad](https://github.com/Dav1dde/glad) for accessing modern OpenGL functions and extensions
+* [Dear ImGui](https://github.com/ocornut/imgui) for GUIs
 
-## Known Issues
+## Changelog
+TODO.

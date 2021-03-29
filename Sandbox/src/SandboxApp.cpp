@@ -25,6 +25,7 @@ class Sandbox : public Basil::Application
 		Sandbox()
 		{
 			pushLayer(new ExampleLayer());
+			pushOverlay(new Basil::ImGuiLayer());
 		}
 
 		~Sandbox()

@@ -1,3 +1,7 @@
+/*
+ * This header file is for defining the LayerStack class, which is used to abstract adding and
+ * removing layers from a layer vector.
+ */
 #pragma once
 
 #include <vector>
