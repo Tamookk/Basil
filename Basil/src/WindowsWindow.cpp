@@ -149,6 +149,16 @@ namespace Basil
 			}
 		});
 
+		glfwSetCharCallback(window, [](GLFWwindow* window, unsigned int keycode)
+		{
+			// Get address of data struct
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+			// Process event
+			KeyTypedEvent event(keycode);
+			data.eventCallbackFunction(event);
+		});
+
 		glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
 		{
 			// Get address of the data struct

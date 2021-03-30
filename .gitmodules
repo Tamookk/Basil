@@ -7,4 +7,3 @@
 [submodule "Basil/vendor/imgui"]
 	path = Basil/vendor/imgui
 	url = https://github.com/ocornut/imgui
-	ignore = untracked

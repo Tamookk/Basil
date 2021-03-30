@@ -45,4 +45,25 @@ namespace Basil
 	}
 
 	int KeyReleasedEvent::getCategory() const { return EventCategory::KeyboardEvent | EventCategory::InputEvent; }
+
+
+	// -- Key Typed Event -- //
+	KeyTypedEvent::KeyTypedEvent(int keycode)
+	{
+		this->keycode = keycode;
+	}
+
+	int KeyTypedEvent::getKeycode() const { return keycode; }
+	EventType KeyTypedEvent::getEventType() const { return KeyTypedEvent::getStaticType(); }
+	EventType KeyTypedEvent::getStaticType() { return EventType::KeyTyped; }
+	const char* KeyTypedEvent::getName() const { return "KeyTyped"; }
+
+	std::string KeyTypedEvent::toString() const
+	{
+		std::stringstream ss;
+		ss << "KeyTypedEvent: " << getKeycode();
+		return ss.str();
+	}
+
+	int KeyTypedEvent::getCategory() const { return EventCategory::KeyboardEvent | EventCategory::InputEvent; }
 }

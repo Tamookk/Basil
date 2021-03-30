@@ -36,4 +36,18 @@ namespace Basil
 		private:
 			int keycode;
 	};
+
+	class BASIL_API KeyTypedEvent : public Event
+	{
+	public:
+		KeyTypedEvent(int keycode);
+		int getKeycode() const;
+		virtual EventType getEventType() const override;
+		static EventType getStaticType();
+		virtual const char* getName() const override;
+		virtual std::string toString() const override;
+		virtual int getCategory() const override;
+	private:
+		int keycode;
+	};
 }

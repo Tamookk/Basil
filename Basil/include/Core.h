@@ -22,3 +22,5 @@
 	#define ASSERT(x, ...)
 	#define ASSERT_CLIENT(x, ...)
 #endif
+
+#define BIND_EVENT(x) std::bind(&x, this, std::placeholders::_1)

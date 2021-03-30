@@ -42,7 +42,7 @@ bool ImGui_ImplOpenGL3_Init(const char* glsl_version)
 	io.BackendRendererName = "imgui_impl_opengl3";
 
 	// Store GLSL version string so we can refer to it later in case we recreate shaders. Note: GLSL version is NOT the same as GL version.
-	//Leave this to NULL if unsure.
+	// Leave this to NULL if unsure.
 	#ifdef USE_GL_ES3
 		if (glsl_version == NULL)
 			glsl_version = "#version 300 es";

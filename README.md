@@ -26,4 +26,8 @@ A list of third-party software used in this project:
 * [Dear ImGui](https://github.com/ocornut/imgui) for GUIs
 
 ## Changelog
-TODO.
+### 30-03-2021
+* Added event handling to the ImGui layer.
+* Added a KeyTyped event.
+* Added a macro for binding events.
+* Fixed a typo in `ImGuiOpenGLRenderer.cpp`.

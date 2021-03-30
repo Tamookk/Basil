@@ -17,7 +17,7 @@ namespace Basil
 
 		// Set create the window and set the window callback
 		window = std::unique_ptr<Window>(Window::create());
-		window->setEventCallback(std::bind(&Application::onEvent, this, std::placeholders::_1));
+		window->setEventCallback(BIND_EVENT(Application::onEvent));
 
 		running = true;
 	}
@@ -58,7 +58,7 @@ namespace Basil
 
 		// Dispatch event
 		EventDispatcher dispatcher(e);
-		dispatcher.dispatch<WindowCloseEvent>(std::bind(&Application::onWindowClose, this, std::placeholders::_1));
+		dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT(Application::onWindowClose));
 
 		for (auto it = layerStack.end(); it != layerStack.begin();)
 		{
