@@ -5,9 +5,11 @@ workspace "Basil"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-include "premake5_glfw.lua"
-include "premake5_glad.lua"
-include "premake5_imgui.lua"
+group "Dependencies"
+	include "premake5_glfw.lua"
+	include "premake5_glad.lua"
+	include "premake5_imgui.lua"
+group ""
 
 project "Basil"
 	location "Basil"

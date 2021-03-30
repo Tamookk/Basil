@@ -27,6 +27,12 @@
     <ClInclude Include="include\Event.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\ImGuiLayer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ImGuiOpenGLRenderer.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\KeyEvent.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -54,12 +60,6 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\ImGuiLayer.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ImGuiOpenGLRenderer.h">
-      <Filter>include</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -69,6 +69,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Event.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGuiLayer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGuiOpenGLRenderer.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\KeyEvent.cpp">
@@ -95,9 +101,5 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\ImGuiLayer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ImGuiOpenGLRenderer.cpp" />
   </ItemGroup>
 </Project>

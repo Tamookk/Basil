@@ -105,7 +105,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\ApplicationEvent.h" />
     <ClInclude Include="include\Basil.h" />
@@ -113,6 +112,7 @@
     <ClInclude Include="include\EntryPoint.h" />
     <ClInclude Include="include\Event.h" />
     <ClInclude Include="include\ImGuiLayer.h" />
+    <ClInclude Include="include\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="include\KeyEvent.h" />
     <ClInclude Include="include\Layer.h" />
     <ClInclude Include="include\LayerStack.h" />
