@@ -15,6 +15,7 @@ project "Basil"
 	location "Basil"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "Off"
 	targetdir("bin/" .. outputdir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
 	pchheader "pch.h"
@@ -32,25 +33,25 @@ project "Basil"
 	
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 		defines { "PLATFORM_WINDOWS", "BUILD_DLL" }
 		postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox"}
 
 	filter "configurations:Debug"
 		defines { "DEBUG" }
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines { "RELEASE" }
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "Off"
 	targetdir("bin/" .. outputdir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
 	files { "%{prj.name}/src/**.cpp", "%{prj.name}/include/**.h" }
@@ -67,16 +68,15 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 		defines { "PLATFORM_WINDOWS" }
 
 	filter "configurations:Debug"
 		defines { "DEBUG" }
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines { "RELEASE" }
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"

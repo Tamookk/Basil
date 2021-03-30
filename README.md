@@ -24,10 +24,3 @@ A list of third-party software used in this project:
 * [GLFW](https://github.com/glfw/glfw) for OpenGL development
 * [glad](https://github.com/Dav1dde/glad) for accessing modern OpenGL functions and extensions
 * [Dear ImGui](https://github.com/ocornut/imgui) for GUIs
-
-## Changelog
-### 30-03-2021
-* Added event handling to the ImGui layer.
-* Added a KeyTyped event.
-* Added a macro for binding events.
-* Fixed a typo in `ImGuiOpenGLRenderer.cpp`.
