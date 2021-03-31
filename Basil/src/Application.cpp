@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Application.h"
 
+#include "GLFW/glfw3.h"
+
 namespace Basil
 {
 	// Make Application a singleton
@@ -45,8 +47,6 @@ namespace Basil
 
 			for (Layer* layer : layerStack)
 				layer->onUpdate();
-
-			LOG_TRACE("{0}, {1}", Input::getMouseX(), Input::getMouseY());
 
 			window->onUpdate();
 		}

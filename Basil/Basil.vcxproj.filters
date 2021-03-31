@@ -62,6 +62,8 @@
     </ClInclude>
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\WindowsInput.h" />
+    <ClInclude Include="include\KeyCodes.h" />
+    <ClInclude Include="include\MouseButtonCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">

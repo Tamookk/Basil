@@ -8,7 +8,6 @@
 #include "KeyEvent.h"
 #include "Layer.h"
 #include "MouseEvent.h"
-#include "GLFW/glfw3.h"
 
 namespace Basil
 {

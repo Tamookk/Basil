@@ -10,12 +10,20 @@ class ExampleLayer : public Basil::Layer
 		ExampleLayer() : Layer("Example") {}
 		void onUpdate() override
 		{
-			LOG_CLIENT_INFO("ExampleLayer::Update");
+			if (Basil::Input::isKeyPressed(BASIL_KEY_TAB))
+				LOG_CLIENT_INFO("Tab key is pressed.");
 		}
 
 		void onEvent(Basil::Event& e) override
 		{
-			LOG_CLIENT_TRACE("{0}", e);
+			if (e.getEventType() == Basil::EventType::KeyPressed)
+			{
+				Basil::KeyPressedEvent& eeevent = (Basil::KeyPressedEvent&)e;
+				if (eeevent.getKeycode() == BASIL_KEY_0)
+					LOG_CLIENT_TRACE("Tab key is pressed!");
+				LOG_CLIENT_TRACE("{0}", (char)eeevent.getKeycode());
+			}
+
 		}
 };
 

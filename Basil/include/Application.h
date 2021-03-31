@@ -9,7 +9,6 @@
 #include "Input.h"
 #include "LayerStack.h"
 #include "Window.h"
-#include "GLFW/glfw3.h"
 
 namespace Basil
 {

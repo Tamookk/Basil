@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "ImGuiLayer.h"
 
+#include "GLFW/glfw3.h"
+
 namespace Basil
 {
 	// Constructor

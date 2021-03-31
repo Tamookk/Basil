@@ -112,10 +112,12 @@
     <ClInclude Include="include\ImGuiLayer.h" />
     <ClInclude Include="include\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\KeyCodes.h" />
     <ClInclude Include="include\KeyEvent.h" />
     <ClInclude Include="include\Layer.h" />
     <ClInclude Include="include\LayerStack.h" />
     <ClInclude Include="include\Log.h" />
+    <ClInclude Include="include\MouseButtonCodes.h" />
     <ClInclude Include="include\MouseEvent.h" />
     <ClInclude Include="include\Test.h" />
     <ClInclude Include="include\Window.h" />

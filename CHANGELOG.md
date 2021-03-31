@@ -4,9 +4,11 @@ Change log for the Basil Game Engine project.
 ## 2021-03-31
 ### Added
 * Input polling.
+* Definitions for key and mouse button codes.
 
 ### Changed
 * Edited `premake5.lua` so the Basil dll will copy into Sandbox's folder after it's built, even if the Sandbox folder doesn't exist yet.
+* Moved GLFW includes from header files to cpp files for headers included in `Basil.h` so that GLFW is not included in Sandbox/client applications.
 
 ## 2021-03-30
 ### Added
