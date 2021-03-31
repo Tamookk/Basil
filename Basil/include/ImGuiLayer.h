@@ -3,8 +3,6 @@
  */
 #pragma once
 
-#include "Application.h"
-#include "ImGuiOpenGLRenderer.h"
 #include "KeyEvent.h"
 #include "Layer.h"
 #include "MouseEvent.h"
@@ -18,17 +16,10 @@ namespace Basil
 			~ImGuiLayer();
 			void onAttach() override;
 			void onDetach() override;
-			void onUpdate() override;
-			void onEvent(Event& e) override;
+			void onImGuiRender() override;
+			void begin();
+			void end();
 		private:
-			bool onKeyPressedEvent(KeyPressedEvent& e);
-			bool onKeyReleasedEvent(KeyReleasedEvent& e);
-			bool onKeyTypedEvent(KeyTypedEvent& e);
-			bool onMouseButtonPressedEvent(MouseButtonPressedEvent& e);
-			bool onMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);
-			bool onMouseMovedEvent(MouseMovedEvent& e);
-			bool onMouseScolledEvent(MouseScrolledEvent& e);
-			bool onWindowResizeEvent(WindowResizeEvent& e);
 			float time;
 	};
 }

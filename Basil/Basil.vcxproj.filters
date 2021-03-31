@@ -51,9 +51,6 @@
     <ClInclude Include="include\ImGuiLayer.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\ImGuiOpenGLRenderer.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\Input.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -1343,10 +1340,10 @@
     <ClCompile Include="src\Event.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\ImGuiLayer.cpp">
+    <ClCompile Include="src\ImGuiBuild.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\ImGuiOpenGLRenderer.cpp">
+    <ClCompile Include="src\ImGuiLayer.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Input.cpp">

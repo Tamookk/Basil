@@ -6,7 +6,7 @@ namespace Basil
 	// Constructor
 	LayerStack::LayerStack()
 	{
-		layerIterator = layers.begin();
+		layerInsertIndex = 0;
 	}
 
 	// Destructor
@@ -19,7 +19,8 @@ namespace Basil
 	// Push a layer to the layers vector
 	void LayerStack::pushLayer(Layer * layer)
 	{
-		layerIterator = layers.emplace(layerIterator, layer);
+		layers.emplace(layers.begin() + layerInsertIndex, layer);
+		layerInsertIndex++;
 	}
 
 	// Push an overlay to the layers vector (back of vector)
@@ -38,7 +39,7 @@ namespace Basil
 		if (it != layers.end())
 		{
 			layers.erase(it);
-			layerIterator--;
+			layerInsertIndex--;
 		}
 	}
 

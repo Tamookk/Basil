@@ -5,7 +5,6 @@ project "ImGui"
 	imguidir = "Basil/vendor/imgui/"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
 	files
 	{
 		(imguidir .. "imconfig.h"),
@@ -23,6 +22,7 @@ project "ImGui"
 
 	filter "system:windows"
 		systemversion "latest"
+		defines { "IMGUI_API=__declspec(dllexport)" }
 		staticruntime "On"
 
 	filter "configurations:Debug"

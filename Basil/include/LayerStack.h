@@ -24,6 +24,6 @@ namespace Basil
 			std::vector<Layer*>::iterator end();
 		private:
 			std::vector<Layer*> layers;
-			std::vector<Layer*>::iterator layerIterator;
+			unsigned int layerInsertIndex;
 	};
 }

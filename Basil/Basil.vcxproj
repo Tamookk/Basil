@@ -110,7 +110,6 @@
     <ClInclude Include="include\EntryPoint.h" />
     <ClInclude Include="include\Event.h" />
     <ClInclude Include="include\ImGuiLayer.h" />
-    <ClInclude Include="include\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\KeyCodes.h" />
     <ClInclude Include="include\KeyEvent.h" />
@@ -542,8 +541,8 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\ApplicationEvent.cpp" />
     <ClCompile Include="src\Event.cpp" />
+    <ClCompile Include="src\ImGuiBuild.cpp" />
     <ClCompile Include="src\ImGuiLayer.cpp" />
-    <ClCompile Include="src\ImGuiOpenGLRenderer.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\KeyEvent.cpp" />
     <ClCompile Include="src\Layer.cpp" />

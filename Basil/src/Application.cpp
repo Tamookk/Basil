@@ -21,6 +21,10 @@ namespace Basil
 		window = std::unique_ptr<Window>(Window::create());
 		window->setEventCallback(BIND_EVENT(Application::onEvent));
 
+		// Create and push ImGui overlay
+		imGuiLayer = new ImGuiLayer();
+		pushOverlay(imGuiLayer);
+
 		running = true;
 	}
 
@@ -45,8 +49,15 @@ namespace Basil
 			glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			// Do on update stuff
 			for (Layer* layer : layerStack)
 				layer->onUpdate();
+
+			// Do ImGui stuff
+			imGuiLayer->begin();
+			for (Layer* layer : layerStack)
+				layer->onImGuiRender();
+			imGuiLayer->end();
 
 			window->onUpdate();
 		}

@@ -6,6 +6,7 @@
 #include "ApplicationEvent.h"
 #include "Core.h"
 #include "Event.h"
+#include "ImGuiLayer.h"
 #include "Input.h"
 #include "LayerStack.h"
 #include "Window.h"
@@ -26,6 +27,7 @@ namespace Basil
 		private:
 			bool onWindowClose(WindowCloseEvent& e);
 			std::unique_ptr<Window> window;
+			ImGuiLayer* imGuiLayer;
 			bool running;
 			LayerStack layerStack;
 			static Application* instance;

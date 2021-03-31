@@ -3,11 +3,13 @@
  */
 
 #include "Basil.h"
+#include "imgui.h"
 
 class ExampleLayer : public Basil::Layer
 {
 	public:
 		ExampleLayer() : Layer("Example") {}
+
 		void onUpdate() override
 		{
 			if (Basil::Input::isKeyPressed(BASIL_KEY_TAB))
@@ -23,7 +25,13 @@ class ExampleLayer : public Basil::Layer
 					LOG_CLIENT_TRACE("Tab key is pressed!");
 				LOG_CLIENT_TRACE("{0}", (char)eeevent.getKeycode());
 			}
+		}
 
+		void onImGuiRender() override
+		{
+			ImGui::Begin("Test");
+			ImGui::Text("Hello, world");
+			ImGui::End();
 		}
 };
 
@@ -33,7 +41,6 @@ class Sandbox : public Basil::Application
 		Sandbox()
 		{
 			pushLayer(new ExampleLayer());
-			pushOverlay(new Basil::ImGuiLayer());
 		}
 
 		~Sandbox()

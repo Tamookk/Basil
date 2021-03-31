@@ -1,6 +1,22 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-01
+### Added
+* Some Dear ImGui test code to Sandbox.
+
+### Changed
+* Swapped to the docking branch of Dear ImGui.
+* The layer stack now uses an integer instead of an iterator to keep track of the amount of layers it has.
+
+### Fixed
+* Dear ImGui now actually works! Updated the ImGuiLayer to properly use Dear ImGui.
+
+### Removed
+* Some files no longer needed for Dear ImGui implementation.
+* Herobrine.
+
+
 ## 2021-03-31
 ### Added
 * Input polling.
@@ -10,7 +26,6 @@ Change log for the Basil Game Engine project.
 ### Changed
 * Edited `premake5.lua` so the Basil dll will copy into Sandbox's folder after it's built, even if the Sandbox folder doesn't exist yet.
 * Moved GLFW includes from header files to cpp files for headers included in `Basil.h` so that GLFW is not included in Sandbox/client applications.
-* Swapped to docking branch of Dear ImGui.
 
 
 ## 2021-03-30

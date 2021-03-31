@@ -17,6 +17,7 @@ namespace Basil
 			virtual void onDetach() {}
 			virtual void onUpdate() {}
 			virtual void onEvent(Event& e) {}
+			virtual void onImGuiRender() {}
 			inline const std::string& getName() const { return debugName; }
 		protected:
 			std::string debugName;
