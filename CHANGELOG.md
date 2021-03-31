@@ -1,12 +1,19 @@
-# Changelog
-Changelog for the Basil Game Engine project.
+# Change Log
+Change log for the Basil Game Engine project.
+
+## 2021-03-31
+### Added
+* Input polling.
+
+### Changed
+* Edited `premake5.lua` so the Basil dll will copy into Sandbox's folder after it's built, even if the Sandbox folder doesn't exist yet.
 
 ## 2021-03-30
 ### Added
 * Event handling to the ImGui layer.
 * A KeyTyped event.
 * A macro for binding events.
-* Changelog file for documenting changes to the project.
+* Change log file for documenting changes to the project.
 
 ### Changed
 * Edited `premake5.lua`:
@@ -50,8 +57,7 @@ Changelog for the Basil Game Engine project.
 
 
 ## 2021-03-19
-* Created project and repository.
-
 ### Added
 * Read me file.
 * Licence file.
+* Created project and repository.

@@ -23,6 +23,7 @@ namespace Basil
 			void setEventCallback(const EventCallbackFunction& callback) override;
 			void setVsync(bool enabled) override;
 			bool isVsync() const override;
+			void* getNativeWindow() const override;
 		private:
 			struct WindowData
 			{

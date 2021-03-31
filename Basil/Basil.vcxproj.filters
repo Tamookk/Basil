@@ -60,6 +60,8 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\WindowsInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -101,5 +103,7 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Input.cpp" />
+    <ClCompile Include="src\WindowsInput.cpp" />
   </ItemGroup>
 </Project>

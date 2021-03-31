@@ -35,7 +35,7 @@ project "Basil"
 		cppdialect "C++17"
 		systemversion "latest"
 		defines { "PLATFORM_WINDOWS", "BUILD_DLL" }
-		postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox"}
+		postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox\""}
 
 	filter "configurations:Debug"
 		defines { "DEBUG" }

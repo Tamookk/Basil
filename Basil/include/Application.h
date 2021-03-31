@@ -6,6 +6,7 @@
 #include "ApplicationEvent.h"
 #include "Core.h"
 #include "Event.h"
+#include "Input.h"
 #include "LayerStack.h"
 #include "Window.h"
 #include "GLFW/glfw3.h"

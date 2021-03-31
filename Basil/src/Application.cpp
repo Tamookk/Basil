@@ -46,6 +46,8 @@ namespace Basil
 			for (Layer* layer : layerStack)
 				layer->onUpdate();
 
+			LOG_TRACE("{0}, {1}", Input::getMouseX(), Input::getMouseY());
+
 			window->onUpdate();
 		}
 	}

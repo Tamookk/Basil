@@ -235,4 +235,6 @@ namespace Basil
 	}
 
 	bool WindowsWindow::isVsync() const { return data.vsync; }
+
+	void* WindowsWindow::getNativeWindow() const { return window; }
 }
