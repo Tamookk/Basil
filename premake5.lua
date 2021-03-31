@@ -20,14 +20,21 @@ project "Basil"
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
 	pchheader "pch.h"
 	pchsource "Basil/src/pch.cpp"
-	files { "%{prj.name}/src/**.cpp", "%{prj.name}/include/**.h" }
+	files
+	{
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/include/**.h",
+		"%{prj.name}/vendor/glm/**.hpp",
+		"%{prj.name}/vendor/glm/**.inl"
+	}
 	includedirs
 	{
 		"%{prj.name}/include",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{prj.name}/vendor/GLFW/include",
 		"%{prj.name}/vendor/glad/include",
-		"%{prj.name}/vendor/imgui"
+		"%{prj.name}/vendor/imgui",
+		"%{prj.name}/vendor/glm/"
 	}
 	links { "GLFW", "GLAD", "ImGui", "opengl32.lib" }
 	
@@ -62,7 +69,8 @@ project "Sandbox"
 		"Basil/vendor/spdlog/include",
 		"Basil/vendor/GLFW/include",
 		"Basil/vendor/glad/include",
-		"Basil/vendor/imgui"
+		"Basil/vendor/imgui",
+		"Basil/vendor/glm"
 	}
 	links { "Basil" }
 

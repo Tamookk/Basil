@@ -7,3 +7,6 @@
 [submodule "Basil/vendor/imgui"]
 	path = Basil/vendor/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "Basil/vendor/glm"]
+	path = Basil/vendor/glm
+	url = https://github.com/g-truc/glm
