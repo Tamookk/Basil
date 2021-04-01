@@ -2,6 +2,7 @@ project "GLFW"
 	location "Basil/vendor/GLFW"
 	kind "StaticLib"
 	language "C"
+	staticruntime "On"
 	glfwdir = "Basil/vendor/GLFW/"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -21,7 +22,6 @@ project "GLFW"
 
 	filter "system:windows"
 		systemversion "latest"
-		staticruntime "On"
 
 		files
 		{
@@ -40,10 +40,8 @@ project "GLFW"
 
 	filter "configurations:Debug"
 		runtime "Debug"
-		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		runtime "Release"
-		buildoptions "/MD"
 		optimize "On"

@@ -1,6 +1,15 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-02
+### Changed
+* Basil now builds as a static library instead of a dll.
+
+### Fixed
+* Premake files are now properly configured, eliminating most build warnings.
+* Eliminated the rest of the build warnings with some code clean up.
+
+
 ## 2021-04-01
 ### Added
 * Some Dear ImGui test code to Sandbox.

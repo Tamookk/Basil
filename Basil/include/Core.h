@@ -6,10 +6,14 @@
 #pragma once
 
 #ifdef PLATFORM_WINDOWS
-	#ifdef BUILD_DLL
-		#define BASIL_API __declspec(dllexport)
+	#ifdef DYNAMIC_LINK
+		#ifdef BUILD_DLL
+			#define BASIL_API __declspec(dllexport)
+		#else
+			#define BASIL_API __declspec(dllimport)
+		#endif
 	#else
-		#define BASIL_API __declspec(dllimport)
+		#define BASIL_API
 	#endif
 #else
 	#error Basil only supports Windows

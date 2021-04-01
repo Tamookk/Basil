@@ -13,9 +13,10 @@ group ""
 
 project "Basil"
 	location "Basil"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "Off"
+	cppdialect "C++17"
+	staticruntime "On"
 	targetdir("bin/" .. outputdir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
 	pchheader "pch.h"
@@ -27,6 +28,7 @@ project "Basil"
 		"%{prj.name}/vendor/glm/**.hpp",
 		"%{prj.name}/vendor/glm/**.inl"
 	}
+	defines { "_CRT_SECURE_NO_WARNINGS" }
 	includedirs
 	{
 		"%{prj.name}/include",
@@ -41,8 +43,7 @@ project "Basil"
 	filter "system:windows"
 		cppdialect "C++17"
 		systemversion "latest"
-		defines { "PLATFORM_WINDOWS", "BUILD_DLL" }
-		postbuildcommands {"{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox\""}
+		defines { "PLATFORM_WINDOWS" }
 
 	filter "configurations:Debug"
 		defines { "DEBUG" }
@@ -58,7 +59,8 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "Off"
+	cppdialect "C++17"
+	staticruntime "On"
 	targetdir("bin/" .. outputdir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
 	files { "%{prj.name}/src/**.cpp", "%{prj.name}/include/**.h" }
@@ -75,7 +77,6 @@ project "Sandbox"
 	links { "Basil" }
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 		defines { "PLATFORM_WINDOWS" }
 
