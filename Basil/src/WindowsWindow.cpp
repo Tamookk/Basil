@@ -51,15 +51,8 @@ namespace Basil
 
 		// GLFW window stuff
 		window = glfwCreateWindow(data.width, data.height, data.title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(window);
-
-		// Tell glad what the GLFW process address is
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		if (!status)
-		{
-			LOG_FATAL("Failed to iniailise glad");
-			exit(-1);
-		}
+		context = new OpenGLContext(window);
+		context->init();
 
 		// Some more GLFW window stuff
 		glfwSetWindowUserPointer(window, &data);
@@ -217,7 +210,7 @@ namespace Basil
 	void WindowsWindow::onUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(window);
+		context->swapBuffers();
 	}
 
 	unsigned int WindowsWindow::getWidth() const { return data.width; }

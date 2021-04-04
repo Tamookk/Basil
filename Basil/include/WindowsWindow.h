@@ -4,11 +4,11 @@
 #pragma once
 
 #include "ApplicationEvent.h"
+#include "GraphicsContext.h"
 #include "KeyEvent.h"
 #include "MouseEvent.h"
+#include "OpenGLContext.h"
 #include "Window.h"
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
 
 namespace Basil
 {
@@ -36,6 +36,7 @@ namespace Basil
 			virtual void init(const WindowProps& props);
 			virtual void shutdown();
 			GLFWwindow* window;
+			GraphicsContext* context;
 			WindowData data;
 	};
 }

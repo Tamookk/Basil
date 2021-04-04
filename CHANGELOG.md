@@ -1,6 +1,12 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-04
+### Added
+* A generic graphics context.
+* An OpenGL graphics context.
+
+
 ## 2021-04-02
 ### Changed
 * Basil now builds as a static library instead of a dll.

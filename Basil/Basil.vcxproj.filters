@@ -1329,6 +1329,12 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="include\GraphicsContext.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OpenGLContext.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1374,6 +1380,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenGLContext.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
