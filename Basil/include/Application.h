@@ -31,6 +31,9 @@ namespace Basil
 			bool running;
 			LayerStack layerStack;
 			static Application* instance;
+			unsigned int vbo;
+			unsigned int ibo;
+			unsigned int vao;
 	};
 
 	// To be defined in the client

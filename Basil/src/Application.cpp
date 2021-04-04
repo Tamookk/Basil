@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Application.h"
 
+#include <glad/glad.h>
 #include "GLFW/glfw3.h"
 
 namespace Basil
@@ -25,6 +26,34 @@ namespace Basil
 		imGuiLayer = new ImGuiLayer();
 		pushOverlay(imGuiLayer);
 
+		// Create vertex and index data
+		std::vector<float> vertices =
+		{
+			-0.5f, -0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			 0.0f,  0.5f, 0.0f
+		};
+
+		std::vector<unsigned int> indices =
+		{
+			0, 1, 2
+		};
+
+		// Create VBO and IBO and buffer data
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+
+		glGenBuffers(1, &ibo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indices.size(), &indices[0], GL_STATIC_DRAW);
+
+		// Create VAO and specify format of data
+		glGenVertexArrays(1, &vao);
+		glBindVertexArray(vao);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		glEnableVertexAttribArray(0);
+
 		running = true;
 	}
 
@@ -46,8 +75,12 @@ namespace Basil
 
 		while (running)
 		{
-			glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			// Draw triangle
+			glBindVertexArray(vao);
+			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
 			// Do on update stuff
 			for (Layer* layer : layerStack)
