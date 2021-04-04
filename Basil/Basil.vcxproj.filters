@@ -1335,6 +1335,7 @@
     <ClInclude Include="include\OpenGLContext.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1385,5 +1386,6 @@
     <ClCompile Include="src\OpenGLContext.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Shader.cpp" />
   </ItemGroup>
 </Project>

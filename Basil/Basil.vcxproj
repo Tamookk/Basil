@@ -112,6 +112,7 @@
     <ClInclude Include="include\Log.h" />
     <ClInclude Include="include\MouseButtonCodes.h" />
     <ClInclude Include="include\MouseEvent.h" />
+    <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\Test.h" />
     <ClInclude Include="include\Window.h" />
     <ClInclude Include="include\WindowsInput.h" />
@@ -546,6 +547,7 @@
     <ClCompile Include="src\LayerStack.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\MouseEvent.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Test.cpp" />
     <ClCompile Include="src\WindowsInput.cpp" />
     <ClCompile Include="src\WindowsWindow.cpp" />

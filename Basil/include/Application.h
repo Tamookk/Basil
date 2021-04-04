@@ -9,6 +9,7 @@
 #include "ImGuiLayer.h"
 #include "Input.h"
 #include "LayerStack.h"
+#include "Shader.h"
 #include "Window.h"
 
 namespace Basil
@@ -34,6 +35,7 @@ namespace Basil
 			unsigned int vbo;
 			unsigned int ibo;
 			unsigned int vao;
+			std::unique_ptr<Shader> shader;
 	};
 
 	// To be defined in the client

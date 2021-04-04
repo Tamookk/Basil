@@ -6,6 +6,7 @@ Change log for the Basil Game Engine project.
 * A generic graphics context.
 * An OpenGL graphics context.
 * Triangles. Well, a single triangle.
+* A basic shader.
 
 
 ## 2021-04-02
