@@ -7,9 +7,12 @@
 #include "Core.h"
 #include "Event.h"
 #include "ImGuiLayer.h"
+#include "IndexBuffer.h"
 #include "Input.h"
 #include "LayerStack.h"
+#include "Renderer.h"
 #include "Shader.h"
+#include "VertexBuffer.h"
 #include "Window.h"
 
 namespace Basil
@@ -32,10 +35,10 @@ namespace Basil
 			bool running;
 			LayerStack layerStack;
 			static Application* instance;
-			unsigned int vbo;
-			unsigned int ibo;
 			unsigned int vao;
 			std::unique_ptr<Shader> shader;
+			std::unique_ptr<VertexBuffer> vbo;
+			std::unique_ptr<IndexBuffer> ibo;
 	};
 
 	// To be defined in the client

@@ -1,6 +1,13 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-05
+### Added
+* Vertex and index buffer abstractions.
+* An OpenGL-specific implementation of vertex and index buffers.
+* A basic renderer.
+
+
 ## 2021-04-04
 ### Added
 * A generic graphics context.

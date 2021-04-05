@@ -48,6 +48,9 @@
     <ClInclude Include="include\Event.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\GraphicsContext.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\ImGuiLayer.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -73,6 +76,12 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\MouseEvent.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OpenGLContext.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Shader.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Test.h">
@@ -1329,13 +1338,21 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="include\GraphicsContext.h">
+    <ClInclude Include="include\IndexBuffer.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\OpenGLContext.h">
+    <ClInclude Include="include\OpenGLVertexBuffer.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Shader.h" />
+    <ClInclude Include="include\VertexBuffer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OpenGLIndexBuffer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1371,6 +1388,12 @@
     <ClCompile Include="src\MouseEvent.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\OpenGLContext.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\Test.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -1383,9 +1406,20 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\OpenGLContext.cpp">
+    <ClCompile Include="src\IndexBuffer.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\OpenGLVertexBuffer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VertexBuffer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenGLIndexBuffer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

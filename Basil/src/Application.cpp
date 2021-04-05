@@ -18,6 +18,9 @@ namespace Basil
 		// Set application instance
 		instance = this;
 
+		// Set renderer API
+		Renderer::setAPI(RendererAPI::OpenGL);
+
 		// Set create the window and set the window callback
 		window = std::unique_ptr<Window>(Window::create());
 		window->setEventCallback(BIND_EVENT(Application::onEvent));
@@ -38,21 +41,16 @@ namespace Basil
 		{
 			0, 1, 2
 		};
+	
+		// Create VBO and IBO
+		vbo.reset(VertexBuffer::create(vertices));
+		ibo.reset(IndexBuffer::create(indices));
 
-		// Create VBO and IBO and buffer data
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
-
-		glGenBuffers(1, &ibo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indices.size(), &indices[0], GL_STATIC_DRAW);
-		
 		// Create VAO and specify format of data
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		vbo->bind();
+		ibo->bind();
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 		glEnableVertexAttribArray(0);
 
@@ -111,7 +109,7 @@ namespace Basil
 
 			// Draw triangle
 			glBindVertexArray(vao);
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, ibo->getSize(), GL_UNSIGNED_INT, nullptr);
 
 			// Do on update stuff
 			for (Layer* layer : layerStack)
