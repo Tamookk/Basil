@@ -5,8 +5,9 @@
 #pragma once
 
 #include "VertexBuffer.h"
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 namespace Basil
 {

@@ -2,34 +2,12 @@
 #include "Application.h"
 
 #include <glad/glad.h>
-#include "GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 
 namespace Basil
 {
 	// Make Application a singleton
 	Application* Application::instance = nullptr;
-
-	// Convert shader data type to OpenGL type
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
-	{
-		switch (type)
-		{
-			case ShaderDataType::Float:    return GL_FLOAT;
-			case ShaderDataType::Float2:   return GL_FLOAT;
-			case ShaderDataType::Float3:   return GL_FLOAT;
-			case ShaderDataType::Float4:   return GL_FLOAT;
-			case ShaderDataType::Mat3:     return GL_FLOAT;
-			case ShaderDataType::Mat4:     return GL_FLOAT;
-			case ShaderDataType::Int:      return GL_INT;
-			case ShaderDataType::Int2:     return GL_INT;
-			case ShaderDataType::Int3:     return GL_INT;
-			case ShaderDataType::Int4:     return GL_INT;
-			case ShaderDataType::Bool:     return GL_BOOL;
-		}
-
-		ASSERT(false, "Unknown ShaderDataType!");
-		return 0;
-	}
 
 	// Constructor
 	Application::Application()
@@ -67,10 +45,10 @@ namespace Basil
 			0, 1, 2
 		};
 	
-		// Create VBO and IBO
+		// Create VBO
+		std::shared_ptr<VertexBuffer> vbo;
 		vbo.reset(VertexBuffer::create(vertices));
-		ibo.reset(IndexBuffer::create(indices));
-
+		
 		// Set VBO's layout
 		{
 			BufferLayout layout =
@@ -82,27 +60,20 @@ namespace Basil
 			vbo->setLayout(layout);
 		}
 
+		// Create IBO
+		std::shared_ptr<IndexBuffer> ibo;
+		ibo.reset(IndexBuffer::create(indices));
+
 		// Create VAO and specify format of data
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
+		vao.reset(VertexArray::create());
+		vao->bind();
+		vao->addVertexBuffer(vbo);
+		vao->setIndexBuffer(ibo);
+
 		vbo->bind();
 		ibo->bind();
 
-		uint32_t index = 0;
-		const BufferLayout& layout = vbo->getLayout();
-		for (const BufferElement& element : layout)
-		{
-			glVertexAttribPointer(
-				index,
-				element.getComponentCount(),
-				ShaderDataTypeToOpenGLBaseType(element.type),
-				element.normalised ? GL_TRUE : GL_FALSE,
-				layout.getStride(),
-				(const void*)element.offset
-			);
-			glEnableVertexAttribArray(index);
-			index++;
-		}
+		
 
 		// Create shaders
 		std::string vertexShaderSource = R"(
@@ -166,8 +137,8 @@ namespace Basil
 			shader->bind();
 
 			// Draw triangle
-			glBindVertexArray(vao);
-			glDrawElements(GL_TRIANGLES, ibo->getSize(), GL_UNSIGNED_INT, nullptr);
+			vao->bind();
+			glDrawElements(GL_TRIANGLES, vao->getIndexBuffer()->getSize(), GL_UNSIGNED_INT, nullptr);
 
 			// Do on update stuff
 			for (Layer* layer : layerStack)

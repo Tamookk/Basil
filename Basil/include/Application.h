@@ -12,6 +12,7 @@
 #include "LayerStack.h"
 #include "Renderer.h"
 #include "Shader.h"
+#include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "Window.h"
 
@@ -35,10 +36,8 @@ namespace Basil
 			bool running;
 			LayerStack layerStack;
 			static Application* instance;
-			unsigned int vao;
 			std::unique_ptr<Shader> shader;
-			std::unique_ptr<VertexBuffer> vbo;
-			std::unique_ptr<IndexBuffer> ibo;
+			std::unique_ptr<VertexArray> vao;
 	};
 
 	// To be defined in the client

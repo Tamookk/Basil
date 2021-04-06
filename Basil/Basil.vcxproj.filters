@@ -1359,6 +1359,10 @@
     <ClInclude Include="include\BufferElement.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\VertexArray.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OpenGLVertexArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1433,5 +1437,9 @@
     <ClCompile Include="src\BufferElement.cpp">
       <Filter>include</Filter>
     </ClCompile>
+    <ClCompile Include="src\VertexArray.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenGLVertexArray.cpp" />
   </ItemGroup>
 </Project>
