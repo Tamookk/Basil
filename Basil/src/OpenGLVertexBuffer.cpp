@@ -30,4 +30,16 @@ namespace Basil
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
+
+	// Get the buffer layout
+	const BufferLayout& OpenGLVertexBuffer::getLayout() const
+	{
+		return layout;
+	}
+
+	// Set the buffer layout
+	void OpenGLVertexBuffer::setLayout(const BufferLayout& layout)
+	{
+		this->layout = layout;
+	}
 }

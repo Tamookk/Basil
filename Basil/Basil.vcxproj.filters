@@ -1353,6 +1353,12 @@
     <ClInclude Include="include\Renderer.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\BufferLayout.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BufferElement.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1420,6 +1426,12 @@
     </ClCompile>
     <ClCompile Include="src\Renderer.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BufferLayout.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BufferElement.cpp">
+      <Filter>include</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

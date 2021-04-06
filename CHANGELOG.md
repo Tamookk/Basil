@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-06
+### Added
+* Classes for specifying the layout of buffers.
+
+
 ## 2021-04-05
 ### Added
 * Vertex and index buffer abstractions.

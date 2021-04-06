@@ -17,7 +17,10 @@ namespace Basil
 			~OpenGLVertexBuffer() override;
 			void bind() const override;
 			void unbind() const override;
+			const BufferLayout& getLayout() const override;
+			void setLayout(const BufferLayout& layout) override;
 		private:
 			unsigned int vbo;
+			BufferLayout layout;
 	};
 }
