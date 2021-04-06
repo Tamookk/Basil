@@ -5,8 +5,6 @@
 
 #include <cstdint>
 
-#include "Renderer.h"
-
 namespace Basil
 {
 	class IndexBuffer

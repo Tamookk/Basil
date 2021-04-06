@@ -1,9 +1,6 @@
 #include "pch.h"
 #include "Application.h"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 namespace Basil
 {
 	// Make Application a singleton
@@ -17,9 +14,6 @@ namespace Basil
 
 		// Set application instance
 		instance = this;
-
-		// Set renderer API
-		Renderer::setAPI(RendererAPI::OpenGL);
 
 		// Set create the window and set the window callback
 		window = std::unique_ptr<Window>(Window::create());
@@ -72,8 +66,6 @@ namespace Basil
 
 		vbo->bind();
 		ibo->bind();
-
-		
 
 		// Create shaders
 		std::string vertexShaderSource = R"(
@@ -130,15 +122,17 @@ namespace Basil
 
 		while (running)
 		{
-			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
+			Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+			Renderer::clear();
+			Renderer::beginScene();
 
 			// Set shader
 			shader->bind();
 
 			// Draw triangle
-			vao->bind();
-			glDrawElements(GL_TRIANGLES, vao->getIndexBuffer()->getSize(), GL_UNSIGNED_INT, nullptr);
+			Renderer::submit(vao);
+
+			Renderer::endScene();
 
 			// Do on update stuff
 			for (Layer* layer : layerStack)

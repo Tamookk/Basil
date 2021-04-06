@@ -36,8 +36,8 @@ namespace Basil
 			bool running;
 			LayerStack layerStack;
 			static Application* instance;
-			std::unique_ptr<Shader> shader;
-			std::unique_ptr<VertexArray> vao;
+			std::shared_ptr<Shader> shader;
+			std::shared_ptr<VertexArray> vao;
 	};
 
 	// To be defined in the client

@@ -5,6 +5,7 @@ Change log for the Basil Game Engine project.
 ### Added
 * Classes for specifying the layout of buffers.
 * Vertex array abstraction.
+* Renderer flow and submission.
 
 ### Changed
 * Glad/GLFW includes now all use angle brackets.

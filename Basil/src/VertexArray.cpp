@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "VertexArray.h"
 #include "OpenGLVertexArray.h"
+#include "Renderer.h"
 
 namespace Basil
 {
@@ -8,10 +9,10 @@ namespace Basil
 	{
 		switch (Renderer::getAPI())
 		{
-			case RendererAPI::None:
+			case RendererAPI::API::None:
 				ASSERT(false, "No renderer API!");
 				return nullptr;
-			case RendererAPI::OpenGL:
+			case RendererAPI::API::OpenGL:
 				return new OpenGLVertexArray();
 		}
 
