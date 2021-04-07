@@ -1365,6 +1365,7 @@
     <ClInclude Include="include\OpenGLVertexArray.h" />
     <ClInclude Include="include\RendererAPI.h" />
     <ClInclude Include="include\OpenGLRendererAPI.h" />
+    <ClInclude Include="include\OrthographicCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1445,5 +1446,6 @@
     <ClCompile Include="src\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\RendererAPI.cpp" />
     <ClCompile Include="src\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\OrthographicCamera.cpp" />
   </ItemGroup>
 </Project>

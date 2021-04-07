@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-07
+### Added
+* Orthographic camera.
+
+
 ## 2021-04-06
 ### Added
 * Classes for specifying the layout of buffers.

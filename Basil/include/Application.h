@@ -7,13 +7,11 @@
 #include "Core.h"
 #include "Event.h"
 #include "ImGuiLayer.h"
-#include "IndexBuffer.h"
 #include "Input.h"
 #include "LayerStack.h"
+#include "OrthographicCamera.h"
 #include "Renderer.h"
 #include "Shader.h"
-#include "VertexArray.h"
-#include "VertexBuffer.h"
 #include "Window.h"
 
 namespace Basil
@@ -38,6 +36,7 @@ namespace Basil
 			static Application* instance;
 			std::shared_ptr<Shader> shader;
 			std::shared_ptr<VertexArray> vao;
+			OrthographicCamera camera;
 	};
 
 	// To be defined in the client

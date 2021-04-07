@@ -8,6 +8,7 @@ namespace Basil
 
 	// Constructor
 	Application::Application()
+		: camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		// Check we only have one application
 		ASSERT(!instance, "Application already exists!");
@@ -73,6 +74,8 @@ namespace Basil
 			
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
+
+			uniform mat4 u_ViewProjection;
 			
 			out vec3 v_Position;
 			out vec4 v_Color;
@@ -81,7 +84,7 @@ namespace Basil
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = vec4(a_Position, 1.0);	
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);	
 			}
 		)";
 
@@ -122,15 +125,22 @@ namespace Basil
 
 		while (running)
 		{
+			// Set the clear colour and clear the screen
 			Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 			Renderer::clear();
-			Renderer::beginScene();
+
+			// Set the camera's position and rotation
+			camera.setPosition({ 0.5f, 0.5f, 0.0f });
+			camera.setRotation(45.0f);
+
+			// Begin the scene
+			Renderer::beginScene(camera);
 
 			// Set shader
 			shader->bind();
 
 			// Draw triangle
-			Renderer::submit(vao);
+			Renderer::submit(shader, vao);
 
 			Renderer::endScene();
 

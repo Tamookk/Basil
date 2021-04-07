@@ -107,6 +107,7 @@
     <ClInclude Include="include\OpenGLRendererAPI.h" />
     <ClInclude Include="include\OpenGLVertexArray.h" />
     <ClInclude Include="include\OpenGLVertexBuffer.h" />
+    <ClInclude Include="include\OrthographicCamera.h" />
     <ClInclude Include="include\Renderer.h" />
     <ClInclude Include="include\RendererAPI.h" />
     <ClInclude Include="include\VertexBuffer.h" />
@@ -565,6 +566,7 @@
     <ClCompile Include="src\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\OpenGLVertexBuffer.cpp" />
+    <ClCompile Include="src\OrthographicCamera.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\RendererAPI.cpp" />
     <ClCompile Include="src\Shader.cpp" />

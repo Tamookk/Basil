@@ -7,10 +7,13 @@ namespace Basil
 	// Set the render API currently in use
 	RendererAPI* Renderer::rendererAPI = new OpenGLRendererAPI;
 
-	// Begin a scene
-	void Renderer::beginScene()
-	{
+	// Screate the scene data struct
+	Renderer::SceneData* Renderer::sceneData = new Renderer::SceneData;
 
+	// Begin a scene
+	void Renderer::beginScene(OrthographicCamera& camera)
+	{
+		sceneData->viewProjectionMatrix = camera.getProjectionMatrix();
 	}
 
 	// End a scene
@@ -20,8 +23,13 @@ namespace Basil
 	}
 
 	// Submit data to be rendered
-	void Renderer::submit(const std::shared_ptr<VertexArray>& vao)
+	void Renderer::submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vao)
 	{
+		// Bind the shader and upload the uniform
+		shader->bind();
+		shader->uploadUniformMat4("u_ViewProjection", sceneData->viewProjectionMatrix);
+
+		// Bind the vertex array and draw the data
 		vao->bind();
 		Renderer::drawIndexed(vao);
 	}
