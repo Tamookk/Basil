@@ -14,7 +14,7 @@ namespace Basil
 		public:
 			static void beginScene(OrthographicCamera& camera);
 			static void endScene();
-			static void submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vao);
+			static void submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vao, const glm::mat4& transform = glm::mat4(1.0f));
 			
 			static void setClearColor(const glm::vec4& color);
 			static void clear();

@@ -1,9 +1,16 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+### 2021-04-09
+### Added
+* Transforms to the renderer.
+* A square.
+
+
 ## 2021-04-08
 ### Added
 * A function to handle key pressed events in Sandbox.
+* A class for keeping track of time.
 
 ### Changed
 * Moved sandbox code to the Sandbox program.

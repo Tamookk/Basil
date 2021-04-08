@@ -3,7 +3,10 @@
  */
 
 #include "Basil.h"
+
 #include "imgui.h"
+
+#include <glm/gtc/matrix_transform.hpp>
 
 class ExampleLayer : public Basil::Layer
 {
@@ -27,16 +30,32 @@ class ExampleLayer : public Basil::Layer
 				 0.0f,  0.0f, 1.0f, 1.0f	// vertex 2 rgba
 			};
 
+			std::vector<float> squareVertices =
+			{
+				-0.6f, -0.6f, 0.0f,			// vertex 0 xyz
+				 1.0f,  1.0f, 1.0f, 1.0f,	// vertex 0 rgba
+				-0.6f,  0.6f, 0.0f,			// vertex 1 xyz
+				 1.0f,  1.0f, 1.0f, 1.0f,	// vertex 1 rgba
+				 0.6f, -0.6f, 0.0f,			// vertex 2 xyz
+				 1.0f,  1.0f, 1.0f, 1.0f,	// vertex 2 rgba
+				 0.6f,  0.6f, 0.0f,			// vertex 3 xyz
+				 1.0f,  1.0f, 1.0f, 1.0f	// vertex 3 rgba
+			};
+
 			std::vector<unsigned int> indices =
 			{
 				0, 1, 2
 			};
 
-			// Create VBO
+			std::vector<unsigned int> squareIndices =
+			{
+				0, 1, 2,
+				2, 3, 1
+			};
+
+			// Create VBO and set layout
 			std::shared_ptr<Basil::VertexBuffer> vbo;
 			vbo.reset(Basil::VertexBuffer::create(vertices));
-
-			// Set VBO's layout
 			{
 				Basil::BufferLayout layout =
 				{
@@ -47,18 +66,33 @@ class ExampleLayer : public Basil::Layer
 				vbo->setLayout(layout);
 			}
 
+			std::shared_ptr<Basil::VertexBuffer> squareVbo;
+			squareVbo.reset(Basil::VertexBuffer::create(squareVertices));
+			{
+				Basil::BufferLayout layout =
+				{
+					{ "a_Position", ShaderDataType::Float3 },
+					{ "a_Color",	ShaderDataType::Float4 }
+				};
+
+				squareVbo->setLayout(layout);
+			}
+
 			// Create IBO
 			std::shared_ptr<Basil::IndexBuffer> ibo;
 			ibo.reset(Basil::IndexBuffer::create(indices));
 
+			std::shared_ptr<Basil::IndexBuffer> squareIbo;
+			squareIbo.reset(Basil::IndexBuffer::create(squareIndices));
+
 			// Create VAO and specify format of data
 			vao.reset(Basil::VertexArray::create());
-			vao->bind();
 			vao->addVertexBuffer(vbo);
 			vao->setIndexBuffer(ibo);
 
-			vbo->bind();
-			ibo->bind();
+			squareVao.reset(Basil::VertexArray::create());
+			squareVao->addVertexBuffer(squareVbo);
+			squareVao->setIndexBuffer(squareIbo);
 
 			// Create shaders
 			std::string vertexShaderSource = R"(
@@ -68,6 +102,7 @@ class ExampleLayer : public Basil::Layer
 				layout(location = 1) in vec4 a_Color;
 
 				uniform mat4 u_ViewProjection;
+				uniform mat4 u_Transform;
 			
 				out vec3 v_Position;
 				out vec4 v_Color;
@@ -76,7 +111,7 @@ class ExampleLayer : public Basil::Layer
 				{
 					v_Position = a_Position;
 					v_Color = a_Color;
-					gl_Position = u_ViewProjection * vec4(a_Position, 1.0);	
+					gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
 				}
 			)";
 
@@ -94,6 +129,7 @@ class ExampleLayer : public Basil::Layer
 			)";
 
 			shader.reset(new Basil::Shader(vertexShaderSource, fragmentShaderSource));
+			squareShader.reset(new Basil::Shader(vertexShaderSource, fragmentShaderSource));
 		}
 
 		void onUpdate(Basil::Timestep timeStep) override
@@ -125,11 +161,19 @@ class ExampleLayer : public Basil::Layer
 			// Begin the scene
 			Basil::Renderer::beginScene(camera);
 
-			// Set shader
-			shader->bind();
+			// Draw square and triangles
+			Basil::Renderer::submit(squareShader, squareVao);
 
-			// Draw triangle
-			Basil::Renderer::submit(shader, vao);
+			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+			for (int y = 0; y < 20; y++)
+			{
+				for (int x = 0; x < 20; x++)
+				{
+					glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+					glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+					Basil::Renderer::submit(shader, vao, transform);
+				}
+			}
 
 			// End scene
 			Basil::Renderer::endScene();
@@ -151,6 +195,10 @@ class ExampleLayer : public Basil::Layer
 	private:
 		std::shared_ptr<Basil::Shader> shader;
 		std::shared_ptr<Basil::VertexArray> vao;
+		
+		std::shared_ptr<Basil::Shader> squareShader;
+		std::shared_ptr<Basil::VertexArray> squareVao;
+
 		Basil::OrthographicCamera camera;
 		glm::vec3 cameraPosition;
 		float cameraRotation;

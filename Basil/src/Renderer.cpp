@@ -23,11 +23,12 @@ namespace Basil
 	}
 
 	// Submit data to be rendered
-	void Renderer::submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vao)
+	void Renderer::submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vao, const glm::mat4& transform)
 	{
 		// Bind the shader and upload the uniform
 		shader->bind();
 		shader->uploadUniformMat4("u_ViewProjection", sceneData->viewProjectionMatrix);
+		shader->uploadUniformMat4("u_Transform", transform);
 
 		// Bind the vertex array and draw the data
 		vao->bind();
