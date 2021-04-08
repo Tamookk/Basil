@@ -13,7 +13,7 @@ namespace Basil
 	// Begin a scene
 	void Renderer::beginScene(OrthographicCamera& camera)
 	{
-		sceneData->viewProjectionMatrix = camera.getProjectionMatrix();
+		sceneData->viewProjectionMatrix = camera.getViewProjectionMatrix();
 	}
 
 	// End a scene

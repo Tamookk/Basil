@@ -15,8 +15,6 @@ int main(int argc, char* argv[])
 {
 	// Initialise loggers
 	Basil::Log::init();
-	LOG_WARN("aaaaaaaAAAAAAAAAAA");
-	LOG_FATAL("x = {0}", 5);
 
 	auto app = Basil::createApplication();
 	app->run();

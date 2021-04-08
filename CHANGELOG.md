@@ -1,6 +1,17 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-08
+### Added
+* A function to handle key pressed events in Sandbox.
+
+### Changed
+* Moved sandbox code to the Sandbox program.
+
+### Fixed
+* Scene data's view-projection matrix now updates properly when a scene begins.
+
+
 ## 2021-04-07
 ### Added
 * Orthographic camera.

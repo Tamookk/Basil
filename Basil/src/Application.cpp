@@ -8,7 +8,6 @@ namespace Basil
 
 	// Constructor
 	Application::Application()
-		: camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		// Check we only have one application
 		ASSERT(!instance, "Application already exists!");
@@ -23,86 +22,6 @@ namespace Basil
 		// Create and push ImGui overlay
 		imGuiLayer = new ImGuiLayer();
 		pushOverlay(imGuiLayer);
-
-		// Create vertex and index data
-		std::vector<float> vertices =
-		{
-			-0.5f, -0.5f, 0.0f,			// vertex 0 xyz
-			 1.0f,  0.0f, 0.0f, 1.0f,	// vertex 0 rgba
-			 0.5f, -0.5f, 0.0f,			// vertex 1 xyz
-			 0.0f,  1.0f, 0.0f, 1.0f,	// vertex 1 rgba
-			 0.0f,  0.5f, 0.0f,			// vertex 2 xyz
-			 0.0f,  0.0f, 1.0f, 1.0f	// vertex 2 rgba
-		};
-		
-		std::vector<unsigned int> indices =
-		{
-			0, 1, 2
-		};
-	
-		// Create VBO
-		std::shared_ptr<VertexBuffer> vbo;
-		vbo.reset(VertexBuffer::create(vertices));
-		
-		// Set VBO's layout
-		{
-			BufferLayout layout =
-			{
-				{ "a_Position", ShaderDataType::Float3 },
-				{ "a_Color",	ShaderDataType::Float4 }
-			};
-
-			vbo->setLayout(layout);
-		}
-
-		// Create IBO
-		std::shared_ptr<IndexBuffer> ibo;
-		ibo.reset(IndexBuffer::create(indices));
-
-		// Create VAO and specify format of data
-		vao.reset(VertexArray::create());
-		vao->bind();
-		vao->addVertexBuffer(vbo);
-		vao->setIndexBuffer(ibo);
-
-		vbo->bind();
-		ibo->bind();
-
-		// Create shaders
-		std::string vertexShaderSource = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
-
-			uniform mat4 u_ViewProjection;
-			
-			out vec3 v_Position;
-			out vec4 v_Color;
-
-			void main()
-			{
-				v_Position = a_Position;
-				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);	
-			}
-		)";
-
-		std::string fragmentShaderSource = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-			
-			in vec3 v_Position;
-			in vec4 v_Color;
-			
-			void main()
-			{
-				color = v_Color;
-			}
-		)";
-
-		shader.reset(new Shader(vertexShaderSource, fragmentShaderSource));
 
 		running = true;
 	}
@@ -125,25 +44,6 @@ namespace Basil
 
 		while (running)
 		{
-			// Set the clear colour and clear the screen
-			Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-			Renderer::clear();
-
-			// Set the camera's position and rotation
-			camera.setPosition({ 0.5f, 0.5f, 0.0f });
-			camera.setRotation(45.0f);
-
-			// Begin the scene
-			Renderer::beginScene(camera);
-
-			// Set shader
-			shader->bind();
-
-			// Draw triangle
-			Renderer::submit(shader, vao);
-
-			Renderer::endScene();
-
 			// Do on update stuff
 			for (Layer* layer : layerStack)
 				layer->onUpdate();

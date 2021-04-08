@@ -9,7 +9,6 @@
 #include "ImGuiLayer.h"
 #include "Input.h"
 #include "LayerStack.h"
-#include "OrthographicCamera.h"
 #include "Renderer.h"
 #include "Shader.h"
 #include "Window.h"
@@ -34,9 +33,6 @@ namespace Basil
 			bool running;
 			LayerStack layerStack;
 			static Application* instance;
-			std::shared_ptr<Shader> shader;
-			std::shared_ptr<VertexArray> vao;
-			OrthographicCamera camera;
 	};
 
 	// To be defined in the client
