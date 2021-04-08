@@ -110,6 +110,7 @@
     <ClInclude Include="include\OrthographicCamera.h" />
     <ClInclude Include="include\Renderer.h" />
     <ClInclude Include="include\RendererAPI.h" />
+    <ClInclude Include="include\Timestep.h" />
     <ClInclude Include="include\VertexBuffer.h" />
     <ClInclude Include="include\Core.h" />
     <ClInclude Include="include\EntryPoint.h" />
@@ -571,6 +572,7 @@
     <ClCompile Include="src\RendererAPI.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Test.cpp" />
+    <ClCompile Include="src\Timestep.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\VertexBuffer.cpp" />
     <ClCompile Include="src\WindowsInput.cpp" />

@@ -12,9 +12,9 @@ class ExampleLayer : public Basil::Layer
 		{
 			// Initialise variables
 			cameraRotation = 0.0f;
-			cameraRotateSpeed = 1.0f;
-			cameraXSpeed = 0.1f;
-			cameraYSpeed = 0.1f;
+			cameraRotateSpeed = 90.0f;
+			cameraXSpeed = 2.0f;
+			cameraYSpeed = 2.0f;
 
 			// Create vertex and index data
 			std::vector<float> vertices =
@@ -96,23 +96,23 @@ class ExampleLayer : public Basil::Layer
 			shader.reset(new Basil::Shader(vertexShaderSource, fragmentShaderSource));
 		}
 
-		void onUpdate() override
+		void onUpdate(Basil::Timestep timeStep) override
 		{
 			// Poll for input
 			if (Basil::Input::isKeyPressed(BASIL_KEY_RIGHT))
-				cameraPosition.x += cameraXSpeed;
+				cameraPosition.x += cameraXSpeed * timeStep;
 			else if (Basil::Input::isKeyPressed(BASIL_KEY_LEFT))
-				cameraPosition.x -= cameraXSpeed;
+				cameraPosition.x -= cameraXSpeed * timeStep;
 			
 			if (Basil::Input::isKeyPressed(BASIL_KEY_UP))
-				cameraPosition.y += cameraYSpeed;
+				cameraPosition.y += cameraYSpeed * timeStep;
 			else if (Basil::Input::isKeyPressed(BASIL_KEY_DOWN))
-				cameraPosition.y -= cameraYSpeed;
+				cameraPosition.y -= cameraYSpeed * timeStep;
 
 			if (Basil::Input::isKeyPressed(BASIL_KEY_A))
-				cameraRotation += cameraRotateSpeed;
+				cameraRotation += cameraRotateSpeed * timeStep;
 			else if (Basil::Input::isKeyPressed(BASIL_KEY_D))
-				cameraRotation -= cameraRotateSpeed;
+				cameraRotation -= cameraRotateSpeed * timeStep;
 
 			// Set the clear colour and clear the screen
 			Basil::Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });

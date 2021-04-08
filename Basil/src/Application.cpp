@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Application.h"
 
+#include <GLFW/glfw3.h>	// temporary
+
 namespace Basil
 {
 	// Make Application a singleton
@@ -12,6 +14,10 @@ namespace Basil
 		// Check we only have one application
 		ASSERT(!instance, "Application already exists!");
 
+		// Initialise variables
+		running = true;
+		lastFrameTime = 0.0f;
+
 		// Set application instance
 		instance = this;
 
@@ -22,8 +28,6 @@ namespace Basil
 		// Create and push ImGui overlay
 		imGuiLayer = new ImGuiLayer();
 		pushOverlay(imGuiLayer);
-
-		running = true;
 	}
 
 	// Destructor
@@ -44,9 +48,14 @@ namespace Basil
 
 		while (running)
 		{
-			// Do on update stuff
+			// Update last frame time
+			float time = (float)glfwGetTime();
+			Timestep timeStep = time - lastFrameTime;
+			lastFrameTime = time;
+
+			// Do on update stuff for each layer
 			for (Layer* layer : layerStack)
-				layer->onUpdate();
+				layer->onUpdate(timeStep);
 
 			// Do ImGui stuff
 			imGuiLayer->begin();
@@ -54,6 +63,7 @@ namespace Basil
 				layer->onImGuiRender();
 			imGuiLayer->end();
 
+			// Call window's on update function
 			window->onUpdate();
 		}
 	}

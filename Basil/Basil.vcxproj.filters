@@ -1366,6 +1366,7 @@
     <ClInclude Include="include\RendererAPI.h" />
     <ClInclude Include="include\OpenGLRendererAPI.h" />
     <ClInclude Include="include\OrthographicCamera.h" />
+    <ClInclude Include="include\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1447,5 +1448,6 @@
     <ClCompile Include="src\RendererAPI.cpp" />
     <ClCompile Include="src\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\OrthographicCamera.cpp" />
+    <ClCompile Include="src\Timestep.cpp" />
   </ItemGroup>
 </Project>

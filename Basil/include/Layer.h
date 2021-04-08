@@ -5,6 +5,7 @@
 
 #include "Core.h"
 #include "Event.h"
+#include "Timestep.h"
 
 namespace Basil
 {
@@ -15,7 +16,7 @@ namespace Basil
 			virtual ~Layer() {}
 			virtual void onAttach() {}
 			virtual void onDetach() {}
-			virtual void onUpdate() {}
+			virtual void onUpdate(Timestep timestep) {}
 			virtual void onEvent(Event& e) {}
 			virtual void onImGuiRender() {}
 			inline const std::string& getName() const { return debugName; }

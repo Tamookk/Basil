@@ -11,6 +11,7 @@
 #include "LayerStack.h"
 #include "Renderer.h"
 #include "Shader.h"
+#include "Timestep.h"
 #include "Window.h"
 
 namespace Basil
@@ -33,6 +34,7 @@ namespace Basil
 			bool running;
 			LayerStack layerStack;
 			static Application* instance;
+			float lastFrameTime;
 	};
 
 	// To be defined in the client
