@@ -4,9 +4,12 @@
 
 #include "Basil.h"
 
+#include "OpenGLShader.h"
+
 #include "imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public Basil::Layer
 {
@@ -33,13 +36,13 @@ class ExampleLayer : public Basil::Layer
 			std::vector<float> squareVertices =
 			{
 				-0.6f, -0.6f, 0.0f,			// vertex 0 xyz
-				 1.0f,  1.0f, 1.0f, 1.0f,	// vertex 0 rgba
+				 //1.0f,  1.0f, 1.0f, 1.0f,	// vertex 0 rgba
 				-0.6f,  0.6f, 0.0f,			// vertex 1 xyz
-				 1.0f,  1.0f, 1.0f, 1.0f,	// vertex 1 rgba
+				 //1.0f,  1.0f, 1.0f, 1.0f,	// vertex 1 rgba
 				 0.6f, -0.6f, 0.0f,			// vertex 2 xyz
-				 1.0f,  1.0f, 1.0f, 1.0f,	// vertex 2 rgba
+				// 1.0f,  1.0f, 1.0f, 1.0f,	// vertex 2 rgba
 				 0.6f,  0.6f, 0.0f,			// vertex 3 xyz
-				 1.0f,  1.0f, 1.0f, 1.0f	// vertex 3 rgba
+				 //1.0f,  1.0f, 1.0f, 1.0f	// vertex 3 rgba
 			};
 
 			std::vector<unsigned int> indices =
@@ -72,7 +75,7 @@ class ExampleLayer : public Basil::Layer
 				Basil::BufferLayout layout =
 				{
 					{ "a_Position", ShaderDataType::Float3 },
-					{ "a_Color",	ShaderDataType::Float4 }
+					//{ "a_Color",	ShaderDataType::Float4 }
 				};
 
 				squareVbo->setLayout(layout);
@@ -128,8 +131,39 @@ class ExampleLayer : public Basil::Layer
 				}
 			)";
 
-			shader.reset(new Basil::Shader(vertexShaderSource, fragmentShaderSource));
-			squareShader.reset(new Basil::Shader(vertexShaderSource, fragmentShaderSource));
+			std::string vertexShaderSourceSquare = R"(
+				#version 330 core
+			
+				layout(location = 0) in vec3 a_Position;
+
+				uniform mat4 u_ViewProjection;
+				uniform mat4 u_Transform;
+			
+				out vec3 v_Position;
+				out vec4 v_Color;
+
+				void main()
+				{
+					v_Position = a_Position;
+					gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
+				}
+			)";
+
+			std::string fragmentShaderSourceSquare = R"(
+				#version 330 core
+			
+				layout(location = 0) out vec4 color;
+
+				uniform vec3 u_Color;
+			
+				void main()
+				{
+					color = vec4(u_Color, 1.0);
+				}
+			)";
+
+			shader.reset(Basil::Shader::create(vertexShaderSource, fragmentShaderSource));
+			squareShader.reset(Basil::Shader::create(vertexShaderSourceSquare, fragmentShaderSourceSquare));
 		}
 
 		void onUpdate(Basil::Timestep timeStep) override
@@ -162,6 +196,8 @@ class ExampleLayer : public Basil::Layer
 			Basil::Renderer::beginScene(camera);
 
 			// Draw square and triangles
+			std::dynamic_pointer_cast<Basil::OpenGLShader>(squareShader)->bind();
+			std::dynamic_pointer_cast<Basil::OpenGLShader>(squareShader)->uploadUniformFloat3("u_Color", squareColor);
 			Basil::Renderer::submit(squareShader, squareVao);
 
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
@@ -185,7 +221,12 @@ class ExampleLayer : public Basil::Layer
 			dispatcher.dispatch<Basil::KeyPressedEvent>(BIND_EVENT(ExampleLayer::onKeyPressedEvent));
 		}
 
-		void onImGuiRender() override {}
+		void onImGuiRender() override
+		{
+			ImGui::Begin("Settings");
+			ImGui::ColorEdit3("Square Color", glm::value_ptr(squareColor));
+			ImGui::End();
+		}
 
 		bool onKeyPressedEvent(Basil::KeyPressedEvent& event)
 		{
@@ -205,6 +246,8 @@ class ExampleLayer : public Basil::Layer
 		float cameraXSpeed;
 		float cameraYSpeed;
 		float cameraRotateSpeed;
+
+		glm::vec3 squareColor = { 0.0f, 0.0f, 0.0f };
 };
 
 class Sandbox : public Basil::Application

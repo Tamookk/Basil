@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Renderer.h"
 #include "OpenGLRendererAPI.h"
+#include "OpenGLShader.h"
 
 namespace Basil
 {
@@ -27,8 +28,8 @@ namespace Basil
 	{
 		// Bind the shader and upload the uniform
 		shader->bind();
-		shader->uploadUniformMat4("u_ViewProjection", sceneData->viewProjectionMatrix);
-		shader->uploadUniformMat4("u_Transform", transform);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->uploadUniformMat4("u_ViewProjection", sceneData->viewProjectionMatrix);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->uploadUniformMat4("u_Transform", transform);
 
 		// Bind the vertex array and draw the data
 		vao->bind();

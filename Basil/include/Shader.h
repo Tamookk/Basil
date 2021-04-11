@@ -5,19 +5,14 @@
 
 #include <string>
 
-#include <glm/glm.hpp>
-
 namespace Basil
 {
 	class Shader
 	{
 		public:
-			Shader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
-			~Shader();
-			void bind() const;
-			void unbind() const;
-			void uploadUniformMat4(const std::string& name, const glm::mat4& matrix);
-		private:
-			uint32_t rendererID;
+			virtual ~Shader() {}
+			virtual void bind() const = 0;
+			virtual void unbind() const = 0;
+			static Shader* create(const std::string& vertexSource, const std::string& fragmentSource);
 	};
 }

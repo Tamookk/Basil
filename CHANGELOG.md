@@ -1,7 +1,13 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
-### 2021-04-09
+## 2021-04-11
+### Added
+* Shader abstraction.
+* More uniform functions.
+
+
+## 2021-04-09
 ### Added
 * Transforms to the renderer.
 * A square.
