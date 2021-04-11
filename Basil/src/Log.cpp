@@ -3,8 +3,8 @@
 
 namespace Basil
 {
-	std::shared_ptr<spdlog::logger> Log::clientLogger;
-	std::shared_ptr<spdlog::logger> Log::engineLogger;
+	Shared<spdlog::logger> Log::clientLogger;
+	Shared<spdlog::logger> Log::engineLogger;
 
 	// Initialisation function
 	void Log::init()

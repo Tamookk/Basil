@@ -29,7 +29,7 @@ namespace Basil
 			Window& getWindow();
 		private:
 			bool onWindowClose(WindowCloseEvent& e);
-			std::unique_ptr<Window> window;
+			Unique<Window> window;
 			ImGuiLayer* imGuiLayer;
 			bool running;
 			LayerStack layerStack;

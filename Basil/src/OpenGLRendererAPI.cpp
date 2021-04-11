@@ -18,7 +18,7 @@ namespace Basil
 	}
 
 	// Draw the object(s) in the VAO
-	void OpenGLRendererAPI::drawIndexed(const std::shared_ptr<VertexArray>& vao)
+	void OpenGLRendererAPI::drawIndexed(const Shared<VertexArray>& vao)
 	{
 		glDrawElements(GL_TRIANGLES, vao->getIndexBuffer()->getSize(), GL_UNSIGNED_INT, nullptr);
 	}

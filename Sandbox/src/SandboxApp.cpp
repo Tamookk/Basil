@@ -57,7 +57,7 @@ class ExampleLayer : public Basil::Layer
 			};
 
 			// Create VBO and set layout
-			std::shared_ptr<Basil::VertexBuffer> vbo;
+			Basil::Shared<Basil::VertexBuffer> vbo;
 			vbo.reset(Basil::VertexBuffer::create(vertices));
 			{
 				Basil::BufferLayout layout =
@@ -69,7 +69,7 @@ class ExampleLayer : public Basil::Layer
 				vbo->setLayout(layout);
 			}
 
-			std::shared_ptr<Basil::VertexBuffer> squareVbo;
+			Basil::Shared<Basil::VertexBuffer> squareVbo;
 			squareVbo.reset(Basil::VertexBuffer::create(squareVertices));
 			{
 				Basil::BufferLayout layout =
@@ -82,10 +82,10 @@ class ExampleLayer : public Basil::Layer
 			}
 
 			// Create IBO
-			std::shared_ptr<Basil::IndexBuffer> ibo;
+			Basil::Shared<Basil::IndexBuffer> ibo;
 			ibo.reset(Basil::IndexBuffer::create(indices));
 
-			std::shared_ptr<Basil::IndexBuffer> squareIbo;
+			Basil::Shared<Basil::IndexBuffer> squareIbo;
 			squareIbo.reset(Basil::IndexBuffer::create(squareIndices));
 
 			// Create VAO and specify format of data
@@ -234,11 +234,11 @@ class ExampleLayer : public Basil::Layer
 		}
 
 	private:
-		std::shared_ptr<Basil::Shader> shader;
-		std::shared_ptr<Basil::VertexArray> vao;
+		Basil::Shared<Basil::Shader> shader;
+		Basil::Shared<Basil::VertexArray> vao;
 		
-		std::shared_ptr<Basil::Shader> squareShader;
-		std::shared_ptr<Basil::VertexArray> squareVao;
+		Basil::Shared<Basil::Shader> squareShader;
+		Basil::Shared<Basil::VertexArray> squareVao;
 
 		Basil::OrthographicCamera camera;
 		glm::vec3 cameraPosition;

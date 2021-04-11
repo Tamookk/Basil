@@ -12,6 +12,6 @@ namespace Basil
 		public:
 			void setClearColor(const glm::vec4& color) override;
 			void clear() override;
-			void drawIndexed(const std::shared_ptr<VertexArray>& vao) override;
+			void drawIndexed(const Shared<VertexArray>& vao) override;
 	};
 }

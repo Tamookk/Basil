@@ -17,13 +17,13 @@ namespace Basil
 			~OpenGLVertexArray();
 			void bind() const override;
 			void unbind() const override;
-			void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vbo) override;
-			void setIndexBuffer(const std::shared_ptr<IndexBuffer>& ibo) override;
-			const std::vector<std::shared_ptr<VertexBuffer>>& getVertexBuffers() const override;
-			const std::shared_ptr<IndexBuffer>& getIndexBuffer() const override;
+			void addVertexBuffer(const Shared<VertexBuffer>& vbo) override;
+			void setIndexBuffer(const Shared<IndexBuffer>& ibo) override;
+			const std::vector<Shared<VertexBuffer>>& getVertexBuffers() const override;
+			const Shared<IndexBuffer>& getIndexBuffer() const override;
 		private:
 			unsigned int vao;
-			std::vector<std::shared_ptr<VertexBuffer>> vbos;
-			std::shared_ptr<IndexBuffer> ibo;
+			std::vector<Shared<VertexBuffer>> vbos;
+			Shared<IndexBuffer> ibo;
 	};
 }

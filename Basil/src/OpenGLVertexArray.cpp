@@ -50,7 +50,7 @@ namespace Basil
 	}
 
 	// Add a VBO
-	void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& vbo)
+	void OpenGLVertexArray::addVertexBuffer(const Shared<VertexBuffer>& vbo)
 	{
 		// Check that the VBO has a layout
 		ASSERT(vbo->getLayout().getElements().size(), "VBO has no layout!");
@@ -81,7 +81,7 @@ namespace Basil
 	}
 
 	// Set the IBO
-	void OpenGLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer>& ibo)
+	void OpenGLVertexArray::setIndexBuffer(const Shared<IndexBuffer>& ibo)
 	{
 		// Bind the IBO and VAO
 		ibo->bind();
@@ -92,13 +92,13 @@ namespace Basil
 	}
 
 	// Get the VBOs
-	const std::vector<std::shared_ptr<VertexBuffer>>& OpenGLVertexArray::getVertexBuffers() const
+	const std::vector<Shared<VertexBuffer>>& OpenGLVertexArray::getVertexBuffers() const
 	{
 		return vbos;
 	}
 
 	// Get the IBO
-	const std::shared_ptr<IndexBuffer>& OpenGLVertexArray::getIndexBuffer() const
+	const Shared<IndexBuffer>& OpenGLVertexArray::getIndexBuffer() const
 	{
 		return ibo;
 	}

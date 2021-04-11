@@ -7,6 +7,9 @@ Change log for the Basil Game Engine project.
 * More uniform functions.
 * Unique and Shared definitions.
 
+### Changed
+* Refactored smart pointers to Basil types.
+
 
 ## 2021-04-09
 ### Added

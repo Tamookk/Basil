@@ -22,7 +22,7 @@ namespace Basil
 		instance = this;
 
 		// Set create the window and set the window callback
-		window = std::unique_ptr<Window>(Window::create());
+		window = Unique<Window>(Window::create());
 		window->setEventCallback(BIND_EVENT(Application::onEvent));
 
 		// Create and push ImGui overlay

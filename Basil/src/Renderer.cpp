@@ -24,7 +24,7 @@ namespace Basil
 	}
 
 	// Submit data to be rendered
-	void Renderer::submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vao, const glm::mat4& transform)
+	void Renderer::submit(const Shared<Shader>& shader, const Shared<VertexArray>& vao, const glm::mat4& transform)
 	{
 		// Bind the shader and upload the uniform
 		shader->bind();
@@ -49,7 +49,7 @@ namespace Basil
 	}
 
 	// Draw the object(s) in the VAO
-	void Renderer::drawIndexed(const std::shared_ptr<VertexArray>& vao)
+	void Renderer::drawIndexed(const Shared<VertexArray>& vao)
 	{
 		rendererAPI->drawIndexed(vao);
 	}

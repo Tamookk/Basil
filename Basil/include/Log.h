@@ -14,11 +14,11 @@ namespace Basil
 	{
 		public:
 			static void init();
-			inline static std::shared_ptr<spdlog::logger>& getClientLogger() { return clientLogger; }
-			inline static std::shared_ptr<spdlog::logger>& getEngineLogger() { return engineLogger; }
+			inline static Shared<spdlog::logger>& getClientLogger() { return clientLogger; }
+			inline static Shared<spdlog::logger>& getEngineLogger() { return engineLogger; }
 		private:
-			static std::shared_ptr<spdlog::logger> clientLogger;
-			static std::shared_ptr<spdlog::logger> engineLogger;
+			static Shared<spdlog::logger> clientLogger;
+			static Shared<spdlog::logger> engineLogger;
 	};
 }
 
