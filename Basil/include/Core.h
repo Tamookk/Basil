@@ -28,3 +28,11 @@
 #endif
 
 #define BIND_EVENT(x) std::bind(&x, this, std::placeholders::_1)
+
+namespace Basil
+{
+	template <typename T>
+	using Unique = std::unique_ptr<T>;
+	template <typename T>
+	using Shared = std::shared_ptr<T>;
+}

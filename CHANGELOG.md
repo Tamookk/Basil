@@ -5,6 +5,7 @@ Change log for the Basil Game Engine project.
 ### Added
 * Shader abstraction.
 * More uniform functions.
+* Unique and Shared definitions.
 
 
 ## 2021-04-09
