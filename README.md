@@ -25,3 +25,4 @@ A list of third-party software used in this project:
 * [glad](https://github.com/Dav1dde/glad) for accessing modern OpenGL functions and extensions
 * [Dear ImGui](https://github.com/ocornut/imgui) for GUIs
 * [glm](https://github.com/g-truc/glm) for mathematics
+* [stb](https://github.com/nothings/stb) (specifically stb_image) for image loading

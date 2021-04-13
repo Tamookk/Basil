@@ -1,6 +1,12 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-13
+### Added
+* Initial texture support using stb_image.
+* Genet.
+
+
 ## 2021-04-11
 ### Added
 * Shader abstraction.

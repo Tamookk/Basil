@@ -58,7 +58,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PLATFORM_WINDOWS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;vendor\spdlog\include;vendor\GLFW\include;vendor\glad\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;vendor\spdlog\include;vendor\GLFW\include;vendor\glad\include;vendor\imgui;vendor\glm;vendor\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -78,7 +78,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PLATFORM_WINDOWS;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;vendor\spdlog\include;vendor\GLFW\include;vendor\glad\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;vendor\spdlog\include;vendor\GLFW\include;vendor\glad\include;vendor\imgui;vendor\glm;vendor\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -102,22 +102,12 @@
     <ClInclude Include="include\Basil.h" />
     <ClInclude Include="include\BufferElement.h" />
     <ClInclude Include="include\BufferLayout.h" />
-    <ClInclude Include="include\IndexBuffer.h" />
-    <ClInclude Include="include\OpenGLIndexBuffer.h" />
-    <ClInclude Include="include\OpenGLRendererAPI.h" />
-    <ClInclude Include="include\OpenGLShader.h" />
-    <ClInclude Include="include\OpenGLVertexArray.h" />
-    <ClInclude Include="include\OpenGLVertexBuffer.h" />
-    <ClInclude Include="include\OrthographicCamera.h" />
-    <ClInclude Include="include\Renderer.h" />
-    <ClInclude Include="include\RendererAPI.h" />
-    <ClInclude Include="include\Timestep.h" />
-    <ClInclude Include="include\VertexBuffer.h" />
     <ClInclude Include="include\Core.h" />
     <ClInclude Include="include\EntryPoint.h" />
     <ClInclude Include="include\Event.h" />
     <ClInclude Include="include\GraphicsContext.h" />
     <ClInclude Include="include\ImGuiLayer.h" />
+    <ClInclude Include="include\IndexBuffer.h" />
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\KeyCodes.h" />
     <ClInclude Include="include\KeyEvent.h" />
@@ -127,13 +117,26 @@
     <ClInclude Include="include\MouseButtonCodes.h" />
     <ClInclude Include="include\MouseEvent.h" />
     <ClInclude Include="include\OpenGLContext.h" />
+    <ClInclude Include="include\OpenGLIndexBuffer.h" />
+    <ClInclude Include="include\OpenGLRendererAPI.h" />
+    <ClInclude Include="include\OpenGLShader.h" />
+    <ClInclude Include="include\OpenGLTexture2D.h" />
+    <ClInclude Include="include\OpenGLVertexArray.h" />
+    <ClInclude Include="include\OpenGLVertexBuffer.h" />
+    <ClInclude Include="include\OrthographicCamera.h" />
+    <ClInclude Include="include\Renderer.h" />
+    <ClInclude Include="include\RendererAPI.h" />
     <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\Test.h" />
+    <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\Texture2D.h" />
+    <ClInclude Include="include\Timestep.h" />
+    <ClInclude Include="include\VertexArray.h" />
+    <ClInclude Include="include\VertexBuffer.h" />
     <ClInclude Include="include\Window.h" />
     <ClInclude Include="include\WindowsInput.h" />
     <ClInclude Include="include\WindowsWindow.h" />
     <ClInclude Include="include\pch.h" />
-    <ClInclude Include="include\VertexArray.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_fixes.hpp" />
@@ -547,6 +550,7 @@
     <ClInclude Include="vendor\glm\glm\vec3.hpp" />
     <ClInclude Include="vendor\glm\glm\vec4.hpp" />
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
+    <ClInclude Include="vendor\stb\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
@@ -567,6 +571,7 @@
     <ClCompile Include="src\OpenGLIndexBuffer.cpp" />
     <ClCompile Include="src\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\OpenGLShader.cpp" />
+    <ClCompile Include="src\OpenGLTexture2D.cpp" />
     <ClCompile Include="src\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\OpenGLVertexBuffer.cpp" />
     <ClCompile Include="src\OrthographicCamera.cpp" />
@@ -574,6 +579,7 @@
     <ClCompile Include="src\RendererAPI.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Test.cpp" />
+    <ClCompile Include="src\Texture2D.cpp" />
     <ClCompile Include="src\Timestep.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\VertexBuffer.cpp" />
@@ -582,6 +588,7 @@
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="vendor\stb\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

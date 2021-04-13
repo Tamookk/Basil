@@ -45,12 +45,30 @@ class ExampleLayer : public Basil::Layer
 				 //1.0f,  1.0f, 1.0f, 1.0f	// vertex 3 rgba
 			};
 
+			std::vector<float> imageVertices =
+			{
+				-0.5f, -0.5f, 0.0f,
+				 0.0f,  0.0f,
+				-0.5f,  0.5f, 0.0f,
+				 0.0f,  1.0f,
+				 0.5f, -0.5f, 0.0f,
+				 1.0f,  0.0f,
+				 0.5f,  0.5f, 0.0f,
+				 1.0f,  1.0f
+			};
+
 			std::vector<unsigned int> indices =
 			{
 				0, 1, 2
 			};
 
 			std::vector<unsigned int> squareIndices =
+			{
+				0, 1, 2,
+				2, 3, 1
+			};
+
+			std::vector<unsigned int> imageIndices =
 			{
 				0, 1, 2,
 				2, 3, 1
@@ -81,12 +99,27 @@ class ExampleLayer : public Basil::Layer
 				squareVbo->setLayout(layout);
 			}
 
+			Basil::Shared<Basil::VertexBuffer> imageVbo;
+			imageVbo.reset(Basil::VertexBuffer::create(imageVertices));
+			{
+				Basil::BufferLayout layout =
+				{
+					{ "a_Position", ShaderDataType::Float3 },
+					{ "a_TexCoord",	ShaderDataType::Float2 }
+				};
+
+				imageVbo->setLayout(layout);
+			}
+
 			// Create IBO
 			Basil::Shared<Basil::IndexBuffer> ibo;
 			ibo.reset(Basil::IndexBuffer::create(indices));
 
 			Basil::Shared<Basil::IndexBuffer> squareIbo;
 			squareIbo.reset(Basil::IndexBuffer::create(squareIndices));
+
+			Basil::Shared<Basil::IndexBuffer> imageIbo;
+			imageIbo.reset(Basil::IndexBuffer::create(imageIndices));
 
 			// Create VAO and specify format of data
 			vao.reset(Basil::VertexArray::create());
@@ -96,6 +129,10 @@ class ExampleLayer : public Basil::Layer
 			squareVao.reset(Basil::VertexArray::create());
 			squareVao->addVertexBuffer(squareVbo);
 			squareVao->setIndexBuffer(squareIbo);
+
+			imageVao.reset(Basil::VertexArray::create());
+			imageVao->addVertexBuffer(imageVbo);
+			imageVao->setIndexBuffer(imageIbo);
 
 			// Create shaders
 			std::string vertexShaderSource = R"(
@@ -162,8 +199,47 @@ class ExampleLayer : public Basil::Layer
 				}
 			)";
 
+			std::string vertexShaderSourceImage = R"(
+				#version 330 core
+			
+				layout(location = 0) in vec3 a_Position;
+				layout(location = 1) in vec2 a_TexCoord;
+
+				uniform mat4 u_ViewProjection;
+				uniform mat4 u_Transform;
+			
+				out vec2 v_TexCoord;
+
+				void main()
+				{
+					v_TexCoord = a_TexCoord;
+					gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
+				}
+			)";
+
+			std::string fragmentShaderSourceImage = R"(
+				#version 330 core
+			
+				layout(location = 0) out vec4 color;
+
+				in vec2 v_TexCoord;
+
+				uniform sampler2D u_Texture;
+
+				void main()
+				{
+					color = texture(u_Texture, v_TexCoord);
+				}
+			)";
+
 			shader.reset(Basil::Shader::create(vertexShaderSource, fragmentShaderSource));
 			squareShader.reset(Basil::Shader::create(vertexShaderSourceSquare, fragmentShaderSourceSquare));
+			imageShader.reset(Basil::Shader::create(vertexShaderSourceImage, fragmentShaderSourceImage));
+
+			// Load texture and upload to uniform
+			texture = Basil::Texture2D::create("assets/textures/test.png");
+			std::dynamic_pointer_cast<Basil::OpenGLShader>(imageShader)->bind();
+			std::dynamic_pointer_cast<Basil::OpenGLShader>(imageShader)->uploadUniformInt("u_Texture", 0);
 		}
 
 		void onUpdate(Basil::Timestep timeStep) override
@@ -195,11 +271,12 @@ class ExampleLayer : public Basil::Layer
 			// Begin the scene
 			Basil::Renderer::beginScene(camera);
 
-			// Draw square and triangles
+			// Draw square
 			std::dynamic_pointer_cast<Basil::OpenGLShader>(squareShader)->bind();
 			std::dynamic_pointer_cast<Basil::OpenGLShader>(squareShader)->uploadUniformFloat3("u_Color", squareColor);
 			Basil::Renderer::submit(squareShader, squareVao);
 
+			// Draw triangles
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 			for (int y = 0; y < 20; y++)
 			{
@@ -210,6 +287,10 @@ class ExampleLayer : public Basil::Layer
 					Basil::Renderer::submit(shader, vao, transform);
 				}
 			}
+
+			// Draw square with texture
+			texture->bind();
+			Basil::Renderer::submit(imageShader, imageVao, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 			// End scene
 			Basil::Renderer::endScene();
@@ -239,6 +320,11 @@ class ExampleLayer : public Basil::Layer
 		
 		Basil::Shared<Basil::Shader> squareShader;
 		Basil::Shared<Basil::VertexArray> squareVao;
+
+		Basil::Shared<Basil::Shader> imageShader;
+		Basil::Shared<Basil::VertexArray> imageVao;
+
+		Basil::Shared<Basil::Texture2D> texture;
 
 		Basil::OrthographicCamera camera;
 		glm::vec3 cameraPosition;

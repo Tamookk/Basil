@@ -19,6 +19,7 @@
 #include "OrthographicCamera.h"
 #include "Renderer.h"
 #include "Shader.h"
+#include "Texture2D.h"
 #include "Timestep.h"
 #include "VertexArray.h"
 #include "VertexBuffer.h"
