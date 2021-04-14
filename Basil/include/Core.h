@@ -1,9 +1,11 @@
 /*
  * This header file is used by the engine, and games 
- * created using it, to determine whether to dllexport or dllimport
+ * created using it, to make various definitions and
+ * declare various macros.
  */
-
 #pragma once
+
+#include <memory>
 
 #ifdef PLATFORM_WINDOWS
 	#ifdef DYNAMIC_LINK

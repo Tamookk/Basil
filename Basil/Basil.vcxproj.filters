@@ -4,8 +4,38 @@
     <Filter Include="include">
       <UniqueIdentifier>{89AF369E-F58E-B539-FEA6-40106A051C9B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\Events">
+      <UniqueIdentifier>{4D67AC00-3935-A006-22C9-102D0E367C6B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\ImGui">
+      <UniqueIdentifier>{73E730A3-DFA7-ACD9-A8E2-F5561462F1B5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Platform">
+      <UniqueIdentifier>{FD7581F9-E96E-A04B-12A1-85D0FEF87F57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Renderer">
+      <UniqueIdentifier>{4F7D5ED4-3B76-7D26-64A8-62AB50005D32}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Events">
+      <UniqueIdentifier>{7162C20E-5D1A-045C-C621-DDB7B2F89E4C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ImGui">
+      <UniqueIdentifier>{170E22B3-8378-D629-CCB6-87CF3860B47E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform">
+      <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\OpenGL">
+      <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\Windows">
+      <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Renderer">
+      <UniqueIdentifier>{73D1DFBF-5F34-6F64-08BA-A71AF4FB3AE7}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
@@ -36,16 +66,7 @@
     <ClInclude Include="include\Application.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\ApplicationEvent.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\Basil.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\BufferElement.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\BufferLayout.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Core.h">
@@ -54,25 +75,25 @@
     <ClInclude Include="include\EntryPoint.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Event.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Events\ApplicationEvent.h">
+      <Filter>include\Events</Filter>
     </ClInclude>
-    <ClInclude Include="include\GraphicsContext.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Events\Event.h">
+      <Filter>include\Events</Filter>
     </ClInclude>
-    <ClInclude Include="include\ImGuiLayer.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Events\KeyEvent.h">
+      <Filter>include\Events</Filter>
     </ClInclude>
-    <ClInclude Include="include\IndexBuffer.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Events\MouseEvent.h">
+      <Filter>include\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ImGui\ImGuiLayer.h">
+      <Filter>include\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="include\Input.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\KeyCodes.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\KeyEvent.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Layer.h">
@@ -87,67 +108,73 @@
     <ClInclude Include="include\MouseButtonCodes.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\MouseEvent.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Platform\OpenGLContext.h">
+      <Filter>include\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="include\OpenGLContext.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Platform\OpenGLIndexBuffer.h">
+      <Filter>include\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="include\OpenGLIndexBuffer.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Platform\OpenGLRendererAPI.h">
+      <Filter>include\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="include\OpenGLRendererAPI.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Platform\OpenGLShader.h">
+      <Filter>include\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="include\OpenGLShader.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Platform\OpenGLTexture2D.h">
+      <Filter>include\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="include\OpenGLTexture2D.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Platform\OpenGLVertexArray.h">
+      <Filter>include\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="include\OpenGLVertexArray.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Platform\OpenGLVertexBuffer.h">
+      <Filter>include\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="include\OpenGLVertexBuffer.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Platform\WindowsInput.h">
+      <Filter>include\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="include\OrthographicCamera.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Platform\WindowsWindow.h">
+      <Filter>include\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="include\Renderer.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Renderer\BufferElement.h">
+      <Filter>include\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="include\RendererAPI.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Renderer\BufferLayout.h">
+      <Filter>include\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="include\Shader.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Renderer\IndexBuffer.h">
+      <Filter>include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\OrthographicCamera.h">
+      <Filter>include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\Renderer.h">
+      <Filter>include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\RendererAPI.h">
+      <Filter>include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\Shader.h">
+      <Filter>include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\Texture.h">
+      <Filter>include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\Texture2D.h">
+      <Filter>include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\VertexArray.h">
+      <Filter>include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\VertexBuffer.h">
+      <Filter>include\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="include\Test.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Texture.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Texture2D.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Timestep.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\VertexArray.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\VertexBuffer.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\Window.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\WindowsInput.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\WindowsWindow.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\pch.h">
@@ -1395,36 +1422,40 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
+    <ClInclude Include="include\Renderer\GraphicsContext.h" />
+    <ClInclude Include="include\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="include\Platform\OpenGL\OpenGLIndexBuffer.h" />
+    <ClInclude Include="include\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="include\Platform\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="include\Platform\OpenGL\OpenGLTexture2D.h" />
+    <ClInclude Include="include\Platform\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="include\Platform\OpenGL\OpenGLVertexBuffer.h" />
+    <ClInclude Include="include\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="include\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\ApplicationEvent.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Events\ApplicationEvent.cpp">
+      <Filter>src\Events</Filter>
     </ClCompile>
-    <ClCompile Include="src\BufferElement.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Events\Event.cpp">
+      <Filter>src\Events</Filter>
     </ClCompile>
-    <ClCompile Include="src\BufferLayout.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Events\KeyEvent.cpp">
+      <Filter>src\Events</Filter>
     </ClCompile>
-    <ClCompile Include="src\Event.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Events\MouseEvent.cpp">
+      <Filter>src\Events</Filter>
     </ClCompile>
-    <ClCompile Include="src\ImGuiBuild.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\ImGui\ImGuiBuild.cpp">
+      <Filter>src\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\ImGuiLayer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\IndexBuffer.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\ImGui\ImGuiLayer.cpp">
+      <Filter>src\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Input.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KeyEvent.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Layer.cpp">
@@ -1436,61 +1467,67 @@
     <ClCompile Include="src\Log.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\MouseEvent.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\OpenGLContext.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLIndexBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\OpenGLIndexBuffer.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\OpenGLRendererAPI.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\OpenGLShader.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture2D.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\OpenGLTexture2D.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\OpenGLVertexArray.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\OpenGLVertexBuffer.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
+      <Filter>src\Platform\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\OrthographicCamera.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>src\Platform\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Renderer\BufferElement.cpp">
+      <Filter>src\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\RendererAPI.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Renderer\BufferLayout.cpp">
+      <Filter>src\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Renderer\IndexBuffer.cpp">
+      <Filter>src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\OrthographicCamera.cpp">
+      <Filter>src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\Renderer.cpp">
+      <Filter>src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\RendererAPI.cpp">
+      <Filter>src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\Shader.cpp">
+      <Filter>src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\Texture2D.cpp">
+      <Filter>src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\VertexArray.cpp">
+      <Filter>src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\VertexBuffer.cpp">
+      <Filter>src\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Test.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Texture2D.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\Timestep.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VertexArray.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VertexBuffer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WindowsInput.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WindowsWindow.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp">

@@ -1,11 +1,11 @@
 /*
- * This header file defines an interface representin
+ * This header file declares a generic Window class.
  */
 #pragma once
 
 #include "pch.h"
 #include "Core.h"
-#include "Event.h"
+#include "Events/Event.h"
 
 namespace Basil
 {

@@ -1,3 +1,6 @@
+/*
+ * This header file defines keyboard codes for the Basil game engine.
+ */
 #pragma once
 
 // From glfw3.h

@@ -1,5 +1,5 @@
 /*
- * Pre-compiled header for the Basil Game Engine 
+ * Pre-compiled header for the Basil Game Engine.
  */
 #pragma once
 

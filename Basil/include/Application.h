@@ -1,16 +1,16 @@
 /*
- * This class manages application run-time
+ * This class manages application run-time.
  */
 #pragma once
 
-#include "ApplicationEvent.h"
 #include "Core.h"
-#include "Event.h"
-#include "ImGuiLayer.h"
+#include "Events/Event.h"
+#include "Events/ApplicationEvent.h"
+#include "ImGui/ImGuiLayer.h"
 #include "Input.h"
 #include "LayerStack.h"
-#include "Renderer.h"
-#include "Shader.h"
+#include "Renderer/Renderer.h"
+#include "Renderer/Shader.h"
 #include "Timestep.h"
 #include "Window.h"
 

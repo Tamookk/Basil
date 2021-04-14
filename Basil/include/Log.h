@@ -1,5 +1,5 @@
 /*
- * This class is for game engine and client logging
+ * This class is for game engine and client logging.
  */
 #pragma once
 
