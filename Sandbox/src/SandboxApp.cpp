@@ -199,9 +199,9 @@ class ExampleLayer : public Basil::Layer
 				}
 			)";
 
-			shader.reset(Basil::Shader::create(vertexShaderSource, fragmentShaderSource));
-			squareShader.reset(Basil::Shader::create(vertexShaderSourceSquare, fragmentShaderSourceSquare));
-			imageShader.reset(Basil::Shader::create("assets/shaders/Texture.glsl"));
+			shader = Basil::Shader::create("VertexPosColor", vertexShaderSource, fragmentShaderSource);
+			squareShader = Basil::Shader::create("SquareShader", vertexShaderSourceSquare, fragmentShaderSourceSquare);
+			auto imageShader = shaderLibrary.load("assets/shaders/Texture.glsl");
 
 			// Load texture and upload to uniform
 			texture = Basil::Texture2D::create("assets/textures/test.png");
@@ -256,6 +256,7 @@ class ExampleLayer : public Basil::Layer
 			}
 
 			// Draw square with texture
+			auto imageShader = shaderLibrary.get("Texture");
 			texture->bind();
 			Basil::Renderer::submit(imageShader, imageVao, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
@@ -282,13 +283,13 @@ class ExampleLayer : public Basil::Layer
 		}
 
 	private:
+		Basil::ShaderLibrary shaderLibrary;
 		Basil::Shared<Basil::Shader> shader;
 		Basil::Shared<Basil::VertexArray> vao;
 		
 		Basil::Shared<Basil::Shader> squareShader;
 		Basil::Shared<Basil::VertexArray> squareVao;
 
-		Basil::Shared<Basil::Shader> imageShader;
 		Basil::Shared<Basil::VertexArray> imageVao;
 
 		Basil::Shared<Basil::Texture2D> texture;

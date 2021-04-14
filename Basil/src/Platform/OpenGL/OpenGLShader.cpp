@@ -35,12 +35,20 @@ namespace Basil
 
 		// Compile the shader sources
 		compile(shaderSources);
+
+		// Extract name from file path
+		auto lastSlash = filePath.find_last_of("/\\");
+		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+		auto lastDot = filePath.rfind('.');
+		auto count = lastDot == std::string::npos ? filePath.size() - lastSlash : lastDot - lastSlash;
+		name = filePath.substr(lastSlash, count);
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource)
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexShaderSource, const std::string& fragmentShaderSource)
 	{
-		// Initialise rendererID
+		// Initialise variables
 		rendererID = 0;
+		this->name = name;
 
 		// Create an unordered map of the shader source strings
 		std::unordered_map<GLenum, std::string> shaderSources;
@@ -67,6 +75,12 @@ namespace Basil
 	void OpenGLShader::unbind() const
 	{
 		glUseProgram(0);
+	}
+
+	// Get the name of the shader
+	const std::string& OpenGLShader::getName() const
+	{
+		return name;
 	}
 
 	// Upload an integer uniform
@@ -123,7 +137,7 @@ namespace Basil
 	{
 		// Open the file
 		std::string result;
-		std::ifstream file(filePath, std::ios::in, std::ios::binary);
+		std::ifstream file(filePath, std::ios::in | std::ios::binary);
 
 		// Check the file could be opened
 		if (file)
@@ -187,8 +201,12 @@ namespace Basil
 		// Create a shader program
 		GLuint program = glCreateProgram();
 
-		// Create a vector of the shader IDs
-		std::vector<GLenum> shaderIDs(shaderSources.size());
+		// Assert that there are only 2 shader sources
+		ASSERT(shaderSources.size() <= 2, "Only 2 shaders currently supported!");
+
+		// Create an array of shader IDs
+		std::array<GLenum, 2> shaderIDs;
+		int shaderIDIndex = 0;
 
 		// Iterate through the shader sources to link and compile each one
 		for (auto& kv : shaderSources)
@@ -228,7 +246,7 @@ namespace Basil
 
 			// Attach the shader to the program and add its ID to the list
 			glAttachShader(program, shader);
-			shaderIDs.push_back(shader);
+			shaderIDs[shaderIDIndex++] = shader;
 		}
 
 		// Set renderer ID variable

@@ -6,6 +6,7 @@ Change log for the Basil Game Engine project.
 * Texture blending support.
 * Ability to load RGB and RGBA images.
 * Ability to read shader source code from files.
+* ShaderLibrary class for adding, loading, and retrieving shaders.
 
 ### Changed
 * Changed directory structure of the Basil project.
@@ -14,6 +15,7 @@ Change log for the Basil Game Engine project.
 
 ### Fixed
 * Some build warnings.
+* Some errors in shader file loading.
 
 
 ## 2021-04-13

@@ -7,7 +7,7 @@
 namespace Basil
 {
 	// Create shader depending on platform and graphics API
-	Shader* Shader::create(const std::string& filePath)
+	Shared<Shader> Shader::create(const std::string& filePath)
 	{
 		switch (Renderer::getAPI())
 		{
@@ -15,14 +15,14 @@ namespace Basil
 				ASSERT(false, "No renderer API!");
 				return nullptr;
 			case RendererAPI::API::OpenGL:
-				return new OpenGLShader(filePath);
+				return std::make_shared<OpenGLShader>(filePath);
 		}
 
 		ASSERT(false, "Unknown renderer API.");
 		return nullptr;
 	}
 
-	Shader* Shader::create(const std::string& vertexSource, const std::string& fragmentSource)
+	Shared<Shader> Shader::create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
 	{
 		switch (Renderer::getAPI())
 		{
@@ -30,7 +30,7 @@ namespace Basil
 				ASSERT(false, "No renderer API!");
 				return nullptr;
 			case RendererAPI::API::OpenGL:
-				return new OpenGLShader(vertexSource, fragmentSource);
+				return std::make_shared<OpenGLShader>(name, vertexSource, fragmentSource);
 		}
 
 		ASSERT(false, "Unknown renderer API.");

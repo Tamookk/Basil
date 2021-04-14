@@ -15,10 +15,11 @@ namespace Basil
 	{
 		public:
 			OpenGLShader(const std::string& filePath);
-			OpenGLShader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
+			OpenGLShader(const std::string& name, const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
 			~OpenGLShader();
 			void bind() const override;
 			void unbind() const override;
+			const std::string& getName() const override;
 			void uploadUniformInt(const std::string& name, int value);
 			void uploadUniformFloat(const std::string& name, float value);
 			void uploadUniformFloat2(const std::string& name, const glm::vec2& value);
@@ -31,5 +32,6 @@ namespace Basil
 			std::unordered_map<GLenum, std::string> preProcess(const std::string& source);
 			void compile(std::unordered_map<GLenum, std::string>& shaderSources);
 			uint32_t rendererID;
+			std::string name;
 	};
 }

@@ -19,6 +19,7 @@
 #include "Renderer/OrthographicCamera.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/Shader.h"
+#include "Renderer/ShaderLibrary.h"
 #include "Renderer/Texture2D.h"
 #include "Renderer/VertexArray.h"
 #include "Renderer/VertexBuffer.h"
