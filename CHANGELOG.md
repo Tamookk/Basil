@@ -5,10 +5,12 @@ Change log for the Basil Game Engine project.
 ### Added
 * Texture blending support.
 * Ability to load RGB and RGBA images.
+* Ability to read shader source code from files.
 
 ### Changed
 * Changed directory structure of the Basil project.
 * Updated includes to reflect directory structure change.
+* Event Dispatcher no longer uses `std::function`, to improve performance.
 
 ### Fixed
 * Some build warnings.

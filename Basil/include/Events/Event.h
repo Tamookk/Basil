@@ -47,16 +47,14 @@ namespace Basil
 	// For dispatching events
 	class EventDispatcher
 	{
-		template <typename T>
-		using EventFunction = std::function<bool(T&)>;
 		public:
 			EventDispatcher(Event& e);
-			template <typename T>
-			bool dispatch(EventFunction<T> eventFunction)
+			template <typename T, typename F>
+			bool dispatch(const F& eventFunction)
 			{
 				if (event.getEventType() == T::getStaticType())
 				{
-					event.handled = eventFunction(*(T*)&event);
+					event.handled = eventFunction(static_cast<T&>(event));
 					return true;
 				}
 				return false;
