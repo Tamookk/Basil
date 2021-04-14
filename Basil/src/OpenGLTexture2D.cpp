@@ -9,8 +9,10 @@ namespace Basil
 	// Constructor
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
 	{
-		// Initialise path variable
+		// Initialise variables
 		this->path = path;
+		internalFormat = 0;
+		dataFormat = 0;
 
 		// Load image and initialise width & height variables
 		int width, height, channels;
@@ -20,16 +22,32 @@ namespace Basil
 		this->width = width;
 		this->height = height;
 
+		// Set internal and data format based on number of channels in image
+		switch (channels)
+		{
+			case 3:
+				internalFormat = GL_RGB8;
+				dataFormat = GL_RGB;
+				break;
+			case 4:
+				internalFormat = GL_RGBA8;
+				dataFormat = GL_RGBA;
+				break;
+			default:
+				ASSERT(internalFormat & dataFormat, "Format not supported!");
+				break;
+		}
+
 		// Create texture in OpenGL
 		glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
-		glTextureStorage2D(rendererID, 1, GL_RGB8, this->width, this->height);
+		glTextureStorage2D(rendererID, 1, internalFormat, this->width, this->height);
 
 		// Set texture parameters
 		glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 		// Upload texture
-		glTextureSubImage2D(rendererID, 0, 0, 0, this->width, this->height, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glTextureSubImage2D(rendererID, 0, 0, 0, this->width, this->height, dataFormat, GL_UNSIGNED_BYTE, data);
 
 		// Free the data from memory
 		stbi_image_free(data);

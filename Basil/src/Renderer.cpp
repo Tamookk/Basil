@@ -11,6 +11,12 @@ namespace Basil
 	// Screate the scene data struct
 	Renderer::SceneData* Renderer::sceneData = new Renderer::SceneData;
 
+	// Initialise renderer
+	void Renderer::init()
+	{
+		rendererAPI->init();
+	}
+
 	// Begin a scene
 	void Renderer::beginScene(OrthographicCamera& camera)
 	{

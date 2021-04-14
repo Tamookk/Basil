@@ -12,6 +12,7 @@ namespace Basil
 	class Renderer
 	{
 		public:
+			static void init();
 			static void beginScene(OrthographicCamera& camera);
 			static void endScene();
 			static void submit(const Shared<Shader>& shader, const Shared<VertexArray>& vao, const glm::mat4& transform = glm::mat4(1.0f));

@@ -25,6 +25,9 @@ namespace Basil
 		window = Unique<Window>(Window::create());
 		window->setEventCallback(BIND_EVENT(Application::onEvent));
 
+		// Initialise the renderer
+		Renderer::init();
+
 		// Create and push ImGui overlay
 		imGuiLayer = new ImGuiLayer();
 		pushOverlay(imGuiLayer);

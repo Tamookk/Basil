@@ -5,6 +5,14 @@
 
 namespace Basil
 {
+	// Initialise the renderer
+	void OpenGLRendererAPI::init()
+	{
+		// Enable texture blending
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+
 	// Set the clear colour
 	void OpenGLRendererAPI::setClearColor(const glm::vec4& color)
 	{
