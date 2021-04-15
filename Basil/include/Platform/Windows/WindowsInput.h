@@ -3,8 +3,8 @@
  */
 #pragma once
 
-#include "Application.h"
-#include "Input.h"
+#include "Core/Application.h"
+#include "Core/Input.h"
 
 #include <GLFW/glfw3.h>
 

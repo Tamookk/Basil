@@ -3,12 +3,12 @@
  */
 #pragma once
 
+#include "Core/Window.h"
 #include "Events/ApplicationEvent.h"
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 #include "Platform/OpenGL/OpenGLContext.h"
 #include "Renderer/GraphicsContext.h"
-#include "Window.h"
 
 namespace Basil
 {

@@ -4,7 +4,7 @@
 #pragma once
 
 #include "pch.h"
-#include "Core.h"
+#include "Core/Core.h"
 #include "Events/Event.h"
 
 namespace Basil

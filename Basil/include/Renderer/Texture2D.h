@@ -5,8 +5,8 @@
 
 #include <string>
 
-#include "Core.h"
-#include "Texture.h"
+#include "Core/Core.h"
+#include "Renderer/Texture.h"
 
 namespace Basil
 {

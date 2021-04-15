@@ -18,7 +18,7 @@ namespace Basil
 	}
 
 	// On window resize event
-	void Renderer::onWindowResize(uint32_t width, uint32_t height)
+	void Renderer::onWindowResize(unsigned int width, unsigned int height)
 	{
 		rendererAPI->setViewport(0, 0, width, height);
 	}

@@ -37,7 +37,6 @@ struct BufferElement
 	uint32_t offset;
 	bool normalised;
 
-	BufferElement() {}
 	BufferElement(const std::string& name, ShaderDataType type, bool normalised = false);
 	uint32_t getComponentCount() const;
 };

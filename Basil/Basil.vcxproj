@@ -97,22 +97,22 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\Application.h" />
-    <ClInclude Include="include\Basil.h" />
-    <ClInclude Include="include\Core.h" />
-    <ClInclude Include="include\EntryPoint.h" />
+    <ClInclude Include="include\Core\Application.h" />
+    <ClInclude Include="include\Core\Basil.h" />
+    <ClInclude Include="include\Core\Core.h" />
+    <ClInclude Include="include\Core\EntryPoint.h" />
     <ClInclude Include="include\Events\ApplicationEvent.h" />
     <ClInclude Include="include\Events\Event.h" />
     <ClInclude Include="include\Events\KeyEvent.h" />
     <ClInclude Include="include\Events\MouseEvent.h" />
     <ClInclude Include="include\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="include\Input.h" />
-    <ClInclude Include="include\KeyCodes.h" />
-    <ClInclude Include="include\Layer.h" />
-    <ClInclude Include="include\LayerStack.h" />
-    <ClInclude Include="include\Log.h" />
-    <ClInclude Include="include\MouseButtonCodes.h" />
-    <ClInclude Include="include\OrthographicCameraController.h" />
+    <ClInclude Include="include\Core\Input.h" />
+    <ClInclude Include="include\Core\KeyCodes.h" />
+    <ClInclude Include="include\Core\Layer.h" />
+    <ClInclude Include="include\Core\LayerStack.h" />
+    <ClInclude Include="include\Core\Log.h" />
+    <ClInclude Include="include\Core\MouseButtonCodes.h" />
+    <ClInclude Include="include\Renderer\OrthographicCameraController.h" />
     <ClInclude Include="include\Platform\OpenGLContext.h" />
     <ClInclude Include="include\Platform\OpenGLIndexBuffer.h" />
     <ClInclude Include="include\Platform\OpenGLRendererAPI.h" />
@@ -144,9 +144,8 @@
     <ClInclude Include="include\Renderer\Texture2D.h" />
     <ClInclude Include="include\Renderer\VertexArray.h" />
     <ClInclude Include="include\Renderer\VertexBuffer.h" />
-    <ClInclude Include="include\Test.h" />
-    <ClInclude Include="include\Timestep.h" />
-    <ClInclude Include="include\Window.h" />
+    <ClInclude Include="include\Core\Timestep.h" />
+    <ClInclude Include="include\Core\Window.h" />
     <ClInclude Include="include\pch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
@@ -564,17 +563,17 @@
     <ClInclude Include="vendor\stb\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Events\ApplicationEvent.cpp" />
     <ClCompile Include="src\Events\Event.cpp" />
     <ClCompile Include="src\Events\KeyEvent.cpp" />
     <ClCompile Include="src\Events\MouseEvent.cpp" />
     <ClCompile Include="src\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Input.cpp" />
-    <ClCompile Include="src\Layer.cpp" />
-    <ClCompile Include="src\LayerStack.cpp" />
-    <ClCompile Include="src\Log.cpp" />
+    <ClCompile Include="src\Core\Input.cpp" />
+    <ClCompile Include="src\Core\Layer.cpp" />
+    <ClCompile Include="src\Core\LayerStack.cpp" />
+    <ClCompile Include="src\Core\Log.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLIndexBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
@@ -595,9 +594,8 @@
     <ClCompile Include="src\Renderer\Texture2D.cpp" />
     <ClCompile Include="src\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Renderer\VertexBuffer.cpp" />
-    <ClCompile Include="src\OrthographicCameraController.cpp" />
-    <ClCompile Include="src\Test.cpp" />
-    <ClCompile Include="src\Timestep.cpp" />
+    <ClCompile Include="src\Renderer\OrthographicCameraController.cpp" />
+    <ClCompile Include="src\Core\Timestep.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

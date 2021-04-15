@@ -6,8 +6,8 @@
 
 #include <vector>
 
-#include "Core.h"
-#include "Layer.h"
+#include "Core/Core.h"
+#include "Core/Layer.h"
 
 namespace Basil
 {

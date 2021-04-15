@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "Event.h"
+#include "Events/Event.h"
 
 namespace Basil
 {

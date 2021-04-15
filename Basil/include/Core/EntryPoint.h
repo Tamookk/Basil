@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include "Application.h"
-#include "Log.h"
+#include "Core/Application.h"
+#include "Core/Log.h"
 
 #ifdef PLATFORM_WINDOWS
 extern Basil::Application* Basil::createApplication();

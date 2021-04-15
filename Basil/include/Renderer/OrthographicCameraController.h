@@ -3,10 +3,10 @@
  */
 #pragma once
 
+#include "Core/Timestep.h"
 #include "Events/ApplicationEvent.h"
 #include "Events/MouseEvent.h"
 #include "Renderer/OrthographicCamera.h"
-#include "Timestep.h"
 
 namespace Basil
 {

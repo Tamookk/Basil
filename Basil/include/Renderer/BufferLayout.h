@@ -5,8 +5,8 @@
 
 #include <vector>
 
-#include "BufferElement.h"
-#include "Core.h"
+#include "Core/Core.h"
+#include "Renderer/BufferElement.h"
 
 namespace Basil
 {

@@ -3,16 +3,16 @@
  */
 #pragma once
 
-#include "Core.h"
+#include "Core/Core.h"
+#include "Core/Input.h"
+#include "Core/LayerStack.h"
+#include "Core/Timestep.h"
+#include "Core/Window.h"
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"
 #include "ImGui/ImGuiLayer.h"
-#include "Input.h"
-#include "LayerStack.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/Shader.h"
-#include "Timestep.h"
-#include "Window.h"
 
 namespace Basil
 {

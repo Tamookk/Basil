@@ -5,7 +5,7 @@
 
 #include <unordered_map>
 
-#include "Core.h"
+#include "Core/Core.h"
 #include "Renderer/Shader.h"
 
 namespace Basil

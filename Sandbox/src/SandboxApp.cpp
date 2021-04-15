@@ -2,14 +2,12 @@
  * This cpp file is used to test the Basil Game Engine as it is being developed. 
  */
 
-#include "Basil.h"
-
+#include "Core/Basil.h"
 #include "Platform/OpenGL/OpenGLShader.h"
-
-#include "imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <imgui.h>
 
 class ExampleLayer : public Basil::Layer
 {

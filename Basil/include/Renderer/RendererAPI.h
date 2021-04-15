@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "VertexArray.h"
+#include "Renderer/VertexArray.h"
 
 #include <glm/glm.hpp>
 

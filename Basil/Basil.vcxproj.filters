@@ -63,16 +63,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Application.h">
+    <ClInclude Include="include\Core\Application.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Basil.h">
+    <ClInclude Include="include\Core\Basil.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Core.h">
+    <ClInclude Include="include\Core\Core.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\EntryPoint.h">
+    <ClInclude Include="include\Core\EntryPoint.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Events\ApplicationEvent.h">
@@ -90,22 +90,22 @@
     <ClInclude Include="include\ImGui\ImGuiLayer.h">
       <Filter>include\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="include\Input.h">
+    <ClInclude Include="include\Core\Input.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\KeyCodes.h">
+    <ClInclude Include="include\Core\KeyCodes.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Layer.h">
+    <ClInclude Include="include\Core\Layer.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\LayerStack.h">
+    <ClInclude Include="include\Core\LayerStack.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Log.h">
+    <ClInclude Include="include\Core\Log.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\MouseButtonCodes.h">
+    <ClInclude Include="include\Core\MouseButtonCodes.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Platform\OpenGLContext.h">
@@ -168,13 +168,10 @@
     <ClInclude Include="include\Renderer\VertexBuffer.h">
       <Filter>include\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="include\Test.h">
+    <ClInclude Include="include\Core\Timestep.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Timestep.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Window.h">
+    <ClInclude Include="include\Core\Window.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\pch.h">
@@ -1433,10 +1430,10 @@
     <ClInclude Include="include\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="include\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="include\Renderer\ShaderLibrary.h" />
-    <ClInclude Include="include\OrthographicCameraController.h" />
+    <ClInclude Include="include\Renderer\OrthographicCameraController.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Application.cpp">
+    <ClCompile Include="src\Core\Application.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Events\ApplicationEvent.cpp">
@@ -1457,16 +1454,16 @@
     <ClCompile Include="src\ImGui\ImGuiLayer.cpp">
       <Filter>src\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\Input.cpp">
+    <ClCompile Include="src\Core\Input.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Layer.cpp">
+    <ClCompile Include="src\Core\Layer.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\LayerStack.cpp">
+    <ClCompile Include="src\Core\LayerStack.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Log.cpp">
+    <ClCompile Include="src\Core\Log.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
@@ -1526,10 +1523,7 @@
     <ClCompile Include="src\Renderer\VertexBuffer.cpp">
       <Filter>src\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Test.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Timestep.cpp">
+    <ClCompile Include="src\Core\Timestep.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp">
@@ -1539,6 +1533,6 @@
       <Filter>vendor\stb</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer\ShaderLibrary.cpp" />
-    <ClCompile Include="src\OrthographicCameraController.cpp" />
+    <ClCompile Include="src\Renderer\OrthographicCameraController.cpp" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,17 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-16
+### Changed
+* Changed directory structure of the Basil project.
+* Updated includes to reflect directory structure change.
+* Altered some files to be more consistent with the rest.
+* Changed code to remove compiler warnings.
+
+### Removed
+* Unused Test class/files.
+
+
 ## 2021-04-15
 ### Added
 * An orthographic camera controller.

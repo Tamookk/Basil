@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-#include "Log.h"
+#include "Core/Log.h"
 
 #ifdef PLATFORM_WINDOWS
 	#include <Windows.h>

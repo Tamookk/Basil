@@ -3,7 +3,6 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/Shader.h"
 
-
 namespace Basil
 {
 	// Create shader depending on platform and graphics API
