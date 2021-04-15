@@ -16,6 +16,7 @@ namespace Basil
 
 		// Initialise variables
 		running = true;
+		minimised = false;
 		lastFrameTime = 0.0f;
 
 		// Set application instance
@@ -42,13 +43,6 @@ namespace Basil
 	// Run the application
 	void Application::run()
 	{
-		// Test event and logging systems
-		WindowResizeEvent e(1280, 720);
-		if (e.isInCategory(EventCategory::ApplicationEvent))
-			LOG_TRACE(e);
-		if (e.isInCategory(EventCategory::InputEvent))
-			LOG_TRACE(e);
-
 		while (running)
 		{
 			// Update last frame time
@@ -56,9 +50,12 @@ namespace Basil
 			Timestep timeStep = time - lastFrameTime;
 			lastFrameTime = time;
 
-			// Do on update stuff for each layer
-			for (Layer* layer : layerStack)
-				layer->onUpdate(timeStep);
+			// Do on update stuff for each layer if the window is not minimised
+			if (!minimised)
+			{
+				for (Layer* layer : layerStack)
+					layer->onUpdate(timeStep);
+			}
 
 			// Do ImGui stuff
 			imGuiLayer->begin();
@@ -74,12 +71,10 @@ namespace Basil
 	// Process an event
 	void Application::onEvent(Event& e)
 	{
-		// Log event
-		LOG_TRACE("{0}", e);
-
 		// Dispatch event
 		EventDispatcher dispatcher(e);
 		dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT(Application::onWindowClose));
+		dispatcher.dispatch<WindowResizeEvent>(BIND_EVENT(Application::onWindowResize));
 
 		for (auto it = layerStack.end(); it != layerStack.begin();)
 		{
@@ -120,5 +115,19 @@ namespace Basil
 	{
 		running = false;
 		return true;
+	}
+
+	bool Application::onWindowResize(WindowResizeEvent& e)
+	{
+		if (e.getWidth() == 0 || e.getHeight() == 0)
+		{
+			minimised = true;
+			return false;
+		}
+
+		minimised = false;
+		Renderer::onWindowResize(e.getWidth(), e.getHeight());
+
+		return false;
 	}
 }

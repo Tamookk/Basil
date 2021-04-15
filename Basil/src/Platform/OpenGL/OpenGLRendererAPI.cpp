@@ -13,6 +13,12 @@ namespace Basil
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
+	// Change the viewport
+	void OpenGLRendererAPI::setViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
+	{
+		glViewport(x, y, width, height);
+	}
+
 	// Set the clear colour
 	void OpenGLRendererAPI::setClearColor(const glm::vec4& color)
 	{

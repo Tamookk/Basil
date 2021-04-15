@@ -11,6 +11,7 @@ namespace Basil
 	{
 		public:
 			void init() override;
+			void setViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) override;
 			void setClearColor(const glm::vec4& color) override;
 			void clear() override;
 			void drawIndexed(const Shared<VertexArray>& vao) override;

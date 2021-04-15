@@ -17,6 +17,12 @@ namespace Basil
 		rendererAPI->init();
 	}
 
+	// On window resize event
+	void Renderer::onWindowResize(uint32_t width, uint32_t height)
+	{
+		rendererAPI->setViewport(0, 0, width, height);
+	}
+
 	// Begin a scene
 	void Renderer::beginScene(OrthographicCamera& camera)
 	{

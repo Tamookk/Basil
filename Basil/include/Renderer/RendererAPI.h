@@ -18,6 +18,7 @@ namespace Basil
 				OpenGL = 1
 			};
 			virtual void init() = 0;
+			virtual void setViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) = 0;
 			virtual void setClearColor(const glm::vec4& color) = 0;
 			virtual void clear() = 0;
 			virtual void drawIndexed(const Shared<VertexArray>& vao) = 0;

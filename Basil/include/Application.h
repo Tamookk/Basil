@@ -29,9 +29,11 @@ namespace Basil
 			Window& getWindow();
 		private:
 			bool onWindowClose(WindowCloseEvent& e);
+			bool onWindowResize(WindowResizeEvent& e);
 			Unique<Window> window;
 			ImGuiLayer* imGuiLayer;
 			bool running;
+			bool minimised;
 			LayerStack layerStack;
 			static Application* instance;
 			float lastFrameTime;

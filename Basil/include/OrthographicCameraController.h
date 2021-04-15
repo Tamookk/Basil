@@ -18,6 +18,8 @@ namespace Basil
 			void onEvent(Event& e);
 			OrthographicCamera& getCamera();
 			const OrthographicCamera& getCamera() const;
+			float getZoomLevel() const;
+			void setZoomLevel(float zoomLevel);
 		private:
 			bool onMouseScrolled(MouseScrolledEvent& e);
 			bool onWindowResize(WindowResizeEvent& e);

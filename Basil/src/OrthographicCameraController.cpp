@@ -71,10 +71,22 @@ namespace Basil
 		return camera;
 	}
 
+	// Get the zoom level
+	float OrthographicCameraController::getZoomLevel() const
+	{
+		return zoomLevel;
+	}
+
+	// Set the zoom level
+	void OrthographicCameraController::setZoomLevel(float zoomLevel)
+	{
+		this->zoomLevel = zoomLevel;
+	}
+
 	// Mouse scrolled event
 	bool OrthographicCameraController::onMouseScrolled(MouseScrolledEvent& e)
 	{
-		zoomLevel -= e.getYOffset() * 0.25;
+		zoomLevel -= e.getYOffset() * 0.25f;
 		zoomLevel = std::max(zoomLevel, 0.25f);
 		camera.setProjectionMatrix(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
 		return false;
