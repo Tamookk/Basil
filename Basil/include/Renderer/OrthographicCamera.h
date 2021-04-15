@@ -15,6 +15,7 @@ namespace Basil
 			void setPosition(const glm::vec3& position);
 			float getRotation() const;
 			void setRotation(float rotation);
+			void setProjectionMatrix(float left, float right, float bottom, float top);
 			const glm::mat4& getProjectionMatrix() const;
 			const glm::mat4& getViewMatrix() const;
 			const glm::mat4& getViewProjectionMatrix() const;

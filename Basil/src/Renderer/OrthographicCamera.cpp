@@ -41,6 +41,13 @@ namespace Basil
 		recalculateViewMatrix();
 	}
 
+	// Set projection matrix
+	void OrthographicCamera::setProjectionMatrix(float left, float right, float bottom, float top)
+	{
+		projMatrix = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
+		viewProjectionMatrix = projMatrix * viewMatrix;
+	}
+
 	// Return projection matrix
 	const glm::mat4& OrthographicCamera::getProjectionMatrix() const
 	{

@@ -14,14 +14,8 @@
 class ExampleLayer : public Basil::Layer
 {
 	public:
-		ExampleLayer() : Layer("Example"), camera(-1.6f, 1.6f, -0.9f, 0.9f), cameraPosition(0.0f)
+		ExampleLayer() : Layer("Example"), cameraController(1280.0f / 720.0f)
 		{
-			// Initialise variables
-			cameraRotation = 0.0f;
-			cameraRotateSpeed = 90.0f;
-			cameraXSpeed = 2.0f;
-			cameraYSpeed = 2.0f;
-
 			// Create vertex and index data
 			std::vector<float> vertices =
 			{
@@ -211,32 +205,15 @@ class ExampleLayer : public Basil::Layer
 
 		void onUpdate(Basil::Timestep timeStep) override
 		{
-			// Poll for input
-			if (Basil::Input::isKeyPressed(BASIL_KEY_RIGHT))
-				cameraPosition.x += cameraXSpeed * timeStep;
-			else if (Basil::Input::isKeyPressed(BASIL_KEY_LEFT))
-				cameraPosition.x -= cameraXSpeed * timeStep;
-			
-			if (Basil::Input::isKeyPressed(BASIL_KEY_UP))
-				cameraPosition.y += cameraYSpeed * timeStep;
-			else if (Basil::Input::isKeyPressed(BASIL_KEY_DOWN))
-				cameraPosition.y -= cameraYSpeed * timeStep;
-
-			if (Basil::Input::isKeyPressed(BASIL_KEY_A))
-				cameraRotation += cameraRotateSpeed * timeStep;
-			else if (Basil::Input::isKeyPressed(BASIL_KEY_D))
-				cameraRotation -= cameraRotateSpeed * timeStep;
+			// Update camera
+			cameraController.onUpdate(timeStep);
 
 			// Set the clear colour and clear the screen
 			Basil::Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 			Basil::Renderer::clear();
 
-			// Set the camera's position and rotation
-			camera.setPosition(cameraPosition);
-			camera.setRotation(cameraRotation);
-
 			// Begin the scene
-			Basil::Renderer::beginScene(camera);
+			Basil::Renderer::beginScene(cameraController.getCamera());
 
 			// Draw square
 			std::dynamic_pointer_cast<Basil::OpenGLShader>(squareShader)->bind();
@@ -266,8 +243,7 @@ class ExampleLayer : public Basil::Layer
 
 		void onEvent(Basil::Event& e) override
 		{
-			Basil::EventDispatcher dispatcher(e);
-			dispatcher.dispatch<Basil::KeyPressedEvent>(BIND_EVENT(ExampleLayer::onKeyPressedEvent));
+			cameraController.onEvent(e);
 		}
 
 		void onImGuiRender() override
@@ -294,12 +270,7 @@ class ExampleLayer : public Basil::Layer
 
 		Basil::Shared<Basil::Texture2D> texture;
 
-		Basil::OrthographicCamera camera;
-		glm::vec3 cameraPosition;
-		float cameraRotation;
-		float cameraXSpeed;
-		float cameraYSpeed;
-		float cameraRotateSpeed;
+		Basil::OrthographicCameraController cameraController;
 
 		glm::vec3 squareColor = { 0.0f, 0.0f, 0.0f };
 };

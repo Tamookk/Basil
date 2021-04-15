@@ -1433,6 +1433,7 @@
     <ClInclude Include="include\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="include\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="include\Renderer\ShaderLibrary.h" />
+    <ClInclude Include="include\OrthographicCameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1538,5 +1539,6 @@
       <Filter>vendor\stb</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer\ShaderLibrary.cpp" />
+    <ClCompile Include="src\OrthographicCameraController.cpp" />
   </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@
 #include "Layer.h"
 #include "Log.h"
 #include "MouseButtonCodes.h"
+#include "OrthographicCameraController.h"
 #include "Renderer/IndexBuffer.h"
 #include "Renderer/OrthographicCamera.h"
 #include "Renderer/Renderer.h"

@@ -112,6 +112,7 @@
     <ClInclude Include="include\LayerStack.h" />
     <ClInclude Include="include\Log.h" />
     <ClInclude Include="include\MouseButtonCodes.h" />
+    <ClInclude Include="include\OrthographicCameraController.h" />
     <ClInclude Include="include\Platform\OpenGLContext.h" />
     <ClInclude Include="include\Platform\OpenGLIndexBuffer.h" />
     <ClInclude Include="include\Platform\OpenGLRendererAPI.h" />
@@ -594,6 +595,7 @@
     <ClCompile Include="src\Renderer\Texture2D.cpp" />
     <ClCompile Include="src\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Renderer\VertexBuffer.cpp" />
+    <ClCompile Include="src\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Test.cpp" />
     <ClCompile Include="src\Timestep.cpp" />
     <ClCompile Include="src\pch.cpp">

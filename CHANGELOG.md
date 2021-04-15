@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-15
+### Added
+* An orthographic camera controller.
+
+
 ## 2021-04-14
 ### Added
 * Texture blending support.
