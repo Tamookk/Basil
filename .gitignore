@@ -396,3 +396,9 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,visualstudio
+
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
+**.ini

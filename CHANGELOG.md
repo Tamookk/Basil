@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-18
+### Removed
+* Visual Studio solution and project files.
+
+
 ## 2021-04-16
 ### Changed
 * Changed directory structure of the Basil project.
