@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-19
+### Added
+* A 2D layer in Sandbox for testing 2D rendering.
+
+
 ## 2021-04-18
 ### Changed
 * Shaders are now deleted after their associated shader program is created.

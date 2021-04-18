@@ -5,6 +5,8 @@
 
 #include <string>
 
+#include "Core/Core.h"
+
 namespace Basil
 {
 	class Shader

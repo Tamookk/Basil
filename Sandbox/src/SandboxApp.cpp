@@ -3,7 +3,9 @@
  */
 
 #include "Core/Basil.h"
+#include "Core/EntryPoint.h"
 #include "Platform/OpenGL/OpenGLShader.h"
+#include "Sandbox2D.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -278,7 +280,8 @@ class Sandbox : public Basil::Application
 	public:
 		Sandbox()
 		{
-			pushLayer(new ExampleLayer());
+			//pushLayer(new ExampleLayer());
+			pushLayer(new Sandbox2D());
 		}
 
 		~Sandbox()

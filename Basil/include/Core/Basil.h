@@ -8,7 +8,6 @@
 // For use by applications created using Basil, not by Basil itself
 
 #include "Core/Application.h"
-#include "Core/EntryPoint.h"
 #include "Core/Input.h"
 #include "Core/KeyCodes.h"
 #include "Core/Layer.h"
