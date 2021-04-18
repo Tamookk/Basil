@@ -19,6 +19,6 @@ namespace Basil
 			virtual const std::vector<Shared<VertexBuffer>>& getVertexBuffers() const = 0;
 			virtual void setIndexBuffer(const Shared<IndexBuffer>& ibo) = 0;
 			virtual const Shared<IndexBuffer>& getIndexBuffer() const = 0;
-			static VertexArray* create();
+			static Shared<VertexArray> create();
 	};
 }

@@ -6,10 +6,10 @@
 namespace Basil
 {
 	// Set the render API currently in use
-	RendererAPI* Renderer::rendererAPI = new OpenGLRendererAPI;
+	Unique<RendererAPI> Renderer::rendererAPI = makeUnique<OpenGLRendererAPI>();
 
 	// Screate the scene data struct
-	Renderer::SceneData* Renderer::sceneData = new Renderer::SceneData;
+	Unique<Renderer::SceneData> Renderer::sceneData = makeUnique<Renderer::SceneData>();
 
 	// Initialise renderer
 	void Renderer::init()

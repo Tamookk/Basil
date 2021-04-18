@@ -4,6 +4,7 @@ Change log for the Basil Game Engine project.
 ## 2021-04-18
 ### Changed
 * Shaders are now deleted after their associated shader program is created.
+* Changed some raw pointers to smart pointers.
 
 ## Fixed
 * A layer's onDetach function is now called before it is deleted.

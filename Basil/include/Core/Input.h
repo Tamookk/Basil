@@ -25,6 +25,6 @@ namespace Basil
 			virtual float getMouseXImpl() = 0;
 			virtual float getMouseYImpl() = 0;
 		private:
-			static Input* instance;
+			static Unique<Input> instance;
 	};
 }

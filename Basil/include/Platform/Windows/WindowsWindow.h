@@ -36,7 +36,7 @@ namespace Basil
 			virtual void init(const WindowProps& props);
 			virtual void shutdown();
 			GLFWwindow* window;
-			GraphicsContext* context;
+			Unique<GraphicsContext> context;
 			WindowData data;
 	};
 }

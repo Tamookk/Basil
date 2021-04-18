@@ -26,7 +26,7 @@ namespace Basil
 			{
 				glm::mat4 viewProjectionMatrix;
 			};
-			static RendererAPI* rendererAPI;
-			static SceneData* sceneData;
+			static Unique<RendererAPI> rendererAPI;
+			static Unique<SceneData> sceneData;
 	};
 }

@@ -5,7 +5,7 @@
 
 namespace Basil
 {
-	VertexArray* VertexArray::create()
+	Shared<VertexArray> VertexArray::create()
 	{
 		switch (Renderer::getAPI())
 		{
@@ -13,7 +13,7 @@ namespace Basil
 				ASSERT(false, "No renderer API!");
 				return nullptr;
 			case RendererAPI::API::OpenGL:
-				return new OpenGLVertexArray();
+				return makeShared<OpenGLVertexArray>();
 		}
 
 		ASSERT(false, "Unknown renderer API.");

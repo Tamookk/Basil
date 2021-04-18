@@ -51,7 +51,7 @@ namespace Basil
 
 		// GLFW window stuff
 		window = glfwCreateWindow(data.width, data.height, data.title.c_str(), nullptr, nullptr);
-		context = new OpenGLContext(window);
+		context = makeUnique<OpenGLContext>(window);
 		context->init();
 
 		// Some more GLFW window stuff
