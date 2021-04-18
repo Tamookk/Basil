@@ -114,15 +114,15 @@ class ExampleLayer : public Basil::Layer
 			imageIbo.reset(Basil::IndexBuffer::create(imageIndices));
 
 			// Create VAO and specify format of data
-			vao.reset(Basil::VertexArray::create());
+			vao = Basil::VertexArray::create();
 			vao->addVertexBuffer(vbo);
 			vao->setIndexBuffer(ibo);
 
-			squareVao.reset(Basil::VertexArray::create());
+			squareVao = Basil::VertexArray::create();
 			squareVao->addVertexBuffer(squareVbo);
 			squareVao->setIndexBuffer(squareIbo);
 
-			imageVao.reset(Basil::VertexArray::create());
+			imageVao = Basil::VertexArray::create();
 			imageVao->addVertexBuffer(imageVbo);
 			imageVao->setIndexBuffer(imageIbo);
 

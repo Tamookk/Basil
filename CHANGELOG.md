@@ -8,6 +8,7 @@ Change log for the Basil Game Engine project.
 
 ## Fixed
 * A layer's onDetach function is now called before it is deleted.
+* Errors in Sandbox caused by changing some raw pointers to smart pointers.
 
 ### Removed
 * Visual Studio solution and project files.
