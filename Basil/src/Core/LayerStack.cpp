@@ -13,7 +13,10 @@ namespace Basil
 	LayerStack::~LayerStack()
 	{
 		for (Layer* layer : layers)
+		{
+			layer->onDetach();
 			delete layer;
+		}
 	}
 
 	// Push a layer to the layers vector

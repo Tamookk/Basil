@@ -5,6 +5,9 @@ Change log for the Basil Game Engine project.
 ### Changed
 * Shaders are now deleted after their associated shader program is created.
 
+## Fixed
+* A layer's onDetach function is now called before it is deleted.
+
 ### Removed
 * Visual Studio solution and project files.
 
