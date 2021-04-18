@@ -276,6 +276,9 @@ namespace Basil
 
 		// Detach shaders
 		for (auto shader : shaderIDs)
+		{
 			glDetachShader(program, shader);
+			glDeleteShader(shader);
+		}
 	}
 }

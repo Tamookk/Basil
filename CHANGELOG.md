@@ -2,6 +2,9 @@
 Change log for the Basil Game Engine project.
 
 ## 2021-04-18
+### Changed
+* Shaders are now deleted after their associated shader program is created.
+
 ### Removed
 * Visual Studio solution and project files.
 
