@@ -4,6 +4,10 @@ Change log for the Basil Game Engine project.
 ## 2021-04-19
 ### Added
 * A 2D layer in Sandbox for testing 2D rendering.
+* A basic 2D renderer.
+
+### Changed
+* Moved some rendering code from Sandbox to the 2D renderer.
 
 
 ## 2021-04-18

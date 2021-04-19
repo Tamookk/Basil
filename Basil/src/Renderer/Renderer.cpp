@@ -2,6 +2,7 @@
 #include "Platform/OpenGL/OpenGLRendererAPI.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "Renderer/Renderer.h"
+#include "Renderer/Renderer2D.h"
 
 namespace Basil
 {
@@ -15,6 +16,7 @@ namespace Basil
 	void Renderer::init()
 	{
 		rendererAPI->init();
+		Renderer2D::init();
 	}
 
 	// On window resize event

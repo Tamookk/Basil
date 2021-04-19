@@ -1,5 +1,5 @@
 /*
- * This header decleares a class used for getting the graphics API currently in use.
+ * This header decleares the base renderer class.
  */
 #pragma once
 
