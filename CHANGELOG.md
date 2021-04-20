@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-20
+### Changed
+* 2D renderer no longer relies on OpenGL.
+
+
 ## 2021-04-19
 ### Added
 * A 2D layer in Sandbox for testing 2D rendering.

@@ -83,6 +83,30 @@ namespace Basil
 		return name;
 	}
 
+	// Set an integer uniform
+	void OpenGLShader::setInt(const std::string& name, int value)
+	{
+		uploadUniformInt(name, value);
+	}
+
+	// Set a float 3 uniform
+	void OpenGLShader::setFloat3(const std::string& name, const glm::vec3& value)
+	{
+		uploadUniformFloat3(name, value);
+	}
+
+	// Set a float 4 uniform
+	void OpenGLShader::setFloat4(const std::string& name, const glm::vec4& value)
+	{
+		uploadUniformFloat4(name, value);
+	}
+
+	// Set a mat 4 uniform
+	void OpenGLShader::setMat4(const std::string& name, const glm::mat4& matrix)
+	{
+		uploadUniformMat4(name, matrix);
+	}
+
 	// Upload an integer uniform
 	void OpenGLShader::uploadUniformInt(const std::string& name, int value)
 	{

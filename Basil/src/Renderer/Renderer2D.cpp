@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "Platform/OpenGL/OpenGLShader.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/Renderer2D.h"
 #include "Renderer/Shader.h"
@@ -74,9 +73,9 @@ namespace Basil
 	void Renderer2D::beginScene(const OrthographicCamera& camera)
 	{
 		// Bind shader and upload uniforms
-		std::dynamic_pointer_cast<OpenGLShader>(data->flatColorShader)->bind();
-		std::dynamic_pointer_cast<OpenGLShader>(data->flatColorShader)->uploadUniformMat4("u_ViewProjection", camera.getViewProjectionMatrix());
-		std::dynamic_pointer_cast<OpenGLShader>(data->flatColorShader)->uploadUniformMat4("u_Transform", glm::mat4(1.0f));
+		data->flatColorShader->bind();
+		data->flatColorShader->setMat4("u_ViewProjection", camera.getViewProjectionMatrix());
+		data->flatColorShader->setMat4("u_Transform", glm::mat4(1.0f));
 	}
 
 	// End a scene
@@ -96,8 +95,8 @@ namespace Basil
 	void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
 		// Bind shader and upload color uniform
-		std::dynamic_pointer_cast<OpenGLShader>(data->flatColorShader)->bind();
-		std::dynamic_pointer_cast<OpenGLShader>(data->flatColorShader)->uploadUniformFloat4("u_Color", color);
+		data->flatColorShader->bind();
+		data->flatColorShader->setFloat4("u_Color", color);
 
 		// Bind VAO and draw
 		data->quadVertexArray->bind();
