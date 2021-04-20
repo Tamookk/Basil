@@ -2,6 +2,9 @@
 Change log for the Basil Game Engine project.
 
 ## 2021-04-20
+### Added
+* Transforms to the 2D renderer.
+
 ### Changed
 * 2D renderer no longer relies on OpenGL.
 

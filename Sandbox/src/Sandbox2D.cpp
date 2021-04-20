@@ -21,6 +21,7 @@ void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 
 	Basil::Renderer2D::beginScene(cameraController.getCamera());
 	Basil::Renderer2D::drawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, squareColor);
+	Basil::Renderer2D::drawQuad({ -1.0f, 0.5f }, { 0.5f, 0.5f }, { 1.0f, 0.0f, 0.0f, 1.0f });
 	Basil::Renderer::endScene();
 }
 

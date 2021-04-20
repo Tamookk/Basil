@@ -4,6 +4,8 @@
 #include "Renderer/Shader.h"
 #include "Renderer/VertexArray.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace Basil
 {
 	// For storing the VAO and shader
@@ -97,6 +99,10 @@ namespace Basil
 		// Bind shader and upload color uniform
 		data->flatColorShader->bind();
 		data->flatColorShader->setFloat4("u_Color", color);
+
+		// Calculate and set transform
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		data->flatColorShader->setMat4("u_Transform", transform);
 
 		// Bind VAO and draw
 		data->quadVertexArray->bind();
