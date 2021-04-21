@@ -13,6 +13,7 @@ namespace Basil
 	{
 		Shared<VertexArray> quadVertexArray;
 		Shared<Shader> flatColorShader;
+		Shared<Shader> textureShader;
 	};
 
 	// Declare a pointer to the data storage
@@ -29,9 +30,13 @@ namespace Basil
 		std::vector<float> squareVertices =
 		{
 			-0.6f, -0.6f, 0.0f,			// vertex 0 xyz
+			 0.0f,  0.0f,				// vertex 0 tex coord
 			-0.6f,  0.6f, 0.0f,			// vertex 1 xyz
+			 0.0,   1.0,				// vertex 1 tex coord
 			 0.6f, -0.6f, 0.0f,			// vertex 2 xyz
+			 1.0f,  0.0f,				// vertex 2 tex coord
 			 0.6f,  0.6f, 0.0f,			// vertex 3 xyz
+			 1.0f,  1.0f,				// vertex 3 tex coord
 		};
 
 		std::vector<unsigned int> squareIndices =
@@ -46,7 +51,8 @@ namespace Basil
 		{
 			BufferLayout layout =
 			{
-				{ "a_Position", ShaderDataType::Float3 }
+				{ "a_Position", ShaderDataType::Float3 },
+				{ "a_TexCoord", ShaderDataType::Float2 }
 			};
 
 			squareVbo->setLayout(layout);
@@ -61,8 +67,11 @@ namespace Basil
 		data->quadVertexArray->addVertexBuffer(squareVbo);
 		data->quadVertexArray->setIndexBuffer(squareIbo);
 
-		// Initialise shader
+		// Initialise shaders
 		data->flatColorShader = Shader::create("assets/shaders/FlatColor.glsl");
+		data->textureShader = Shader::create("assets/shaders/Texture.glsl");
+		data->textureShader->bind();
+		data->textureShader->setInt("u_Texture", 0);
 	}
 
 	// Shutdown function
@@ -77,7 +86,9 @@ namespace Basil
 		// Bind shader and upload uniforms
 		data->flatColorShader->bind();
 		data->flatColorShader->setMat4("u_ViewProjection", camera.getViewProjectionMatrix());
-		data->flatColorShader->setMat4("u_Transform", glm::mat4(1.0f));
+
+		data->textureShader->bind();
+		data->textureShader->setMat4("u_ViewProjection", camera.getViewProjectionMatrix());
 	}
 
 	// End a scene
@@ -105,6 +116,30 @@ namespace Basil
 		data->flatColorShader->setMat4("u_Transform", transform);
 
 		// Bind VAO and draw
+		data->quadVertexArray->bind();
+		Renderer::drawIndexed(data->quadVertexArray);
+	}
+
+	// Draw a quad with a texture (2D position)
+	void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const Shared<Texture2D>& texture)
+	{
+		drawQuad({ position.x, position.y, 0.0f }, size, texture);;
+	}
+
+	// Draw a quad with a texture (3D position)
+	void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const Shared<Texture2D>& texture)
+	{
+		// Bind texture shader
+		data->textureShader->bind();
+
+		// Upload transform
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		data->textureShader->setMat4("u_Transform", transform);
+
+		// Bind texture
+		texture->bind();
+
+		// Bind VAO and draw quad
 		data->quadVertexArray->bind();
 		Renderer::drawIndexed(data->quadVertexArray);
 	}

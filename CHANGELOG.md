@@ -1,6 +1,12 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-21
+### Added
+* Textures to the 2D renderer.
+* More genets.
+
+
 ## 2021-04-20
 ### Added
 * Transforms to the 2D renderer.
