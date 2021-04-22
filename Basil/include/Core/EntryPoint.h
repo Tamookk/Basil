@@ -16,9 +16,18 @@ int main(int argc, char* argv[])
 	// Initialise loggers
 	Basil::Log::init();
 
+	PROFILE_BEGIN_SESSION("Startup", "Profile-Startup.json");
 	auto app = Basil::createApplication();
+	PROFILE_END_SESSION();
+
+	PROFILE_BEGIN_SESSION("Runtime", "Profile-Runtime.json");
 	app->run();
+	PROFILE_END_SESSION();
+
+	PROFILE_BEGIN_SESSION("Shutdown", "Profile-Shutdown.json");
 	delete app;
+	PROFILE_END_SESSION();
+
 	return 0;
 }
 #else

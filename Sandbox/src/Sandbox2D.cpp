@@ -4,8 +4,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 
-#define PROFILE_SCOPE(name) Basil::Timer timer##__LINE__(name, [&](Basil::ProfileResult profileResult){ profileResults.push_back(profileResult); })
-
 Sandbox2D::Sandbox2D() : Layer("Sandbox2D"), cameraController(1280.0f / 720.0f) {}
 
 void Sandbox2D::onAttach()
@@ -19,20 +17,29 @@ void Sandbox2D::onDetach() {}
 void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 {
 	// Start timer for onUpdate
-	PROFILE_SCOPE("Sandbox2D::onUpdate");
+	PROFILE_FUNCTION();
 
-	// Update camera
-	cameraController.onUpdate(timeStep);
+	{
+		// Update camera
+		PROFILE_SCOPE("CameraController::onUpdate");
+		cameraController.onUpdate(timeStep);
+	}
 
 	// Render
-	Basil::Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-	Basil::Renderer::clear();
+	{
+		PROFILE_SCOPE("Renderer Prep")
+		Basil::Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+		Basil::Renderer::clear();
+	}
 
-	Basil::Renderer2D::beginScene(cameraController.getCamera());
-	Basil::Renderer2D::drawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, squareColor);
-	Basil::Renderer2D::drawQuad({ -1.0f, 0.5f }, { 0.5f, 0.5f }, { 1.0f, 0.0f, 0.0f, 1.0f });
-	Basil::Renderer2D::drawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, 10.0f, texture);
-	Basil::Renderer::endScene();
+	{
+		PROFILE_SCOPE("Renderer Draw");
+		Basil::Renderer2D::beginScene(cameraController.getCamera());
+		Basil::Renderer2D::drawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, squareColor);
+		Basil::Renderer2D::drawQuad({ -1.0f, 0.5f }, { 0.5f, 0.5f }, { 1.0f, 0.0f, 0.0f, 1.0f });
+		Basil::Renderer2D::drawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, 10.0f, texture);
+		Basil::Renderer::endScene();
+	}
 }
 
 void Sandbox2D::onEvent(Basil::Event& e)
@@ -42,16 +49,10 @@ void Sandbox2D::onEvent(Basil::Event& e)
 
 void Sandbox2D::onImGuiRender()
 {
+	PROFILE_FUNCTION();
+
 	// Render GUI
 	ImGui::Begin("Settings");
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-	for (auto& result : profileResults)
-	{
-		char label[50];
-		strcpy_s(label, result.name);
-		strcat_s(label, "  %.3fms");
-		ImGui::Text(label, result.time);
-	}
-	profileResults.clear();
 	ImGui::End();
 }

@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "Core/Log.h"
+#include "Debug/Instrumentor.h"
 
 #ifdef PLATFORM_WINDOWS
 	#include <Windows.h>

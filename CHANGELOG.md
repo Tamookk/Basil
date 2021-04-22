@@ -6,11 +6,15 @@ Change log for the Basil Game Engine project.
 * Renderer is now shutdown to free memory allocated when it is initialised.
 * A file reading check to the OpenGL shader implementation.
 * A timer for basic profiling.
+* Added Debug folder to Basil project.
+* Added basic instrumentor.
 
 ### Changed
 * 2D renderer now uses a single shader for textured and non-textured quads.
 * Changed some raw pointers to smart pointers.
 * Changed empty constructors/destructors to default ones.
+* Changed how profiling times are displayed.
+* Moved Timer class to Debug folder.
 
 ### Removed
 * DLL traces (BASIL_API macros).

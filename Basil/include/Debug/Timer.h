@@ -40,10 +40,4 @@ namespace Basil
 			std::chrono::time_point<std::chrono::steady_clock> startTimepoint;
 			bool stopped;
 	};
-
-	struct ProfileResult
-	{
-		const char* name;
-		float time;
-	};
 }
