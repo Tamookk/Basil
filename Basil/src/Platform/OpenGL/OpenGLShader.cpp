@@ -89,6 +89,12 @@ namespace Basil
 		uploadUniformInt(name, value);
 	}
 
+	// Set a float uniform
+	void OpenGLShader::setFloat(const std::string& name, float value)
+	{
+		uploadUniformFloat(name, value);
+	}
+
 	// Set a float 3 uniform
 	void OpenGLShader::setFloat3(const std::string& name, const glm::vec3& value)
 	{

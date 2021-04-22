@@ -36,5 +36,6 @@ namespace Basil
 	void OpenGLRendererAPI::drawIndexed(const Shared<VertexArray>& vao)
 	{
 		glDrawElements(GL_TRIANGLES, vao->getIndexBuffer()->getSize(), GL_UNSIGNED_INT, nullptr);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }

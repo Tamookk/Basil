@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-22
+### Changed
+* 2D renderer now uses a single shader for textured and non-textured quads.
+
+
 ## 2021-04-21
 ### Added
 * Textures to the 2D renderer.

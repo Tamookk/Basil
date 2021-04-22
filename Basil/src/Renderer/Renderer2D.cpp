@@ -12,8 +12,8 @@ namespace Basil
 	struct Renderer2DStorage
 	{
 		Shared<VertexArray> quadVertexArray;
-		Shared<Shader> flatColorShader;
 		Shared<Shader> textureShader;
+		Shared<Texture2D> whiteTexture;
 	};
 
 	// Declare a pointer to the data storage
@@ -67,8 +67,12 @@ namespace Basil
 		data->quadVertexArray->addVertexBuffer(squareVbo);
 		data->quadVertexArray->setIndexBuffer(squareIbo);
 
-		// Initialise shaders
-		data->flatColorShader = Shader::create("assets/shaders/FlatColor.glsl");
+		// Create white texture
+		data->whiteTexture = Texture2D::create(1, 1);
+		uint32_t whiteTextureData = 0xffffffff;
+		data->whiteTexture->setData(&whiteTextureData, sizeof(uint32_t));
+
+		// Initialise shader
 		data->textureShader = Shader::create("assets/shaders/Texture.glsl");
 		data->textureShader->bind();
 		data->textureShader->setInt("u_Texture", 0);
@@ -84,9 +88,6 @@ namespace Basil
 	void Renderer2D::beginScene(const OrthographicCamera& camera)
 	{
 		// Bind shader and upload uniforms
-		data->flatColorShader->bind();
-		data->flatColorShader->setMat4("u_ViewProjection", camera.getViewProjectionMatrix());
-
 		data->textureShader->bind();
 		data->textureShader->setMat4("u_ViewProjection", camera.getViewProjectionMatrix());
 	}
@@ -107,13 +108,16 @@ namespace Basil
 	// Draw a quad (3D position)
 	void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		// Bind shader and upload color uniform
-		data->flatColorShader->bind();
-		data->flatColorShader->setFloat4("u_Color", color);
-
-		// Calculate and set transform
+		// Calculate and upload transform
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-		data->flatColorShader->setMat4("u_Transform", transform);
+		data->textureShader->setMat4("u_Transform", transform);
+
+		// Bind white texture, upload texture scale and texture uniforms
+		data->whiteTexture->bind();
+		data->textureShader->setFloat("u_TexScale", 1.0f);
+		
+		// Upload color uniform
+		data->textureShader->setFloat4("u_Color", color);
 
 		// Bind VAO and draw
 		data->quadVertexArray->bind();
@@ -121,23 +125,24 @@ namespace Basil
 	}
 
 	// Draw a quad with a texture (2D position)
-	void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const Shared<Texture2D>& texture)
+	void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, float textureScale, const Shared<Texture2D>& texture)
 	{
-		drawQuad({ position.x, position.y, 0.0f }, size, texture);;
+		drawQuad({ position.x, position.y, 0.0f }, size, textureScale, texture);;
 	}
 
 	// Draw a quad with a texture (3D position)
-	void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const Shared<Texture2D>& texture)
+	void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, float textureScale, const Shared<Texture2D>& texture)
 	{
-		// Bind texture shader
-		data->textureShader->bind();
-
-		// Upload transform
+		// Calculate and upload transform
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		data->textureShader->setMat4("u_Transform", transform);
 
-		// Bind texture
+		// Bind texture, upload texture scale and texture uniforms
 		texture->bind();
+		data->textureShader->setFloat("u_TexScale", textureScale);
+
+		// Upload color uniform
+		data->textureShader->setFloat4("u_Color", glm::vec4(1.0f));
 
 		// Bind VAO and draw quad
 		data->quadVertexArray->bind();

@@ -13,7 +13,22 @@ namespace Basil
 				ASSERT(false, "No renderer API!");
 				return nullptr;
 			case RendererAPI::API::OpenGL:
-				return std::make_shared<OpenGLTexture2D>(path);
+				return makeShared<OpenGLTexture2D>(path);
+		}
+
+		ASSERT(false, "Unknown renderer API.");
+		return nullptr;
+	}
+
+	Shared<Texture2D> Texture2D::create(uint32_t width, uint32_t height)
+	{
+		switch (Renderer::getAPI())
+		{
+			case RendererAPI::API::None:
+				ASSERT(false, "No renderer API!");
+				return nullptr;
+			case RendererAPI::API::OpenGL:
+				return makeShared<OpenGLTexture2D>(width, height);
 		}
 
 		ASSERT(false, "Unknown renderer API.");
