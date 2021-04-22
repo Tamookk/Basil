@@ -13,6 +13,7 @@
 #include "Core/Layer.h"
 #include "Core/Log.h"
 #include "Core/MouseButtonCodes.h"
+#include "Core/Timer.h"
 #include "Core/Timestep.h"
 #include "ImGui/ImGuiLayer.h"
 #include "Renderer/IndexBuffer.h"

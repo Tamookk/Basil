@@ -4,10 +4,13 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 
+#define PROFILE_SCOPE(name) Basil::Timer timer##__LINE__(name, [&](Basil::ProfileResult profileResult){ profileResults.push_back(profileResult); })
+
 Sandbox2D::Sandbox2D() : Layer("Sandbox2D"), cameraController(1280.0f / 720.0f) {}
 
 void Sandbox2D::onAttach()
 {
+	// Load texture
 	texture = Basil::Texture2D::create("assets/textures/test.png");
 }
 
@@ -15,6 +18,9 @@ void Sandbox2D::onDetach() {}
 
 void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 {
+	// Start timer for onUpdate
+	PROFILE_SCOPE("Sandbox2D::onUpdate");
+
 	// Update camera
 	cameraController.onUpdate(timeStep);
 
@@ -36,7 +42,16 @@ void Sandbox2D::onEvent(Basil::Event& e)
 
 void Sandbox2D::onImGuiRender()
 {
+	// Render GUI
 	ImGui::Begin("Settings");
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+	for (auto& result : profileResults)
+	{
+		char label[50];
+		strcpy_s(label, result.name);
+		strcat_s(label, "  %.3fms");
+		ImGui::Text(label, result.time);
+	}
+	profileResults.clear();
 	ImGui::End();
 }

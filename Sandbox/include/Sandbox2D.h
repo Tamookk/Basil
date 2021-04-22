@@ -21,4 +21,5 @@ class Sandbox2D : public Basil::Layer
 		Basil::Shared<Basil::Shader> shader;
 		Basil::Shared<Basil::Texture2D> texture;
 		glm::vec4 squareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+		std::vector<Basil::ProfileResult> profileResults;
 };

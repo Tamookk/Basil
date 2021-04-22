@@ -5,6 +5,7 @@ Change log for the Basil Game Engine project.
 ### Added
 * Renderer is now shutdown to free memory allocated when it is initialised.
 * A file reading check to the OpenGL shader implementation.
+* A timer for basic profiling.
 
 ### Changed
 * 2D renderer now uses a single shader for textured and non-textured quads.
