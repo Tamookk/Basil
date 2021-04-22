@@ -11,7 +11,7 @@
 
 namespace Basil
 {
-	class BASIL_API Input
+	class Input
 	{
 		public:
 			static bool isKeyPressed(int keycode);

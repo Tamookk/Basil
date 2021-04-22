@@ -7,7 +7,7 @@
 
 namespace Basil
 {
-	class BASIL_API KeyPressedEvent : public Event
+	class KeyPressedEvent : public Event
 	{
 		public:
 			KeyPressedEvent(int keycode, int repeatCount);
@@ -23,7 +23,7 @@ namespace Basil
 			int repeatCount;
 	};
 
-	class BASIL_API KeyReleasedEvent : public Event
+	class KeyReleasedEvent : public Event
 	{
 		public:
 			KeyReleasedEvent(int keycode);
@@ -37,7 +37,7 @@ namespace Basil
 			int keycode;
 	};
 
-	class BASIL_API KeyTypedEvent : public Event
+	class KeyTypedEvent : public Event
 	{
 	public:
 		KeyTypedEvent(int keycode);

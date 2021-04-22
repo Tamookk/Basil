@@ -46,8 +46,7 @@ namespace Basil
 		};
 
 		// Create and specify format of VBO
-		Shared<VertexBuffer> squareVbo;
-		squareVbo.reset(VertexBuffer::create(squareVertices));
+		Shared<VertexBuffer> squareVbo = VertexBuffer::create(squareVertices);
 		{
 			BufferLayout layout =
 			{
@@ -59,8 +58,7 @@ namespace Basil
 		}
 
 		// Create IBO
-		Shared<IndexBuffer> squareIbo;
-		squareIbo.reset(IndexBuffer::create(squareIndices));
+		Shared<IndexBuffer> squareIbo = IndexBuffer::create(squareIndices);
 
 		// Initialise VAO and add VBO & IBO to it
 		data->quadVertexArray = VertexArray::create();

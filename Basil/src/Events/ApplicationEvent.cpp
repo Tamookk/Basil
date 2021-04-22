@@ -4,7 +4,6 @@
 namespace Basil
 {
 	// -- Window Close Event -- //
-	WindowCloseEvent::WindowCloseEvent() {}
 	EventType WindowCloseEvent::getEventType() const { return getStaticType(); }
 	EventType WindowCloseEvent::getStaticType() { return EventType::WindowClose; }
 	const char* WindowCloseEvent::getName() const { return "WindowClose"; }
@@ -35,7 +34,6 @@ namespace Basil
 
 
 	// -- Window Focus Event -- //
-	WindowFocusEvent::WindowFocusEvent() {}
 	EventType WindowFocusEvent::getEventType() const { return getStaticType(); }
 	EventType WindowFocusEvent::getStaticType() { return EventType::WindowFocus; }
 	const char* WindowFocusEvent::getName() const { return "WindowFocus"; }
@@ -43,7 +41,6 @@ namespace Basil
 
 
 	// -- Window Lost Focus Event -- //
-	WindowLostFocusEvent::WindowLostFocusEvent() {}
 	EventType WindowLostFocusEvent::getEventType() const { return getStaticType(); }
 	EventType WindowLostFocusEvent::getStaticType() { return EventType::WindowLostFocus; }
 	const char* WindowLostFocusEvent::getName() const { return "WindowLostFocus"; }
@@ -51,7 +48,6 @@ namespace Basil
 
 
 	// -- Window Moved Event -- //
-	WindowMovedEvent::WindowMovedEvent() {}
 	EventType WindowMovedEvent::getEventType() const { return getStaticType(); }
 	EventType WindowMovedEvent::getStaticType() { return EventType::WindowMoved; }
 	const char* WindowMovedEvent::getName() const { return "WindowMoved"; }
@@ -59,7 +55,6 @@ namespace Basil
 
 
 	// -- App Tick Event -- //
-	AppTickEvent::AppTickEvent() {}
 	EventType AppTickEvent::getEventType() const { return getStaticType(); }
 	EventType AppTickEvent::getStaticType() { return EventType::AppTick; }
 	const char* AppTickEvent::getName() const { return "AppTick"; }
@@ -67,7 +62,6 @@ namespace Basil
 
 
 	// -- App Update Event -- //
-	AppUpdateEvent::AppUpdateEvent() {}
 	EventType AppUpdateEvent::getEventType() const { return getStaticType(); }
 	EventType AppUpdateEvent::getStaticType() { return EventType::AppUpdate; }
 	const char* AppUpdateEvent::getName() const { return "AppUpdate"; }
@@ -75,7 +69,6 @@ namespace Basil
 
 
 	// -- App Render Event -- //
-	AppRenderEvent::AppRenderEvent() {}
 	EventType AppRenderEvent::getEventType() const { return getStaticType(); }
 	EventType AppRenderEvent::getStaticType() { return EventType::AppRender; }
 	const char* AppRenderEvent::getName() const { return "AppRender"; }

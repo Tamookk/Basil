@@ -174,10 +174,20 @@ namespace Basil
 		{
 			// Go to the end of the file, get the size, resize the result string to be the file length
 			file.seekg(0, std::ios::end);
-			result.resize(file.tellg());
-			file.seekg(0, std::ios::beg);
-			file.read(&result[0], result.size());
-			file.close();
+
+			// Check that the file can be read
+			size_t size = file.tellg();
+			if (size != -1)
+			{
+				result.resize(file.tellg());
+				file.seekg(0, std::ios::beg);
+				file.read(&result[0], result.size());
+				file.close();
+			}
+			else
+			{
+				ERROR("Could not read from file '{0}'", filePath);
+			}
 		}
 		else
 		{

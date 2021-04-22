@@ -12,9 +12,9 @@ namespace Basil
 	}
 
 	// Create window
-	Window* Window::create(const WindowProps& props)
+	Unique<Window> Window::create(const WindowProps& props)
 	{
-		return new WindowsWindow(props);
+		return makeUnique<WindowsWindow>(props);
 	}
 
 	// Constructor - initialise window
@@ -51,7 +51,7 @@ namespace Basil
 
 		// GLFW window stuff
 		window = glfwCreateWindow(data.width, data.height, data.title.c_str(), nullptr, nullptr);
-		context = makeUnique<OpenGLContext>(window);
+		context = GraphicsContext::create(window);
 		context->init();
 
 		// Some more GLFW window stuff
@@ -204,6 +204,7 @@ namespace Basil
 	void WindowsWindow::shutdown()
 	{
 		glfwDestroyWindow(window);
+		glfwTerminate();
 	}
 	
 	// On update function

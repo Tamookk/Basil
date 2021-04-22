@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Platform/OpenGL/OpenGLRendererAPI.h"
-#include "Platform/OpenGL/OpenGLShader.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/Renderer2D.h"
 
@@ -17,6 +16,12 @@ namespace Basil
 	{
 		rendererAPI->init();
 		Renderer2D::init();
+	}
+
+	// Shutdown renderer
+	void Renderer::shutdown()
+	{
+		Renderer2D::shutdown();
 	}
 
 	// On window resize event
@@ -42,8 +47,8 @@ namespace Basil
 	{
 		// Bind the shader and upload the uniform
 		shader->bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->uploadUniformMat4("u_ViewProjection", sceneData->viewProjectionMatrix);
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->uploadUniformMat4("u_Transform", transform);
+		shader->setMat4("u_ViewProjection", sceneData->viewProjectionMatrix);
+		shader->setMat4("u_Transform", transform);
 
 		// Bind the vertex array and draw the data
 		vao->bind();

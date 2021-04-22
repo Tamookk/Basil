@@ -11,7 +11,7 @@
 
 namespace Basil
 {
-	class BASIL_API LayerStack
+	class LayerStack
 	{
 		public:
 			LayerStack();

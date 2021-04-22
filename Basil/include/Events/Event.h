@@ -31,7 +31,7 @@ namespace Basil
 		MouseButtonEvent	= 0b00010000
 	};
 
-	class BASIL_API Event
+	class Event
 	{
 		friend class EventDispatcher;
 		public:

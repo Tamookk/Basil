@@ -16,7 +16,7 @@
 
 namespace Basil
 {
-	class BASIL_API Application
+	class Application
 	{
 		public:
 			Application();

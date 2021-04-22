@@ -14,7 +14,7 @@ namespace Basil
 				ASSERT(false, "No renderer API!");
 				return nullptr;
 			case RendererAPI::API::OpenGL:
-				return std::make_shared<OpenGLShader>(filePath);
+				return makeShared<OpenGLShader>(filePath);
 		}
 
 		ASSERT(false, "Unknown renderer API.");
@@ -29,7 +29,7 @@ namespace Basil
 				ASSERT(false, "No renderer API!");
 				return nullptr;
 			case RendererAPI::API::OpenGL:
-				return std::make_shared<OpenGLShader>(name, vertexSource, fragmentSource);
+				return makeShared<OpenGLShader>(name, vertexSource, fragmentSource);
 		}
 
 		ASSERT(false, "Unknown renderer API.");

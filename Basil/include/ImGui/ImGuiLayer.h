@@ -9,7 +9,7 @@
 
 namespace Basil
 {
-	class BASIL_API ImGuiLayer : public Layer
+	class ImGuiLayer : public Layer
 	{
 		public:
 			ImGuiLayer();

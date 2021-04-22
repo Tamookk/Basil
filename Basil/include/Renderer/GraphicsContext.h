@@ -10,5 +10,6 @@ namespace Basil
 		public:
 			virtual void init() = 0;
 			virtual void swapBuffers() = 0;
+			static Unique<GraphicsContext> create(void* window);
 	};
 }

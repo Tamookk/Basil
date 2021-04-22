@@ -23,6 +23,7 @@ namespace Basil
 			virtual void clear() = 0;
 			virtual void drawIndexed(const Shared<VertexArray>& vao) = 0;
 			static API getAPI();
+			static Unique<RendererAPI> create();
 		private:
 			static API api;
 	};

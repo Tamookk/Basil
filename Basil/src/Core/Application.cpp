@@ -23,7 +23,7 @@ namespace Basil
 		instance = this;
 
 		// Set create the window and set the window callback
-		window = Unique<Window>(Window::create());
+		window = Window::create();
 		window->setEventCallback(BIND_EVENT(Application::onEvent));
 
 		// Initialise the renderer
@@ -37,7 +37,7 @@ namespace Basil
 	// Destructor
 	Application::~Application()
 	{
-
+		Renderer::shutdown();
 	}
 
 	// Run the application

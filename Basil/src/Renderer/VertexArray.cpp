@@ -10,7 +10,7 @@ namespace Basil
 		switch (Renderer::getAPI())
 		{
 			case RendererAPI::API::None:
-				ASSERT(false, "No renderer API!");
+				ASSERT(false, "No renderer API.");
 				return nullptr;
 			case RendererAPI::API::OpenGL:
 				return makeShared<OpenGLVertexArray>();

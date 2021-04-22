@@ -5,6 +5,8 @@
 
 #include "Renderer/Texture2D.h"
 
+#include <glad/glad.h>
+
 namespace Basil
 {
 	class OpenGLTexture2D : public Texture2D
@@ -22,7 +24,7 @@ namespace Basil
 			uint32_t width;
 			uint32_t height;
 			uint32_t rendererID;
-			unsigned int internalFormat;
-			unsigned int dataFormat;
+			GLenum internalFormat;
+			GLenum dataFormat;
 	};
 }

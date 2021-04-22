@@ -4,7 +4,6 @@
 
 #include "Core/Basil.h"
 #include "Core/EntryPoint.h"
-#include "Platform/OpenGL/OpenGLShader.h"
 #include "Sandbox2D.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -69,8 +68,7 @@ class ExampleLayer : public Basil::Layer
 			};
 
 			// Create VBO and set layout
-			Basil::Shared<Basil::VertexBuffer> vbo;
-			vbo.reset(Basil::VertexBuffer::create(vertices));
+			Basil::Shared<Basil::VertexBuffer> vbo = Basil::VertexBuffer::create(vertices);
 			{
 				Basil::BufferLayout layout =
 				{
@@ -81,8 +79,7 @@ class ExampleLayer : public Basil::Layer
 				vbo->setLayout(layout);
 			}
 
-			Basil::Shared<Basil::VertexBuffer> squareVbo;
-			squareVbo.reset(Basil::VertexBuffer::create(squareVertices));
+			Basil::Shared<Basil::VertexBuffer> squareVbo = Basil::VertexBuffer::create(squareVertices);
 			{
 				Basil::BufferLayout layout =
 				{
@@ -93,8 +90,7 @@ class ExampleLayer : public Basil::Layer
 				squareVbo->setLayout(layout);
 			}
 
-			Basil::Shared<Basil::VertexBuffer> imageVbo;
-			imageVbo.reset(Basil::VertexBuffer::create(imageVertices));
+			Basil::Shared<Basil::VertexBuffer> imageVbo = Basil::VertexBuffer::create(imageVertices);
 			{
 				Basil::BufferLayout layout =
 				{
@@ -106,14 +102,11 @@ class ExampleLayer : public Basil::Layer
 			}
 
 			// Create IBO
-			Basil::Shared<Basil::IndexBuffer> ibo;
-			ibo.reset(Basil::IndexBuffer::create(indices));
+			Basil::Shared<Basil::IndexBuffer> ibo = Basil::IndexBuffer::create(indices);
 
-			Basil::Shared<Basil::IndexBuffer> squareIbo;
-			squareIbo.reset(Basil::IndexBuffer::create(squareIndices));
+			Basil::Shared<Basil::IndexBuffer> squareIbo = Basil::IndexBuffer::create(squareIndices);
 
-			Basil::Shared<Basil::IndexBuffer> imageIbo;
-			imageIbo.reset(Basil::IndexBuffer::create(imageIndices));
+			Basil::Shared<Basil::IndexBuffer> imageIbo = Basil::IndexBuffer::create(imageIndices);
 
 			// Create VAO and specify format of data
 			vao = Basil::VertexArray::create();
@@ -199,8 +192,8 @@ class ExampleLayer : public Basil::Layer
 
 			// Load texture and upload to uniform
 			texture = Basil::Texture2D::create("assets/textures/test.png");
-			std::dynamic_pointer_cast<Basil::OpenGLShader>(imageShader)->bind();
-			std::dynamic_pointer_cast<Basil::OpenGLShader>(imageShader)->uploadUniformInt("u_Texture", 0);
+			imageShader->bind();
+			imageShader->setInt("u_Texture", 0);
 		}
 
 		void onUpdate(Basil::Timestep timeStep) override
@@ -216,8 +209,8 @@ class ExampleLayer : public Basil::Layer
 			Basil::Renderer::beginScene(cameraController.getCamera());
 
 			// Draw square
-			std::dynamic_pointer_cast<Basil::OpenGLShader>(squareShader)->bind();
-			std::dynamic_pointer_cast<Basil::OpenGLShader>(squareShader)->uploadUniformFloat3("u_Color", squareColor);
+			squareShader->bind();
+			squareShader->setFloat3("u_Color", squareColor);
 			Basil::Renderer::submit(squareShader, squareVao);
 
 			// Draw triangles

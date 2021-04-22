@@ -7,7 +7,7 @@
 
 namespace Basil
 {
-	class BASIL_API MouseButtonPressedEvent : public Event
+	class MouseButtonPressedEvent : public Event
 	{
 		public:
 			MouseButtonPressedEvent(int button);
@@ -21,7 +21,7 @@ namespace Basil
 			int button;
 	};
 
-	class BASIL_API MouseButtonReleasedEvent : public Event
+	class MouseButtonReleasedEvent : public Event
 	{
 		public:
 			MouseButtonReleasedEvent(int button);
@@ -35,7 +35,7 @@ namespace Basil
 			int button;
 	};
 
-	class BASIL_API MouseMovedEvent : public Event
+	class MouseMovedEvent : public Event
 	{
 		public:
 			MouseMovedEvent(float x, float y);
@@ -51,7 +51,7 @@ namespace Basil
 			float mouseY;
 	};
 
-	class BASIL_API MouseScrolledEvent : public Event
+	class MouseScrolledEvent : public Event
 	{
 		public:
 			MouseScrolledEvent(float xOffset, float yOffset);

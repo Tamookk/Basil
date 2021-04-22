@@ -13,6 +13,7 @@ namespace Basil
 	{
 		public:
 			static void init();
+			static void shutdown();
 			static void onWindowResize(unsigned int width, unsigned int height);
 			static void beginScene(OrthographicCamera& camera);
 			static void endScene();

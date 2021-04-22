@@ -7,88 +7,88 @@
 
 namespace Basil
 {
-	class BASIL_API WindowCloseEvent : public Event
+	class WindowCloseEvent : public Event
 	{
 		public:
-			WindowCloseEvent();
-			virtual EventType getEventType() const override;
+			WindowCloseEvent() = default;
+			EventType getEventType() const override;
 			static EventType getStaticType();
-			virtual const char* getName() const override;
-			virtual int getCategory() const override;
+			const char* getName() const override;
+			int getCategory() const override;
 	};
 
-	class BASIL_API WindowResizeEvent : public Event
+	class WindowResizeEvent : public Event
 	{
 		public:
 			WindowResizeEvent(unsigned int width, unsigned int height);
 			unsigned int getWidth() const;
 			unsigned int getHeight() const;
-			virtual EventType getEventType() const override;
+			EventType getEventType() const override;
 			static EventType getStaticType();
-			virtual const char* getName() const override;
-			virtual std::string toString() const override;
-			virtual int getCategory() const override;
+			const char* getName() const override;
+			std::string toString() const override;
+			int getCategory() const override;
 		private:
 			unsigned int width;
 			unsigned int height;
 
 	};
 
-	class BASIL_API WindowFocusEvent : public Event
+	class WindowFocusEvent : public Event
 	{
 		public:
-			WindowFocusEvent();
-			virtual EventType getEventType() const override;
+			WindowFocusEvent() = default;
+			EventType getEventType() const override;
 			static EventType getStaticType();
-			virtual const char* getName() const override;
-			virtual int getCategory() const override;
+			const char* getName() const override;
+			int getCategory() const override;
 	};
 
-	class BASIL_API WindowLostFocusEvent : public Event
+	class WindowLostFocusEvent : public Event
 	{
 		public:
-			WindowLostFocusEvent();
-			virtual EventType getEventType() const override;
+			WindowLostFocusEvent() = default;
+			EventType getEventType() const override;
 			static EventType getStaticType();
-			virtual const char* getName() const override;
-			virtual int getCategory() const override;
+			const char* getName() const override;
+			int getCategory() const override;
 	};
 
-	class BASIL_API WindowMovedEvent : public Event
+	class WindowMovedEvent : public Event
 	{
 		public:
-			WindowMovedEvent();
-			virtual EventType getEventType() const override;
+			WindowMovedEvent() = default;
+			EventType getEventType() const override;
 			static EventType getStaticType();
-			virtual const char* getName() const override;
-			virtual int getCategory() const override;
+			const char* getName() const override;
+			int getCategory() const override;
 	};
 
-	class BASIL_API AppTickEvent : public Event
+	class AppTickEvent : public Event
 	{
 		public:
-			AppTickEvent();
-			virtual EventType getEventType() const override;
+			AppTickEvent() = default;
+			EventType getEventType() const override;
 			static EventType getStaticType();
-			virtual const char* getName() const override;
-			virtual int getCategory() const override;
+			const char* getName() const override;
+			int getCategory() const override;
 	};
 
-	class BASIL_API AppUpdateEvent : public Event
+	class AppUpdateEvent : public Event
 	{
-		AppUpdateEvent();
-		virtual EventType getEventType() const override;
+		AppUpdateEvent() = default;
+		EventType getEventType() const override;
 		static EventType getStaticType();
-		virtual const char* getName() const override;
-		virtual int getCategory() const override;
+		const char* getName() const override;
+		int getCategory() const override;
 	};
 
-	class BASIL_API AppRenderEvent : public Event
+	class AppRenderEvent : public Event
 	{
-		AppRenderEvent();
-		virtual EventType getEventType() const override;
+		AppRenderEvent() = default;
+		EventType getEventType() const override;
 		static EventType getStaticType();
-		virtual const char* getName() const override;
-		virtual int getCategory() const override;
+		const char* getName() const override;
+		int getCategory() const override;
 	};
 }

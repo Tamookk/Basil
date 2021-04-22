@@ -11,7 +11,7 @@
 
 namespace Basil
 {
-	class BASIL_API Log
+	class Log
 	{
 		public:
 			static void init();
