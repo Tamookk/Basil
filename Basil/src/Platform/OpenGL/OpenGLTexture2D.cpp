@@ -9,6 +9,8 @@ namespace Basil
 	// Constructor
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
 	{
+		PROFILE_FUNCTION();
+
 		// Initialise variables
 		this->path = path;
 		internalFormat = 0;
@@ -17,7 +19,11 @@ namespace Basil
 		// Load image and initialise width & height variables
 		int width, height, channels;
 		stbi_set_flip_vertically_on_load(1);
-		stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+		stbi_uc* data;
+		{
+			PROFILE_SCOPE("stbi_load - OpenGLTexture2D::OpenGLTexture2D(const std::string&)");
+			data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+		}
 		ASSERT(data, "Failed to load image.");
 		this->width = width;
 		this->height = height;
@@ -57,6 +63,8 @@ namespace Basil
 
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
 	{
+		PROFILE_FUNCTION();
+
 		// Set variables
 		this->width = width;
 		this->height = height;
@@ -77,6 +85,8 @@ namespace Basil
 	// Destructor
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
+		PROFILE_FUNCTION();
+
 		glDeleteTextures(1, &rendererID);
 	}
 
@@ -95,6 +105,8 @@ namespace Basil
 	// Set texture data
 	void OpenGLTexture2D::setData(void* data, uint32_t size)
 	{
+		PROFILE_FUNCTION();
+
 		uint32_t bytesPerPixel = dataFormat == GL_RGBA ? 4 : 3;
 		ASSERT(size == width * height * bytesPerPixel, "Data must be entire texture!");
 		glTextureSubImage2D(rendererID, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
@@ -103,6 +115,8 @@ namespace Basil
 	// Bind the texture to the provided slot
 	void OpenGLTexture2D::bind(unsigned int slot) const
 	{
+		PROFILE_FUNCTION();
+
 		glBindTextureUnit(slot, rendererID);
 	}
 }

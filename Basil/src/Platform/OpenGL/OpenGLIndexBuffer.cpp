@@ -6,6 +6,8 @@ namespace Basil
 	// Constructor
 	OpenGLIndexBuffer::OpenGLIndexBuffer(std::vector<uint32_t>& indices)
 	{
+		PROFILE_FUNCTION();
+
 		// Set size of index buffer
 		size = (uint32_t)indices.size();
 
@@ -18,18 +20,24 @@ namespace Basil
 	// Destructor
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()
 	{
+		PROFILE_FUNCTION();
+
 		glDeleteBuffers(1, &ibo);
 	}
 
 	// Bind IBO
 	void OpenGLIndexBuffer::bind() const
 	{
+		PROFILE_FUNCTION();
+
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	}
 
 	// Unbind IBO
 	void OpenGLIndexBuffer::unbind() const
 	{
+		PROFILE_FUNCTION();
+
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 

@@ -13,6 +13,8 @@ namespace Basil
 	// Initialise context
 	void OpenGLContext::init()
 	{
+		PROFILE_FUNCTION();
+
 		glfwMakeContextCurrent(window);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		ASSERT(status, "Failed to initialise Glad!");
@@ -21,6 +23,8 @@ namespace Basil
 	// Swap buffers
 	void OpenGLContext::swapBuffers()
 	{
+		PROFILE_FUNCTION();
+
 		glfwSwapBuffers(window);
 	}
 }

@@ -14,6 +14,8 @@ namespace Basil
 	// Initialise renderer
 	void Renderer::init()
 	{
+		PROFILE_FUNCTION();
+
 		rendererAPI->init();
 		Renderer2D::init();
 	}

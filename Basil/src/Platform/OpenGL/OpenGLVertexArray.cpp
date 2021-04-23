@@ -28,30 +28,40 @@ namespace Basil
 	// Constructor
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
+		PROFILE_FUNCTION();
+
 		glCreateVertexArrays(1, &vao);
 	}
 
 	// Destructor
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
+		PROFILE_FUNCTION();
+
 		glDeleteVertexArrays(1, &vao);
 	}
 
 	// Bind the VAO
 	void OpenGLVertexArray::bind() const
 	{
+		PROFILE_FUNCTION();
+
 		glBindVertexArray(vao);
 	}
 
 	// Unbind the VAO
 	void OpenGLVertexArray::unbind() const
 	{
+		PROFILE_FUNCTION();
+
 		glBindVertexArray(0);
 	}
 
 	// Add a VBO
 	void OpenGLVertexArray::addVertexBuffer(const Shared<VertexBuffer>& vbo)
 	{
+		PROFILE_FUNCTION();
+
 		// Check that the VBO has a layout
 		ASSERT(vbo->getLayout().getElements().size(), "VBO has no layout!");
 
@@ -83,6 +93,8 @@ namespace Basil
 	// Set the IBO
 	void OpenGLVertexArray::setIndexBuffer(const Shared<IndexBuffer>& ibo)
 	{
+		PROFILE_FUNCTION();
+
 		// Bind the IBO and VAO
 		ibo->bind();
 		bind();

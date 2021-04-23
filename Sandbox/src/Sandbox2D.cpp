@@ -8,22 +8,23 @@ Sandbox2D::Sandbox2D() : Layer("Sandbox2D"), cameraController(1280.0f / 720.0f) 
 
 void Sandbox2D::onAttach()
 {
+	PROFILE_FUNCTION();
+
 	// Load texture
 	texture = Basil::Texture2D::create("assets/textures/test.png");
 }
 
-void Sandbox2D::onDetach() {}
+void Sandbox2D::onDetach()
+{
+	PROFILE_FUNCTION();
+}
 
 void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 {
 	// Start timer for onUpdate
 	PROFILE_FUNCTION();
 
-	{
-		// Update camera
-		PROFILE_SCOPE("CameraController::onUpdate");
-		cameraController.onUpdate(timeStep);
-	}
+	cameraController.onUpdate(timeStep);
 
 	// Render
 	{

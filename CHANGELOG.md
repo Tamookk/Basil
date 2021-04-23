@@ -1,6 +1,14 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-23
+### Added
+* Added instrumentation code over Basil codebase.
+
+### Removed
+* Removed ImGui demo window.
+
+
 ## 2021-04-22
 ### Added
 * Renderer is now shutdown to free memory allocated when it is initialised.

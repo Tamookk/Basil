@@ -21,6 +21,8 @@ namespace Basil
 	// On update function
 	void OrthographicCameraController::onUpdate(Timestep timeStep)
 	{
+		PROFILE_FUNCTION();
+
 		// Poll for input
 		if (Input::isKeyPressed(BASIL_KEY_D))
 			cameraPosition.x += cameraXSpeed * timeStep;
@@ -54,6 +56,8 @@ namespace Basil
 	// On event function
 	void OrthographicCameraController::onEvent(Event& e)
 	{
+		PROFILE_FUNCTION();
+
 		Basil::EventDispatcher dispatcher(e);
 		dispatcher.dispatch<MouseScrolledEvent>(BIND_EVENT(OrthographicCameraController::onMouseScrolled));
 		dispatcher.dispatch<WindowResizeEvent>(BIND_EVENT(OrthographicCameraController::onWindowResize));
@@ -86,6 +90,8 @@ namespace Basil
 	// Mouse scrolled event
 	bool OrthographicCameraController::onMouseScrolled(MouseScrolledEvent& e)
 	{
+		PROFILE_FUNCTION();
+
 		zoomLevel -= e.getYOffset() * 0.25f;
 		zoomLevel = std::max(zoomLevel, 0.25f);
 		camera.setProjectionMatrix(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
@@ -95,6 +101,8 @@ namespace Basil
 	// Window resize event
 	bool OrthographicCameraController::onWindowResize(WindowResizeEvent& e)
 	{
+		PROFILE_FUNCTION();
+
 		aspectRatio = (float)e.getWidth() / (float)e.getHeight();
 		camera.setProjectionMatrix(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
 		return false;

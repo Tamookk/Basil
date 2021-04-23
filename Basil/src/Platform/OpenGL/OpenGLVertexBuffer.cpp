@@ -6,6 +6,8 @@ namespace Basil
 	// Constructor
 	OpenGLVertexBuffer::OpenGLVertexBuffer(std::vector<float>& vertices)
 	{
+		PROFILE_FUNCTION();
+
 		// Create VBO and buffer data
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -15,6 +17,8 @@ namespace Basil
 	// Destructor
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	{
+		PROFILE_FUNCTION();
+
 		// Delete the VBO
 		glDeleteBuffers(1, &vbo);
 	}
@@ -22,12 +26,16 @@ namespace Basil
 	// Bind the buffer
 	void OpenGLVertexBuffer::bind() const
 	{
+		PROFILE_FUNCTION();
+
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	}
 
 	// Unbind the buffer
 	void OpenGLVertexBuffer::unbind() const
 	{
+		PROFILE_FUNCTION();
+
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 

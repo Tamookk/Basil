@@ -8,6 +8,8 @@ namespace Basil
 	// Initialise the renderer
 	void OpenGLRendererAPI::init()
 	{
+		PROFILE_FUNCTION();
+
 		// Enable texture blending
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

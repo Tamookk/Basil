@@ -22,6 +22,8 @@ namespace Basil
 	// Initialise function
 	void Renderer2D::init()
 	{
+		PROFILE_FUNCTION();
+
 		// Initialise data and create a VAO
 		data = new Renderer2DStorage();
 		data->quadVertexArray = VertexArray::create();
@@ -79,12 +81,16 @@ namespace Basil
 	// Shutdown function
 	void Renderer2D::shutdown()
 	{
+		PROFILE_FUNCTION();
+
 		delete data;
 	}
 
 	// Begin a scene
 	void Renderer2D::beginScene(const OrthographicCamera& camera)
 	{
+		PROFILE_FUNCTION();
+
 		// Bind shader and upload uniforms
 		data->textureShader->bind();
 		data->textureShader->setMat4("u_ViewProjection", camera.getViewProjectionMatrix());
@@ -93,7 +99,7 @@ namespace Basil
 	// End a scene
 	void Renderer2D::endScene()
 	{
-
+		PROFILE_FUNCTION();
 	}
 
 	// Draw a quad (2D position)
@@ -106,6 +112,8 @@ namespace Basil
 	// Draw a quad (3D position)
 	void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
+		PROFILE_FUNCTION();
+
 		// Calculate and upload transform
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		data->textureShader->setMat4("u_Transform", transform);
@@ -131,6 +139,8 @@ namespace Basil
 	// Draw a quad with a texture (3D position)
 	void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, float textureScale, const Shared<Texture2D>& texture)
 	{
+		PROFILE_FUNCTION();
+
 		// Calculate and upload transform
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		data->textureShader->setMat4("u_Transform", transform);

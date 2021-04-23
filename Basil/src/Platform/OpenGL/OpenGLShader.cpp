@@ -24,6 +24,8 @@ namespace Basil
 	// Constructor
 	OpenGLShader::OpenGLShader(const std::string& filePath)
 	{
+		PROFILE_FUNCTION();
+
 		// Initialise rendererID
 		rendererID = 0;
 
@@ -46,6 +48,8 @@ namespace Basil
 
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexShaderSource, const std::string& fragmentShaderSource)
 	{
+		PROFILE_FUNCTION();
+
 		// Initialise variables
 		rendererID = 0;
 		this->name = name;
@@ -62,18 +66,24 @@ namespace Basil
 	// Destructor
 	OpenGLShader::~OpenGLShader()
 	{
+		PROFILE_FUNCTION();
+
 		glDeleteProgram(rendererID);
 	}
 
 	// Bind the shader
 	void OpenGLShader::bind() const
 	{
+		PROFILE_FUNCTION();
+
 		glUseProgram(rendererID);
 	}
 
 	// Unbind the shader
 	void OpenGLShader::unbind() const
 	{
+		PROFILE_FUNCTION();
+
 		glUseProgram(0);
 	}
 
@@ -86,30 +96,40 @@ namespace Basil
 	// Set an integer uniform
 	void OpenGLShader::setInt(const std::string& name, int value)
 	{
+		PROFILE_FUNCTION();
+
 		uploadUniformInt(name, value);
 	}
 
 	// Set a float uniform
 	void OpenGLShader::setFloat(const std::string& name, float value)
 	{
+		PROFILE_FUNCTION();
+
 		uploadUniformFloat(name, value);
 	}
 
 	// Set a float 3 uniform
 	void OpenGLShader::setFloat3(const std::string& name, const glm::vec3& value)
 	{
+		PROFILE_FUNCTION();
+
 		uploadUniformFloat3(name, value);
 	}
 
 	// Set a float 4 uniform
 	void OpenGLShader::setFloat4(const std::string& name, const glm::vec4& value)
 	{
+		PROFILE_FUNCTION();
+
 		uploadUniformFloat4(name, value);
 	}
 
 	// Set a mat 4 uniform
 	void OpenGLShader::setMat4(const std::string& name, const glm::mat4& matrix)
 	{
+		PROFILE_FUNCTION();
+
 		uploadUniformMat4(name, matrix);
 	}
 
@@ -165,6 +185,8 @@ namespace Basil
 	// Read a shader file's contents
 	std::string OpenGLShader::readFile(const std::string& filePath)
 	{
+		PROFILE_FUNCTION();
+
 		// Open the file
 		std::string result;
 		std::ifstream file(filePath, std::ios::in | std::ios::binary);
@@ -201,6 +223,8 @@ namespace Basil
 	// Split shader file's contents into seperate shader types
 	std::unordered_map<GLenum, std::string> OpenGLShader::preProcess(const std::string& source)
 	{
+		PROFILE_FUNCTION();
+
 		// Create a map to store the shader sources
 		std::unordered_map<GLenum, std::string> shaderSources;
 
@@ -238,6 +262,8 @@ namespace Basil
 	// Compile the shader
 	void OpenGLShader::compile(std::unordered_map<GLenum, std::string>& shaderSources)
 	{
+		PROFILE_FUNCTION();
+
 		// Create a shader program
 		GLuint program = glCreateProgram();
 

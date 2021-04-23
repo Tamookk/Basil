@@ -11,6 +11,8 @@ namespace Basil
 	// Constructor
 	Application::Application()
 	{
+		PROFILE_FUNCTION();
+
 		// Check we only have one application
 		ASSERT(!instance, "Application already exists!");
 
@@ -37,14 +39,20 @@ namespace Basil
 	// Destructor
 	Application::~Application()
 	{
+		PROFILE_FUNCTION();
+
 		Renderer::shutdown();
 	}
 
 	// Run the application
 	void Application::run()
 	{
+		PROFILE_FUNCTION();
+
 		while (running)
 		{
+			PROFILE_SCOPE("RunLoop");
+
 			// Update last frame time
 			float time = (float)glfwGetTime();
 			Timestep timeStep = time - lastFrameTime;
@@ -53,16 +61,21 @@ namespace Basil
 			// Do on update stuff for each layer if the window is not minimised
 			if (!minimised)
 			{
-				for (Layer* layer : layerStack)
-					layer->onUpdate(timeStep);
+				{
+					PROFILE_SCOPE("LayerStack onUpdate");
+					for (Layer* layer : layerStack)
+						layer->onUpdate(timeStep);
+				}
+			
+				// Do ImGui stuff
+				imGuiLayer->begin();
+				{
+					PROFILE_SCOPE("LayerStack onImGuiRender");
+					for (Layer* layer : layerStack)
+						layer->onImGuiRender();
+				}
+				imGuiLayer->end();
 			}
-
-			// Do ImGui stuff
-			imGuiLayer->begin();
-			for (Layer* layer : layerStack)
-				layer->onImGuiRender();
-			imGuiLayer->end();
-
 			// Call window's on update function
 			window->onUpdate();
 		}
@@ -71,6 +84,8 @@ namespace Basil
 	// Process an event
 	void Application::onEvent(Event& e)
 	{
+		PROFILE_FUNCTION();
+
 		// Dispatch event
 		EventDispatcher dispatcher(e);
 		dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT(Application::onWindowClose));
@@ -87,6 +102,8 @@ namespace Basil
 	// Push layer to layer stack
 	void Application::pushLayer(Layer* layer)
 	{
+		PROFILE_FUNCTION();
+
 		layerStack.pushLayer(layer);
 		layer->onAttach();
 	}
@@ -94,6 +111,8 @@ namespace Basil
 	// Push overlay to layer stack
 	void Application::pushOverlay(Layer* layer)
 	{
+		PROFILE_FUNCTION();
+
 		layerStack.pushOverlay(layer);
 		layer->onAttach();
 	}
@@ -119,6 +138,8 @@ namespace Basil
 
 	bool Application::onWindowResize(WindowResizeEvent& e)
 	{
+		PROFILE_FUNCTION();
+
 		if (e.getWidth() == 0 || e.getHeight() == 0)
 		{
 			minimised = true;

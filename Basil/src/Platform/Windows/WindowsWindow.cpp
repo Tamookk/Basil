@@ -20,18 +20,24 @@ namespace Basil
 	// Constructor - initialise window
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		PROFILE_FUNCTION();
+
 		init(props);
 	}
 
 	// Destructor - call shutdown function
 	WindowsWindow::~WindowsWindow()
 	{
+		PROFILE_FUNCTION();
+
 		shutdown();
 	}
 
 	// Shutdown function
 	void WindowsWindow::init(const WindowProps& props)
 	{
+		PROFILE_FUNCTION();
+
 		// Set data struct data
 		data.title = props.title;
 		data.width = props.width;
@@ -50,7 +56,10 @@ namespace Basil
 		}
 
 		// GLFW window stuff
-		window = glfwCreateWindow(data.width, data.height, data.title.c_str(), nullptr, nullptr);
+		{
+			PROFILE_SCOPE("glfwCreateWindow");
+			window = glfwCreateWindow(data.width, data.height, data.title.c_str(), nullptr, nullptr);
+		}
 		context = GraphicsContext::create(window);
 		context->init();
 
@@ -203,6 +212,8 @@ namespace Basil
 	// Shutdown function
 	void WindowsWindow::shutdown()
 	{
+		PROFILE_FUNCTION();
+
 		glfwDestroyWindow(window);
 		glfwTerminate();
 	}
@@ -220,6 +231,8 @@ namespace Basil
 	
 	void WindowsWindow::setVsync(bool enabled)
 	{
+		PROFILE_FUNCTION();
+
 		if (enabled)
 			glfwSwapInterval(1);
 		else

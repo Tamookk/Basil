@@ -8,6 +8,8 @@ namespace Basil
 	// Constructor
 	OrthographicCamera::OrthographicCamera(float left, float right, float bottom, float top)
 	{
+		PROFILE_FUNCTION();
+
 		projMatrix = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
 		viewMatrix = glm::mat4(1.0f);
 		viewProjectionMatrix = projMatrix * viewMatrix;
@@ -44,6 +46,8 @@ namespace Basil
 	// Set projection matrix
 	void OrthographicCamera::setProjectionMatrix(float left, float right, float bottom, float top)
 	{
+		PROFILE_FUNCTION();
+
 		projMatrix = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
 		viewProjectionMatrix = projMatrix * viewMatrix;
 	}
@@ -69,6 +73,8 @@ namespace Basil
 	// Recalculate the view matrix
 	void OrthographicCamera::recalculateViewMatrix()
 	{
+		PROFILE_FUNCTION();
+
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
 		viewMatrix = glm::inverse(transform);
 		viewProjectionMatrix = projMatrix * viewMatrix;

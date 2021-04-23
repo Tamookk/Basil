@@ -24,6 +24,8 @@ namespace Basil
 	// On attach to layer stack
 	void ImGuiLayer::onAttach()
 	{
+		PROFILE_FUNCTION();
+
 		// Set up the context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -55,22 +57,21 @@ namespace Basil
 	// On detach from layer stack
 	void ImGuiLayer::onDetach()
 	{
+		PROFILE_FUNCTION();
+
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
 
 	// On ImGui render
-	void ImGuiLayer::onImGuiRender()
-	{
-		// Show the demo window
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
-	}
+	void ImGuiLayer::onImGuiRender() {}
 
 	// On begin
 	void ImGuiLayer::begin()
 	{
+		PROFILE_FUNCTION();
+
 		// New frame
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -80,6 +81,8 @@ namespace Basil
 	// On end
 	void ImGuiLayer::end()
 	{
+		PROFILE_FUNCTION();
+
 		// Set display size
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::get();
