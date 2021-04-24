@@ -8,6 +8,7 @@ Change log for the Basil Game Engine project.
 * Implemented KeyCode and MouseCode enums.
 * Mutex to instrumentor.
 * Ensured that beginning an instrumentation session will end any that already exists.
+* Compile-time check of window and input type.
 
 ### Changed
 * Moved ExampleLayer in Sandbox into its own files.

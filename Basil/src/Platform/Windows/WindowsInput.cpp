@@ -3,8 +3,6 @@
 
 namespace Basil
 {
-	Unique<Input> Input::instance = makeUnique<WindowsInput>();
-
 	// Return if key is being pressed
 	bool WindowsInput::isKeyPressedImpl(KeyCode keyCode)
 	{

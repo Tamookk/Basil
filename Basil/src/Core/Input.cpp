@@ -1,9 +1,25 @@
 #include "pch.h"
 #include "Core/Input.h"
 
+#ifdef PLATFORM_WINDOWS
+	#include "Platform/Windows/WindowsInput.h"
+#endif
+
 namespace Basil
 {
 	// All functions call the implementation (which is platform-specific)
+	// Create input instance
+	Unique<Input> Input::instance = Input::create();
+	Unique<Input> Input::create()
+	{
+		#ifdef PLATFORM_WINDOWS
+			return makeUnique<WindowsInput>();
+		#else
+			ASSERT(false, "Unknown platform.");
+			return nullptr;
+		#endif
+	}
+
 	// Return if key is pressed
 	bool Input::isKeyPressed(KeyCode keycode)
 	{

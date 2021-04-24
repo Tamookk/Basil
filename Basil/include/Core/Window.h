@@ -27,6 +27,7 @@ namespace Basil
 	{
 		public:
 			using EventCallbackFunction = std::function<void(Event&)>;
+			static Unique<Window> create(const WindowProps& props = WindowProps());
 			virtual void onUpdate() = 0;
 			virtual unsigned int getWidth() const = 0;
 			virtual unsigned int getHeight() const = 0;
@@ -35,6 +36,5 @@ namespace Basil
 			virtual bool isVsync() const = 0;
 			virtual void* getNativeWindow() const = 0;
 
-			static Unique<Window> create(const WindowProps& props = WindowProps());
 	};
 }

@@ -12,12 +12,6 @@ namespace Basil
 		LOG_ERROR("GLFW Error #{0}: {1}", errorCode, description);
 	}
 
-	// Create window
-	Unique<Window> Window::create(const WindowProps& props)
-	{
-		return makeUnique<WindowsWindow>(props);
-	}
-
 	// Constructor - initialise window
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{

@@ -16,6 +16,7 @@ namespace Basil
 	class Input
 	{
 		public:
+			static Unique<Input> create();
 			static bool isKeyPressed(KeyCode keyCode);
 			static bool isMouseButtonPressed(MouseCode mouseCode);
 			static float getMouseX();
