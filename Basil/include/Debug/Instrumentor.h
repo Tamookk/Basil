@@ -16,7 +16,7 @@ namespace Basil
 		std::string name;
 		long long start;
 		long long end;
-		uint32_t threadID;
+		std::thread::id threadID;
 	};
 
 	struct InstrumentationSession
@@ -31,13 +31,15 @@ namespace Basil
 			void beginSession(const std::string& name, const std::string& filePath = "results.json");
 			void endSession();
 			void writeProfile(const ProfileResult& result);
-			void writeHeader();
-			void writeFooter();
 			static Instrumentor& get();
 		private:
+			void writeHeader();
+			void writeFooter();
+			void internalEndSession();
 			InstrumentationSession* currentSession;
 			std::ofstream outputStream;
 			int profileCount;
+			std::mutex mutex;
 	};
 
 	class InstrumentationTimer
