@@ -5,6 +5,7 @@ Change log for the Basil Game Engine project.
 ### Added
 * The available \_\_FUNCSIG__ defintion is now auto-deduced for wider compiler compatibility.
 * OpenGL messages are now logged in debug mode.
+* Implemented KeyCode and MouseCode enums.
 
 ### Changed
 * Moved ExampleLayer in Sandbox into its own files.

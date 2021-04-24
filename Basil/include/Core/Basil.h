@@ -12,7 +12,7 @@
 #include "Core/KeyCodes.h"
 #include "Core/Layer.h"
 #include "Core/Log.h"
-#include "Core/MouseButtonCodes.h"
+#include "Core/MouseCodes.h"
 #include "Core/Timestep.h"
 #include "Debug/Timer.h"
 #include "ImGui/ImGuiLayer.h"

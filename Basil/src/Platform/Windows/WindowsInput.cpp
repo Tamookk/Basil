@@ -6,24 +6,24 @@ namespace Basil
 	Unique<Input> Input::instance = makeUnique<WindowsInput>();
 
 	// Return if key is being pressed
-	bool WindowsInput::isKeyPressedImpl(int keycode)
+	bool WindowsInput::isKeyPressedImpl(KeyCode keyCode)
 	{
 		// Get window
 		GLFWwindow* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
 
 		// Check to see if key is being pressed
-		int state = glfwGetKey(window, keycode);
+		int state = glfwGetKey(window, static_cast<int32_t>(keyCode));
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
 	// Return if mouse button is being pressed
-	bool WindowsInput::isMouseButtonPressedImpl(int button)
+	bool WindowsInput::isMouseButtonPressedImpl(MouseCode mouseCode)
 	{
 		// Get window
 		GLFWwindow* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
 
 		// Check to see if mouse button is being pressed
-		int state = glfwGetMouseButton(window, button);
+		int state = glfwGetMouseButton(window, static_cast<int32_t>(mouseCode));
 		return state == GLFW_PRESS;
 	}
 

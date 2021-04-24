@@ -13,8 +13,8 @@ namespace Basil
 	class WindowsInput : public Input
 	{
 		protected:
-			bool isKeyPressedImpl(int keycode) override;
-			bool isMouseButtonPressedImpl(int button) override;
+			bool isKeyPressedImpl(KeyCode keyCode) override;
+			bool isMouseButtonPressedImpl(MouseCode mouseCode) override;
 			std::pair<float, float> getMousePositionImpl() override;
 			float getMouseXImpl() override;
 			float getMouseYImpl() override;

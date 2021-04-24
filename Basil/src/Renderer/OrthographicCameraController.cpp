@@ -24,22 +24,22 @@ namespace Basil
 		PROFILE_FUNCTION();
 
 		// Poll for input
-		if (Input::isKeyPressed(BASIL_KEY_D))
+		if (Input::isKeyPressed(KeyCode::D))
 			cameraPosition.x += cameraXSpeed * timeStep;
-		else if (Input::isKeyPressed(BASIL_KEY_A))
+		else if (Input::isKeyPressed(KeyCode::A))
 			cameraPosition.x -= cameraXSpeed * timeStep;
 
-		if (Input::isKeyPressed(BASIL_KEY_W))
+		if (Input::isKeyPressed(KeyCode::W))
 			cameraPosition.y += cameraYSpeed * timeStep;
-		else if (Input::isKeyPressed(BASIL_KEY_S))
+		else if (Input::isKeyPressed(KeyCode::S))
 			cameraPosition.y -= cameraYSpeed * timeStep;
 
 		// Set the camera's rotation if camera rotation is enabled
 		if (rotation)
 		{
-			if (Input::isKeyPressed(BASIL_KEY_LEFT))
+			if (Input::isKeyPressed(KeyCode::Left))
 				cameraRotation += cameraRotateSpeed * timeStep;
-			else if (Input::isKeyPressed(BASIL_KEY_RIGHT))
+			else if (Input::isKeyPressed(KeyCode::Right))
 				cameraRotation -= cameraRotateSpeed * timeStep;
 
 			camera.setRotation(cameraRotation);
