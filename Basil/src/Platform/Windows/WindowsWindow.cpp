@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Platform/Windows/WindowsWindow.h"
+#include "Renderer/Renderer.h"
 
 namespace Basil
 {
@@ -58,6 +59,13 @@ namespace Basil
 		// GLFW window stuff
 		{
 			PROFILE_SCOPE("glfwCreateWindow");
+
+			// Enable OpenGL logging if running in debug mode
+			#ifdef DEBUG
+				if (Renderer::getAPI() == RendererAPI::API::OpenGL)
+					glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+			#endif
+
 			window = glfwCreateWindow(data.width, data.height, data.title.c_str(), nullptr, nullptr);
 		}
 		context = GraphicsContext::create(window);
