@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-24
+### Changed
+* Moved ExampleLayer in Sandbox into its own files.
+
+
 ## 2021-04-23
 ### Added
 * Added instrumentation code over Basil codebase.

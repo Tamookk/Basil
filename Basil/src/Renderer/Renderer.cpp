@@ -47,6 +47,7 @@ namespace Basil
 	// Submit data to be rendered
 	void Renderer::submit(const Shared<Shader>& shader, const Shared<VertexArray>& vao, const glm::mat4& transform)
 	{
+		PROFILE_FUNCTION();
 		// Bind the shader and upload the uniform
 		shader->bind();
 		shader->setMat4("u_ViewProjection", sceneData->viewProjectionMatrix);
