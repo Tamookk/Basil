@@ -63,8 +63,9 @@ namespace Basil
 	}
 
 	// Draw the object(s) in the VAO
-	void OpenGLRendererAPI::drawIndexed(const Shared<VertexArray>& vao)
+	void OpenGLRendererAPI::drawIndexed(const Shared<VertexArray>& vao, uint32_t indexCount)
 	{
+		uint32_t count = indexCount ? vao->getIndexBuffer()->getSize() : indexCount;
 		glDrawElements(GL_TRIANGLES, vao->getIndexBuffer()->getSize(), GL_UNSIGNED_INT, nullptr);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}

@@ -6,6 +6,7 @@ Change log for the Basil Game Engine project.
 * Log messages are now also sent to a log file.
 * A Transform struct for setting and storing object transformations.
 * Textures can now be tinted different colours.
+* Basic batching.
 
 ### Changed
 * Made the runloop accessible only on the engine side.

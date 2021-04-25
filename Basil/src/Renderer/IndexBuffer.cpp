@@ -6,7 +6,7 @@
 namespace Basil
 {
 	// Create an index buffer
-	Shared<IndexBuffer> IndexBuffer::create(std::vector<uint32_t>& indices)
+	Shared<IndexBuffer> IndexBuffer::create(uint32_t* indices, uint32_t indexCount)
 	{
 		switch (Renderer::getAPI())
 		{
@@ -14,7 +14,7 @@ namespace Basil
 				ASSERT(false, "No renderer API.");
 				return nullptr;
 			case RendererAPI::API::OpenGL:
-				return makeShared<OpenGLIndexBuffer>(indices);
+				return makeShared<OpenGLIndexBuffer>(indices, indexCount);
 		}
 
 		ASSERT(false, "Unknown renderer API.");

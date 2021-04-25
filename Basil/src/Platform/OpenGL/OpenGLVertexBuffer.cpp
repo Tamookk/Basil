@@ -14,6 +14,16 @@ namespace Basil
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 	}
 
+	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)
+	{
+		PROFILE_FUNCTION();
+
+		// Create VBO and buffer data
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+	}
+
 	// Destructor
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	{
@@ -37,6 +47,13 @@ namespace Basil
 		PROFILE_FUNCTION();
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	// Give buffer data
+	void OpenGLVertexBuffer::setData(const void* data, uint32_t size)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 	}
 
 	// Get the buffer layout

@@ -71,9 +71,9 @@ namespace Basil
 	}
 
 	// Draw the object(s) in the VAO
-	void Renderer::drawIndexed(const Shared<VertexArray>& vao)
+	void Renderer::drawIndexed(const Shared<VertexArray>& vao, uint32_t count)
 	{
-		rendererAPI->drawIndexed(vao);
+		rendererAPI->drawIndexed(vao, count);
 	}
 
 	// Return the rendering API currently being used

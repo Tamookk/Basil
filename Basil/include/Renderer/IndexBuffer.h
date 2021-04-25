@@ -14,6 +14,6 @@ namespace Basil
 			virtual void bind() const = 0;
 			virtual void unbind() const = 0;
 			virtual uint32_t getSize() const = 0;
-			static Shared<IndexBuffer> create(std::vector<uint32_t>& indices);
+			static Shared<IndexBuffer> create(uint32_t* indices, uint32_t indexCount = 0);
 	};
 }

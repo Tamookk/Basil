@@ -1,5 +1,5 @@
 #include "ExampleLayer.h"
-
+/*
 // Constructor
 ExampleLayer::ExampleLayer() : Layer("Example"), cameraController(1280.0f / 720.0f)
 {
@@ -241,4 +241,4 @@ void ExampleLayer::onImGuiRender()
 bool ExampleLayer::onKeyPressedEvent(Basil::KeyPressedEvent& event)
 {
 	return false;
-}
+}*/
