@@ -107,11 +107,18 @@ namespace Basil
 	{
 		PROFILE_FUNCTION();
 
-		// Calculate and upload transform
-		glm::mat4 transformMatrix = 
-			glm::translate(glm::mat4(1.0f), glm::vec3({transform.position.x, transform.position.y, transform.position.z}))
-		  * glm::rotate(glm::mat4(1.0f), glm::radians(transform.rotation), glm::vec3({0.0f, 0.0f, 1.0f}))
-		  * glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
+		// Calculate and upload transform - only do rotation if it is set
+		glm::mat4 transformMatrix;
+		if (transform.rotation == 0.0f)
+			transformMatrix =
+				glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
+			  * glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
+		else
+			transformMatrix =
+				glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
+			  * glm::rotate(glm::mat4(1.0f), glm::radians(transform.rotation), glm::vec3({ 0.0f, 0.0f, 1.0f }))
+			  * glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
+		
 		data->textureShader->setMat4("u_Transform", transformMatrix);
 
 		// Bind white texture, upload texture scale uniform
@@ -127,7 +134,7 @@ namespace Basil
 	}
 
 	// Draw a quad with a texture (3D position)
-	void Renderer2D::drawQuad(const Transform& transform, float textureScale, const Shared<Texture2D>& texture)
+	void Renderer2D::drawQuad(const Transform& transform, float textureScale, const Shared<Texture2D>& texture, const glm::vec4& tintColor)
 	{
 		PROFILE_FUNCTION();
 
@@ -143,7 +150,7 @@ namespace Basil
 		data->textureShader->setFloat("u_TexScale", textureScale);
 
 		// Upload color uniform
-		data->textureShader->setFloat4("u_Color", glm::vec4(1.0f));
+		data->textureShader->setFloat4("u_Color", tintColor);
 
 		// Bind VAO and draw quad
 		data->quadVertexArray->bind();

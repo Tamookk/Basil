@@ -4,10 +4,12 @@ Change log for the Basil Game Engine project.
 ## 2021-04-25
 ### Added
 * Log messages are now also sent to a log file.
-* A Transform struct for easy setting of object transformations.
+* A Transform struct for setting and storing object transformations.
+* Textures can now be tinted different colours.
 
 ### Changed
 * Made the runloop accessible only on the engine side.
+* The transform matrix only does a rotation if rotation doesn't equal 0 to save processing time.
 
 
 ## 2021-04-24
