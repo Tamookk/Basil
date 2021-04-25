@@ -36,9 +36,18 @@ void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 	{
 		PROFILE_SCOPE("Renderer Draw");
 		Basil::Renderer2D::beginScene(cameraController.getCamera());
-		Basil::Renderer2D::drawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, squareColor);
-		Basil::Renderer2D::drawQuad({ -1.0f, 0.5f }, { 0.5f, 0.5f }, { 1.0f, 0.0f, 0.0f, 1.0f });
-		Basil::Renderer2D::drawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, 10.0f, texture);
+
+		Basil::Transform transform;
+		Basil::Renderer2D::drawQuad(transform, squareColor);
+
+		transform.position = { -1.0f, 0.5f, 0.0f };
+		transform.scale = { 0.5f, 0.5f, 1.0f };
+		Basil::Renderer2D::drawQuad(transform, { 1.0f, 0.0f, 0.0f, 1.0f });
+
+		transform.position = { 0.0f, 0.0f, -0.1f };
+		transform.scale = { 10.0f, 10.0f, 1.0f };
+		Basil::Renderer2D::drawQuad(transform, 10.0f, texture);
+
 		Basil::Renderer::endScene();
 	}
 }

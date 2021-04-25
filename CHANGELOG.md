@@ -4,6 +4,7 @@ Change log for the Basil Game Engine project.
 ## 2021-04-25
 ### Added
 * Log messages are now also sent to a log file.
+* A Transform struct for easy setting of object transformations.
 
 ### Changed
 * Made the runloop accessible only on the engine side.

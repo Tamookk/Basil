@@ -102,23 +102,19 @@ namespace Basil
 		PROFILE_FUNCTION();
 	}
 
-	// Draw a quad (2D position)
-	void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
-	{
-		// Draw a quad with z-position set to 0
-		drawQuad({ position.x, position.y, 0.0f }, size, color);
-	}
-
 	// Draw a quad (3D position)
-	void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
+	void Renderer2D::drawQuad(const Transform& transform, const glm::vec4& color)
 	{
 		PROFILE_FUNCTION();
 
 		// Calculate and upload transform
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-		data->textureShader->setMat4("u_Transform", transform);
+		glm::mat4 transformMatrix = 
+			glm::translate(glm::mat4(1.0f), glm::vec3({transform.position.x, transform.position.y, transform.position.z}))
+		  * glm::rotate(glm::mat4(1.0f), glm::radians(transform.rotation), glm::vec3({0.0f, 0.0f, 1.0f}))
+		  * glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
+		data->textureShader->setMat4("u_Transform", transformMatrix);
 
-		// Bind white texture, upload texture scale and texture uniforms
+		// Bind white texture, upload texture scale uniform
 		data->whiteTexture->bind();
 		data->textureShader->setFloat("u_TexScale", 1.0f);
 		
@@ -130,22 +126,19 @@ namespace Basil
 		Renderer::drawIndexed(data->quadVertexArray);
 	}
 
-	// Draw a quad with a texture (2D position)
-	void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, float textureScale, const Shared<Texture2D>& texture)
-	{
-		drawQuad({ position.x, position.y, 0.0f }, size, textureScale, texture);;
-	}
-
 	// Draw a quad with a texture (3D position)
-	void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, float textureScale, const Shared<Texture2D>& texture)
+	void Renderer2D::drawQuad(const Transform& transform, float textureScale, const Shared<Texture2D>& texture)
 	{
 		PROFILE_FUNCTION();
 
 		// Calculate and upload transform
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-		data->textureShader->setMat4("u_Transform", transform);
+		glm::mat4 transformMatrix =
+			glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
+		  * glm::rotate(glm::mat4(1.0f), glm::radians(transform.rotation), glm::vec3({ 0.0f, 0.0f, 1.0f }))
+		  * glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
+		data->textureShader->setMat4("u_Transform", transformMatrix);
 
-		// Bind texture, upload texture scale and texture uniforms
+		// Bind texture, upload texture scale uniform
 		texture->bind();
 		data->textureShader->setFloat("u_TexScale", textureScale);
 
