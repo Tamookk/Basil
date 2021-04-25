@@ -14,6 +14,8 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/Shader.h"
 
+int main(int argc, char** argv);
+
 namespace Basil
 {
 	class Application
@@ -21,13 +23,13 @@ namespace Basil
 		public:
 			Application();
 			virtual ~Application();
-			void run();
 			void onEvent(Event& e);
 			void pushLayer(Layer* layer);
 			void pushOverlay(Layer* layer);
 			static Application& get();
 			Window& getWindow();
 		private:
+			void run();
 			bool onWindowClose(WindowCloseEvent& e);
 			bool onWindowResize(WindowResizeEvent& e);
 			Unique<Window> window;
@@ -37,6 +39,7 @@ namespace Basil
 			LayerStack layerStack;
 			static Application* instance;
 			float lastFrameTime;
+			friend int ::main(int argc, char** argv);
 	};
 
 	// To be defined in the client

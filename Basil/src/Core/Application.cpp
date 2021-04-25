@@ -44,43 +44,6 @@ namespace Basil
 		Renderer::shutdown();
 	}
 
-	// Run the application
-	void Application::run()
-	{
-		PROFILE_FUNCTION();
-
-		while (running)
-		{
-			PROFILE_SCOPE("RunLoop");
-
-			// Update last frame time
-			float time = (float)glfwGetTime();
-			Timestep timeStep = time - lastFrameTime;
-			lastFrameTime = time;
-
-			// Do on update stuff for each layer if the window is not minimised
-			if (!minimised)
-			{
-				{
-					PROFILE_SCOPE("LayerStack onUpdate");
-					for (Layer* layer : layerStack)
-						layer->onUpdate(timeStep);
-				}
-			
-				// Do ImGui stuff
-				imGuiLayer->begin();
-				{
-					PROFILE_SCOPE("LayerStack onImGuiRender");
-					for (Layer* layer : layerStack)
-						layer->onImGuiRender();
-				}
-				imGuiLayer->end();
-			}
-			// Call window's on update function
-			window->onUpdate();
-		}
-	}
-
 	// Process an event
 	void Application::onEvent(Event& e)
 	{
@@ -127,6 +90,43 @@ namespace Basil
 	Window& Application::getWindow()
 	{
 		return *window;
+	}
+
+	// Run the application
+	void Application::run()
+	{
+		PROFILE_FUNCTION();
+
+		while (running)
+		{
+			PROFILE_SCOPE("RunLoop");
+
+			// Update last frame time
+			float time = (float)glfwGetTime();
+			Timestep timeStep = time - lastFrameTime;
+			lastFrameTime = time;
+
+			// Do on update stuff for each layer if the window is not minimised
+			if (!minimised)
+			{
+				{
+					PROFILE_SCOPE("LayerStack onUpdate");
+					for (Layer* layer : layerStack)
+						layer->onUpdate(timeStep);
+				}
+			
+				// Do ImGui stuff
+				imGuiLayer->begin();
+				{
+					PROFILE_SCOPE("LayerStack onImGuiRender");
+					for (Layer* layer : layerStack)
+						layer->onImGuiRender();
+				}
+				imGuiLayer->end();
+			}
+			// Call window's on update function
+			window->onUpdate();
+		}
 	}
 
 	// Process window close event

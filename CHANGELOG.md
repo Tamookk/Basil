@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-25
+### Changed
+* Made the runloop accessible only on the engine side.
+
+
 ## 2021-04-24
 ### Added
 * The available \_\_FUNCSIG__ defintion is now auto-deduced for wider compiler compatibility.
