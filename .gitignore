@@ -403,3 +403,4 @@ FodyWeavers.xsd
 **.vcxproj.user
 **.ini
 **.json
+**.log
