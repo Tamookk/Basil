@@ -17,9 +17,9 @@ namespace Basil
 			OpenGLVertexBuffer(std::vector<float>& vertices);
 			OpenGLVertexBuffer(uint32_t size);
 			~OpenGLVertexBuffer() override;
+			void setData(const void* data, uint32_t size);
 			void bind() const override;
 			void unbind() const override;
-			void setData(const void* data, uint32_t size) override;
 			const BufferLayout& getLayout() const override;
 			void setLayout(const BufferLayout& layout) override;
 		private:

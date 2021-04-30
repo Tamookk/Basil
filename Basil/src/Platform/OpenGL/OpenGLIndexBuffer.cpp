@@ -4,17 +4,17 @@
 namespace Basil
 {
 	// Constructor
-	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t indexCount)
+	OpenGLIndexBuffer::OpenGLIndexBuffer(std::vector<uint32_t>& indices)
 	{
 		PROFILE_FUNCTION();
 
 		// Set size of index buffer
-		size = indexCount;
+		size = (uint32_t)indices.size();
 
 		// Create IBO and buffer data
 		glGenBuffers(1, &ibo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * indexCount, &indices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * indices.size(), &indices[0], GL_STATIC_DRAW);
 	}
 	
 	// Destructor

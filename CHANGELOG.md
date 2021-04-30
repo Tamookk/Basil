@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-04-30
+### Fixed
+* Batching now works.
+
+
 ## 2021-04-25
 ### Added
 * Log messages are now also sent to a log file.

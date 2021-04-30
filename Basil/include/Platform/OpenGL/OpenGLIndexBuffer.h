@@ -14,7 +14,7 @@ namespace Basil
 	class OpenGLIndexBuffer : public IndexBuffer
 	{
 		public:
-			OpenGLIndexBuffer(uint32_t* indices, uint32_t indexCount = 0);
+			OpenGLIndexBuffer(std::vector<uint32_t>& indices);
 			~OpenGLIndexBuffer() override;
 			void bind() const override;
 			void unbind() const override;

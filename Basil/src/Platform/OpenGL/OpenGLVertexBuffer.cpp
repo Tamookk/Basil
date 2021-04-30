@@ -18,8 +18,7 @@ namespace Basil
 	{
 		PROFILE_FUNCTION();
 
-		// Create VBO and buffer data
-		glGenBuffers(1, &vbo);
+		glCreateBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
 	}
@@ -31,6 +30,13 @@ namespace Basil
 
 		// Delete the VBO
 		glDeleteBuffers(1, &vbo);
+	}
+
+	// Provide data to the buffer
+	void OpenGLVertexBuffer::setData(const void* data, uint32_t size)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 	}
 
 	// Bind the buffer
@@ -47,13 +53,6 @@ namespace Basil
 		PROFILE_FUNCTION();
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
-	// Give buffer data
-	void OpenGLVertexBuffer::setData(const void* data, uint32_t size)
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 	}
 
 	// Get the buffer layout

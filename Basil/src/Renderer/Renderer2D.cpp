@@ -8,23 +8,22 @@
 
 namespace Basil
 {
-	// To define sizes of quad data
 	struct QuadVertex
 	{
 		glm::vec3 Position;
-		glm::vec3 Color;
+		glm::vec4 Color;
 		glm::vec2 TexCoord;
 	};
 
-	// For storing renderer data
+	// For storing the VAO and shader
 	struct Renderer2DData
 	{
 		const uint32_t maxQuads = 10000;
-		const uint32_t maxVertices = maxQuads * 4;
-		const uint32_t maxIndices = maxQuads * 6;
+		const uint32_t maxVertices = 4 * maxQuads;
+		const uint32_t maxIndices = 6 * maxQuads;
 
-		Shared<VertexArray> quadVAO;
-		Shared<VertexBuffer> quadVBO;
+		Shared<VertexArray> quadVertexArray;
+		Shared<VertexBuffer> quadVertexBuffer;
 		Shared<Shader> textureShader;
 		Shared<Texture2D> whiteTexture;
 
@@ -41,48 +40,39 @@ namespace Basil
 	{
 		PROFILE_FUNCTION();
 
-		// Create a VAO
-		data.quadVAO = VertexArray::create();
+		// Initialise data and create a VAO
+		data.quadVertexArray = VertexArray::create();
 
-		// Create and specify format of VBO
-		data.quadVBO = VertexBuffer::create(data.maxVertices * sizeof(QuadVertex));
-		{
-			BufferLayout layout =
-			{
+		// Create vertices and indices
+		data.quadVertexBuffer = VertexBuffer::create(data.maxVertices * sizeof(QuadVertex));
+		data.quadVertexBuffer->setLayout({
 				{ "a_Position", ShaderDataType::Float3 },
-				{ "a_Color",	ShaderDataType::Float4 },
+				{ "a_Color", ShaderDataType::Float4 },
 				{ "a_TexCoord", ShaderDataType::Float2 }
-			};
+			});
+		data.quadVertexArray->addVertexBuffer(data.quadVertexBuffer);
 
-			data.quadVBO->setLayout(layout);
-		}
-
-		// Add VBO to VAO
-		data.quadVAO->addVertexBuffer(data.quadVBO);
-
-		// Cread quad vertex buffer base
 		data.quadVertexBufferBase = new QuadVertex[data.maxVertices];
 
-		// Create quad indices
-		uint32_t* quadIndices = new uint32_t[data.maxIndices];
+		std::vector<uint32_t> quadIndices;
+		quadIndices.reserve(data.maxIndices);
 		uint32_t offset = 0;
 		for (uint32_t i = 0; i < data.maxIndices; i += 6)
 		{
-			quadIndices[i + 0] = offset + 0;
-			quadIndices[i + 1] = offset + 1;
-			quadIndices[i + 2] = offset + 2;
+			quadIndices.push_back(offset + 0);
+			quadIndices.push_back(offset + 1);
+			quadIndices.push_back(offset + 2);
 
-			quadIndices[i + 3] = offset + 2;
-			quadIndices[i + 4] = offset + 3;
-			quadIndices[i + 5] = offset + 1;
+			quadIndices.push_back(offset + 2);
+			quadIndices.push_back(offset + 3);
+			quadIndices.push_back(offset + 1);
 
 			offset += 4;
 		}
 
-		// Create IBO and add to VAO
-		Shared<IndexBuffer> quadIBO = IndexBuffer::create(quadIndices, data.maxIndices);
-		data.quadVAO->setIndexBuffer(quadIBO);
-		delete[] quadIndices;
+		// Create IBO
+		Shared<IndexBuffer> squareIbo = IndexBuffer::create(quadIndices);
+		data.quadVertexArray->setIndexBuffer(squareIbo);
 
 		// Create white texture
 		data.whiteTexture = Texture2D::create(1, 1);
@@ -120,15 +110,15 @@ namespace Basil
 		PROFILE_FUNCTION();
 
 		uint32_t dataSize = (uint8_t*)data.quadVertexBufferPtr - (uint8_t*)data.quadVertexBufferBase;
-		data.quadVBO->setData(data.quadVertexBufferBase, dataSize);
+		data.quadVertexBuffer->setData(data.quadVertexBufferBase, dataSize);
 
 		flush();
 	}
 
-	// Draw indexed data (batching)
+	// Flush
 	void Renderer2D::flush()
 	{
-		Renderer::drawIndexed(data.quadVAO, data.quadIndexCount);
+		Renderer::drawIndexed(data.quadVertexArray, data.quadIndexCount);
 	}
 
 	// Draw a quad (3D position)
@@ -136,51 +126,54 @@ namespace Basil
 	{
 		PROFILE_FUNCTION();
 
-		// Batching (no rotation)
+		data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y, transform.position.z };
+		data.quadVertexBufferPtr->Color = color;
+		data.quadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
+		data.quadVertexBufferPtr++;
+
+		data.quadVertexBufferPtr->Position = { transform.position.x + transform.scale.x, transform.position.y, transform.position.z };
+		data.quadVertexBufferPtr->Color = color;
+		data.quadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
+		data.quadVertexBufferPtr++;
+
+		data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y + transform.scale.y, transform.position.z };
+		data.quadVertexBufferPtr->Color = color;
+		data.quadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
+		data.quadVertexBufferPtr++;
+
+		data.quadVertexBufferPtr->Position = { transform.position.x + transform.scale.x, transform.position.y + transform.scale.y, transform.position.z };
+		data.quadVertexBufferPtr->Color = color;
+		data.quadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
+		data.quadVertexBufferPtr++;
+
+		data.quadIndexCount += 6;
+
+		/*
+		// Calculate and upload transform - only do rotation if it is set
+		glm::mat4 transformMatrix;
 		if (transform.rotation == 0.0f)
-		{
-			data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y, transform.position.z };
-			data.quadVertexBufferPtr->Color = color;
-			data.quadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
-			data.quadVertexBufferPtr++;
-
-			data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y, transform.position.z };
-			data.quadVertexBufferPtr->Color = color;
-			data.quadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
-			data.quadVertexBufferPtr++;
-
-			data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y, transform.position.z };
-			data.quadVertexBufferPtr->Color = color;
-			data.quadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
-			data.quadVertexBufferPtr++;
-
-			data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y, transform.position.z };
-			data.quadVertexBufferPtr->Color = color;
-			data.quadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
-			data.quadVertexBufferPtr++;
-
-			data.quadIndexCount += 6;
-		}
+			transformMatrix =
+			glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
+			* glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
 		else
-		{
-			glm::mat4 transformMatrix =
-				glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
-			  * glm::rotate(glm::mat4(1.0f), glm::radians(transform.rotation), glm::vec3({ 0.0f, 0.0f, 1.0f }))
-			  * glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
+			transformMatrix =
+			glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
+			* glm::rotate(glm::mat4(1.0f), glm::radians(transform.rotation), glm::vec3({ 0.0f, 0.0f, 1.0f }))
+			* glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
 
-			data.textureShader->setMat4("u_Transform", transformMatrix);
+		data->textureShader->setMat4("u_Transform", transformMatrix);
 
-			// Bind white texture, upload texture scale uniform
-			data.whiteTexture->bind();
-			data.textureShader->setFloat("u_TexScale", 1.0f);
+		// Bind white texture, upload texture scale uniform
+		data->whiteTexture->bind();
+		data->textureShader->setFloat("u_TexScale", 1.0f);
 
-			// Upload color uniform
-			data.textureShader->setFloat4("u_Color", color);
+		// Upload color uniform
+		data->textureShader->setFloat4("u_Color", color);
 
-			// Bind VAO and draw
-			data.quadVAO->bind();
-			Renderer::drawIndexed(data.quadVAO);
-		}
+		// Bind VAO and draw
+		data->quadVertexArray->bind();
+		Renderer::drawIndexed(data->quadVertexArray);
+		*/
 	}
 
 	// Draw a quad with a texture (3D position)
@@ -188,50 +181,22 @@ namespace Basil
 	{
 		PROFILE_FUNCTION();
 
-		// Batching (no rotation)
-		if (transform.rotation == 0.0f)
-		{
-			data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y, transform.position.z };
-			data.quadVertexBufferPtr->Color = tintColor;
-			data.quadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
-			data.quadVertexBufferPtr++;
+		// Calculate and upload transform
+		glm::mat4 transformMatrix =
+			glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
+			* glm::rotate(glm::mat4(1.0f), glm::radians(transform.rotation), glm::vec3({ 0.0f, 0.0f, 1.0f }))
+			* glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
+		data.textureShader->setMat4("u_Transform", transformMatrix);
 
-			data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y, transform.position.z };
-			data.quadVertexBufferPtr->Color = tintColor;
-			data.quadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
-			data.quadVertexBufferPtr++;
+		// Bind texture, upload texture scale uniform
+		texture->bind();
+		data.textureShader->setFloat("u_TexScale", textureScale);
 
-			data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y, transform.position.z };
-			data.quadVertexBufferPtr->Color = tintColor;
-			data.quadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
-			data.quadVertexBufferPtr++;
+		// Upload color uniform
+		data.textureShader->setFloat4("u_Color", tintColor);
 
-			data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y, transform.position.z };
-			data.quadVertexBufferPtr->Color = tintColor;
-			data.quadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
-			data.quadVertexBufferPtr++;
-
-			data.quadIndexCount += 6;
-		}
-		else
-		{
-			glm::mat4 transformMatrix =
-				glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
-				* glm::rotate(glm::mat4(1.0f), glm::radians(transform.rotation), glm::vec3({ 0.0f, 0.0f, 1.0f }))
-				* glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
-
-			data.textureShader->setMat4("u_Transform", transformMatrix);
-
-			// Bind white texture, upload texture scale uniform
-			data.whiteTexture->bind();
-			data.textureShader->setFloat("u_TexScale", 1.0f);
-
-			// Upload color uniform
-			data.textureShader->setFloat4("u_Color", tintColor);
-
-			// Bind VAO and draw
-			data.quadVAO->bind();
-			Renderer::drawIndexed(data.quadVAO);
-		}
+		// Bind VAO and draw quad
+		data.quadVertexArray->bind();
+		Renderer::drawIndexed(data.quadVertexArray);
 	}
 }

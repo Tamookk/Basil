@@ -21,7 +21,7 @@ namespace Basil
 			virtual void setViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) = 0;
 			virtual void setClearColor(const glm::vec4& color) = 0;
 			virtual void clear() = 0;
-			virtual void drawIndexed(const Shared<VertexArray>& vao, uint32_t indexCount) = 0;
+			virtual void drawIndexed(const Shared<VertexArray>& vao, uint32_t count = 0) = 0;
 			static API getAPI();
 			static Unique<RendererAPI> create();
 		private:

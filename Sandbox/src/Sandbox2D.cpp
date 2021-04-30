@@ -48,7 +48,7 @@ void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 		transform.scale = { 10.0f, 10.0f, 1.0f };
 		Basil::Renderer2D::drawQuad(transform, 10.0f, texture);
 
-		Basil::Renderer::endScene();
+		Basil::Renderer2D::endScene();
 	}
 }
 
