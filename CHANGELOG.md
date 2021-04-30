@@ -2,6 +2,9 @@
 Change log for the Basil Game Engine project.
 
 ## 2021-04-30
+### Added
+* Texture support to batch rendering.
+
 ### Fixed
 * Batching now works.
 
@@ -20,7 +23,7 @@ Change log for the Basil Game Engine project.
 
 ## 2021-04-24
 ### Added
-* The available \_\_FUNCSIG__ defintion is now auto-deduced for wider compiler compatibility.
+* The available \_\_FUNCSIG__ definition is now auto-deduced for wider compiler compatibility.
 * OpenGL messages are now logged in debug mode.
 * Implemented KeyCode and MouseCode enums.
 * Mutex to instrumentor.

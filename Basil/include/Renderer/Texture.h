@@ -13,5 +13,6 @@ namespace Basil
 			virtual uint32_t getHeight() const = 0;
 			virtual void setData(void* data, uint32_t size) = 0;
 			virtual void bind(unsigned int slot = 0) const = 0;
+			virtual bool operator==(const Texture& other) const = 0;
 	};
 }

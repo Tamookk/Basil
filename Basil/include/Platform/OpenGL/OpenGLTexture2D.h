@@ -19,6 +19,7 @@ namespace Basil
 			uint32_t getHeight() const override;
 			void setData(void* data, uint32_t size) override;
 			void bind(unsigned int slot = 0) const override;
+			bool operator==(const Texture& other) const override;
 		private:
 			std::string path;
 			uint32_t width;

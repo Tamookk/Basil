@@ -101,6 +101,14 @@ namespace Basil
 		uploadUniformInt(name, value);
 	}
 
+	// Set an integer array uniform
+	void OpenGLShader::setIntArray(const std::string& name, int* values, uint32_t count)
+	{
+		PROFILE_FUNCTION();
+
+		uploadUniformIntArray(name, values, count);
+	}
+
 	// Set a float uniform
 	void OpenGLShader::setFloat(const std::string& name, float value)
 	{
@@ -138,6 +146,13 @@ namespace Basil
 	{
 		GLint location = glGetUniformLocation(rendererID, name.c_str());
 		glUniform1i(location, value);
+	}
+
+	// Upload an integer array uniform
+	void OpenGLShader::uploadUniformIntArray(const std::string& name, int* values, uint32_t count)
+	{
+		GLint location = glGetUniformLocation(rendererID, name.c_str());
+		glUniform1iv(location, count, values);
 	}
 
 	// Upload a float uniform
