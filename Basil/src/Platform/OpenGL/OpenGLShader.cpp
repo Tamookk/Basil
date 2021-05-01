@@ -261,7 +261,7 @@ namespace Basil
 			// Get the type of the shader source
 			size_t begin = pos + delimiterLength + 1;
 			std::string type = source.substr(begin, eol - begin);
-			ASSERT(ShaderTypeFromString(type), "Invalid shader type specified!");
+			ASSERT(shaderTypeFromString(type), "Invalid shader type specified!");
 
 			// Get the position of the next type
 			size_t nextLinePos = source.find_first_not_of("\r\n", eol);

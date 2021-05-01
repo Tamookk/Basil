@@ -12,6 +12,13 @@ namespace Basil
 	class Renderer2D
 	{
 		public:
+			struct Statistics
+			{
+				uint32_t drawCalls = 0;
+				uint32_t quadCount = 0;
+				uint32_t getTotalVertexCount();
+				uint32_t getTotalIndexCount();
+			};
 			static void init();
 			static void shutdown();
 			static void beginScene(const OrthographicCamera& camera);
@@ -19,5 +26,9 @@ namespace Basil
 			static void flush();
 			static void drawQuad(const Transform& transform, const glm::vec4& color);
 			static void drawQuad(const Transform& transform, const Shared<Texture2D>& texture, float textureScale = 1.0f, const glm::vec4& tintColor = glm::vec4(1.0f));
+			static void resetStats();
+			static Statistics getStats();
+		private:
+			static void flushAndReset();
 	};
 }

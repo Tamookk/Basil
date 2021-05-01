@@ -27,6 +27,7 @@ void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 	cameraController.onUpdate(timeStep);
 
 	// Render
+	Basil::Renderer2D::resetStats();
 	{
 		PROFILE_SCOPE("Renderer Prep")
 		Basil::Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
@@ -45,10 +46,24 @@ void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 		Basil::Renderer2D::drawQuad(transform, { 1.0f, 0.0f, 0.0f, 1.0f });
 
 		transform.position = { 0.0f, 0.0f, -0.1f };
-		transform.scale = { 10.0f, 10.0f, 1.0f };
 		transform.rotation = 45.0f;
+		transform.scale = { 10.0f, 10.0f, 1.0f };
 		Basil::Renderer2D::drawQuad(transform, texture, 10.0f);
 
+		Basil::Renderer2D::endScene();
+
+		Basil::Renderer2D::beginScene(cameraController.getCamera());
+		transform.rotation = 0.0f;
+		transform.scale = { 1.0f, 1.0f, 1.0f };
+		for (float y = -5.0f; y < 5.0f; y += 0.5f)
+		{
+			for (float x = -5.0f; x < 5.0f; x += 0.5f)
+			{
+				glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f };
+				transform.position = { x, y, 0.0f };
+				Basil::Renderer2D::drawQuad(transform, color);
+			}
+		}
 		Basil::Renderer2D::endScene();
 	}
 }
@@ -64,6 +79,14 @@ void Sandbox2D::onImGuiRender()
 
 	// Render GUI
 	ImGui::Begin("Settings");
+
+	Basil::Renderer2D::Statistics stats = Basil::Renderer2D::getStats();
+	ImGui::Text("Renderer2D Stats:");
+	ImGui::Text("Draw Calls: %d", stats.drawCalls);
+	ImGui::Text("Quads: %d", stats.quadCount);
+	ImGui::Text("Vertices: %d", stats.getTotalVertexCount());
+	ImGui::Text("Indices: %d", stats.getTotalIndexCount());
+
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
 	ImGui::End();
 }

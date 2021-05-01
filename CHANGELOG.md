@@ -4,6 +4,8 @@ Change log for the Basil Game Engine project.
 ## 2021-05-01
 ### Added
 * Transforms to the batch renderer.
+* Draw call splitting and stats.
+* Debug break definition for cross-platform compatibility.
 
 
 ## 2021-04-30

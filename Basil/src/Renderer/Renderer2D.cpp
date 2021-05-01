@@ -21,9 +21,9 @@ namespace Basil
 	// For storing renderer data
 	struct Renderer2DData
 	{
-		const uint32_t maxQuads = 10000;
-		const uint32_t maxVertices = 4 * maxQuads;
-		const uint32_t maxIndices = 6 * maxQuads;
+		static const uint32_t maxQuads = 20000;
+		static const uint32_t maxVertices = 4 * maxQuads;
+		static const uint32_t maxIndices = 6 * maxQuads;
 		static const uint32_t maxTextureSlots = 32;
 
 		Shared<VertexArray> quadVertexArray;
@@ -39,11 +39,29 @@ namespace Basil
 		uint32_t textureSlotIndex = 1;
 
 		glm::vec4 quadVertexPositions[4];
+
+		Renderer2D::Statistics stats;
 	};
 
 	// Declare a pointer to the data storage
 	static Renderer2DData data;
 
+
+	// -- Statistics struct functions -- //
+	// Return the total vertex count
+	uint32_t Renderer2D::Statistics::getTotalVertexCount()
+	{
+		return Statistics::quadCount * 4;
+	}
+
+	// Return the total index count
+	uint32_t Renderer2D::Statistics::getTotalIndexCount()
+	{
+		return Statistics::quadCount * 6;
+	}
+
+
+	// -- Renderer2D functions -- //
 	// Initialise function
 	void Renderer2D::init()
 	{
@@ -136,7 +154,7 @@ namespace Basil
 
 		uint32_t dataSize = (uint8_t*)data.quadVertexBufferPtr - (uint8_t*)data.quadVertexBufferBase;
 		data.quadVertexBuffer->setData(data.quadVertexBufferBase, dataSize);
-
+		
 		flush();
 	}
 
@@ -149,12 +167,19 @@ namespace Basil
 
 		// Draw
 		Renderer::drawIndexed(data.quadVertexArray, data.quadIndexCount);
+
+		// Increment draw calls
+		data.stats.drawCalls++;
 	}
 
 	// Draw a quad (3D position)
 	void Renderer2D::drawQuad(const Transform& transform, const glm::vec4& color)
 	{
 		PROFILE_FUNCTION();
+
+		// Flush and reset if index limit reached
+		if (data.quadIndexCount >= Renderer2DData::maxIndices)
+			flushAndReset();
 
 		const float textureIndex = 0.0f;
 		const float tilingFactor = 1.0f;
@@ -200,14 +225,19 @@ namespace Basil
 		data.quadVertexBufferPtr->TilingFactor = tilingFactor;
 		data.quadVertexBufferPtr++;
 
-		// Increment index count
+		// Increment index and quad count
 		data.quadIndexCount += 6;
+		data.stats.quadCount++;
 	}
 
 	// Draw a quad with a texture (3D position)
 	void Renderer2D::drawQuad(const Transform& transform, const Shared<Texture2D>& texture, float textureScale, const glm::vec4& tintColor)
 	{
 		PROFILE_FUNCTION();
+
+		// Flush and reset if index limit reached
+		if (data.quadIndexCount >= Renderer2DData::maxIndices)
+			flushAndReset();
 
 		// Set color to white
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -272,7 +302,32 @@ namespace Basil
 		data.quadVertexBufferPtr->TilingFactor = textureScale;
 		data.quadVertexBufferPtr++;
 
-		// Increment index count
+		// Increment index and quad count
 		data.quadIndexCount += 6;
+		data.stats.quadCount++;
+	}
+
+	// Reset statistics
+	void Renderer2D::resetStats()
+	{
+		memset(&data.stats, 0, sizeof(Renderer2D::Statistics));
+	}
+
+	// Get statistics
+	Renderer2D::Statistics Renderer2D::getStats()
+	{
+		return data.stats;
+	}
+
+	// Flush and reset renderer data
+	void Renderer2D::flushAndReset()
+	{
+		// End scene
+		endScene();
+
+		// Reset renderer data
+		data.quadIndexCount = 0;
+		data.quadVertexBufferPtr = data.quadVertexBufferBase;
+		data.textureSlotIndex = 1;
 	}
 }
