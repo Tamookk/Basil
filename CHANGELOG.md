@@ -18,6 +18,7 @@ Change log for the Basil Game Engine project.
 * Incorrect cases in `BufferElement::getComponentCount`.
 * Build warning in Renderer2D.
 * Issue where an empty vertex array would be drawn if an empty scene is being rendered.
+* Issue where ImGui sometimes stops events from reaching the rest of the layers.
 
 
 ## 2021-04-30

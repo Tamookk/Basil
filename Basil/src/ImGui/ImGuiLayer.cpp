@@ -64,6 +64,14 @@ namespace Basil
 		ImGui::DestroyContext();
 	}
 
+	// On event
+	void ImGuiLayer::onEvent(Event& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		e.handled |= e.isInCategory(MouseButtonEvent) & io.WantCaptureMouse;
+		e.handled |= e.isInCategory(KeyboardEvent) & io.WantCaptureKeyboard;
+	}
+
 	// On ImGui render
 	void ImGuiLayer::onImGuiRender() {}
 
