@@ -129,7 +129,9 @@ namespace Basil
 	// Shutdown function
 	void Renderer2D::shutdown()
 	{
-		PROFILE_FUNCTION();		
+		PROFILE_FUNCTION();
+
+		delete[] data.quadVertexBufferBase;
 	}
 
 	// Begin a scene
@@ -152,7 +154,7 @@ namespace Basil
 	{
 		PROFILE_FUNCTION();
 
-		uint32_t dataSize = (uint8_t*)data.quadVertexBufferPtr - (uint8_t*)data.quadVertexBufferBase;
+		uint32_t dataSize = (uint32_t)((uint8_t*)data.quadVertexBufferPtr - (uint8_t*)data.quadVertexBufferBase);
 		data.quadVertexBuffer->setData(data.quadVertexBufferBase, dataSize);
 		
 		flush();
@@ -161,6 +163,10 @@ namespace Basil
 	// Flush
 	void Renderer2D::flush()
 	{
+		// Skip if there is nothing to render
+		if (data.quadIndexCount == 0)
+			return;
+
 		// Bind textures
 		for (uint32_t i = 0; i < data.textureSlotIndex; i++)
 			data.textureSlots[i]->bind(i);
@@ -222,9 +228,6 @@ namespace Basil
 		if (data.quadIndexCount >= Renderer2DData::maxIndices)
 			flushAndReset();
 
-		// Set color to white
-		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-
 		// Define texture coordinates
 		constexpr glm::vec2 texCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {0.0f, 1.0f}, {1.0f, 1.0f} };
 
@@ -242,6 +245,9 @@ namespace Basil
 		// Add texture to next slot
 		if (textureIndex == 0.0f)
 		{
+			if (data.textureSlotIndex >= Renderer2DData::maxTextureSlots)
+				flushAndReset();
+
 			textureIndex = (float)data.textureSlotIndex;
 			data.textureSlots[data.textureSlotIndex] = texture;
 			data.textureSlotIndex++;
@@ -264,7 +270,7 @@ namespace Basil
 		for (int i = 0; i < 4; i++)
 		{
 			data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[i];
-			data.quadVertexBufferPtr->Color = color;
+			data.quadVertexBufferPtr->Color = tintColor;
 			data.quadVertexBufferPtr->TexCoord = texCoords[i];
 			data.quadVertexBufferPtr->TexIndex = textureIndex;
 			data.quadVertexBufferPtr->TilingFactor = textureScale;

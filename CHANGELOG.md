@@ -9,6 +9,15 @@ Change log for the Basil Game Engine project.
 
 ### Changed
 * Replaced `Renderer2D::drawQuad` vertex setup code with a for loop.
+* `data.QuadVertexBufferBase` in Renderer2D is now deleted on shutdown.
+* Renderer2D now uses the `tintColor` argument when drawing a textured quad.
+* Branching is used instead in `Texture.glsl` instead of indexing the texture sampler.
+
+### Fixed
+* Issue where you could not render more than `Renderer2DData::maxTextureSlots` different textures.
+* Incorrect cases in `BufferElement::getComponentCount`.
+* Build warning in Renderer2D.
+* Issue where an empty vertex array would be drawn if an empty scene is being rendered.
 
 
 ## 2021-04-30

@@ -21,7 +21,7 @@ namespace Basil
 			case ShaderDataType::Bool:     return GL_BOOL;
 		}
 
-		ASSERT(false, "Unknown ShaderDataType!");
+		ASSERT(false, "Unknown ShaderDataType");
 		return 0;
 	}
 
@@ -63,7 +63,7 @@ namespace Basil
 		PROFILE_FUNCTION();
 
 		// Check that the VBO has a layout
-		ASSERT(vbo->getLayout().getElements().size(), "VBO has no layout!");
+		ASSERT(vbo->getLayout().getElements().size(), "VBO has no layout.");
 
 		// Bind the VAO and VBO
 		bind();
@@ -74,16 +74,54 @@ namespace Basil
 		const BufferLayout& layout = vbo->getLayout();
 		for (const BufferElement& element : layout)
 		{
-			glVertexAttribPointer(
-				index,
-				element.getComponentCount(),
-				ShaderDataTypeToOpenGLBaseType(element.type),
-				element.normalised ? GL_TRUE : GL_FALSE,
-				layout.getStride(),
-				(const void*)(intptr_t)element.offset
-			);
-			glEnableVertexAttribArray(index);
-			index++;
+			switch (element.type)
+			{
+				case ShaderDataType::Float:
+				case ShaderDataType::Float2:
+				case ShaderDataType::Float3:
+				case ShaderDataType::Float4:
+				case ShaderDataType::Int:
+				case ShaderDataType::Int2:
+				case ShaderDataType::Int3:
+				case ShaderDataType::Int4:
+				case ShaderDataType::Bool:
+				{
+					glEnableVertexAttribArray(index);
+					glVertexAttribPointer(
+						index,
+						element.getComponentCount(),
+						ShaderDataTypeToOpenGLBaseType(element.type),
+						element.normalised ? GL_TRUE : GL_FALSE,
+						layout.getStride(),
+						(const void*)(intptr_t)element.offset
+					);
+					index++;
+					break;
+				}
+				case ShaderDataType::Mat3:
+				case ShaderDataType::Mat4:
+				{
+					unsigned int count = element.getComponentCount();
+					for (unsigned int i = 0; i < count; i++)
+					{
+						glEnableVertexAttribArray(index);
+						glVertexAttribPointer(
+							index,
+							count,
+							ShaderDataTypeToOpenGLBaseType(element.type),
+							element.normalised ? GL_TRUE : GL_FALSE,
+							layout.getStride(),
+							(const void*)(sizeof(float) * count * i)
+						);
+						glVertexAttribDivisor(index, 1);
+						index++;
+						break;
+					}
+				}
+				default:
+					ASSERT(false, "Unknown ShaderDataType");
+			}
+			
 		}
 
 		// Add the VBO to the vector of VBOs

@@ -56,9 +56,9 @@ namespace Basil
 
 		for (auto it = layerStack.end(); it != layerStack.begin();)
 		{
-			(*--it)->onEvent(e);
 			if (e.handled)
 				break;
+			(*--it)->onEvent(e);
 		}
 	}
 
