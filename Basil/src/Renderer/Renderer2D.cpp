@@ -37,6 +37,8 @@ namespace Basil
 
 		std::array<Shared<Texture2D>, maxTextureSlots> textureSlots;
 		uint32_t textureSlotIndex = 1;
+
+		glm::vec4 quadVertexPositions[4];
 	};
 
 	// Declare a pointer to the data storage
@@ -97,7 +99,13 @@ namespace Basil
 		data.textureShader->bind();
 		data.textureShader->setIntArray("u_Textures", samplers, data.maxTextureSlots);
 
+		// Set texture slot 0 to the white texture
 		data.textureSlots[0] = data.whiteTexture;
+
+		data.quadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
+		data.quadVertexPositions[1] = {  0.5f, -0.5f, 0.0f, 1.0f };
+		data.quadVertexPositions[2] = { -0.5f,  0.5f, 0.0f, 1.0f };
+		data.quadVertexPositions[3] = {  0.5f,  0.5f, 0.0f, 1.0f };
 	}
 
 	// Shutdown function
@@ -148,41 +156,82 @@ namespace Basil
 	{
 		PROFILE_FUNCTION();
 
-		const float texIndex = 0.0f;
+		const float textureIndex = 0.0f;
 		const float tilingFactor = 1.0f;
 
-		data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y, transform.position.z };
+		// Calculate transform - only do rotation if it is set
+		glm::mat4 transformMatrix;
+		if (transform.rotation == 0.0f)
+			transformMatrix =
+			glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
+		  * glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
+		else
+			transformMatrix =
+			glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
+		  * glm::rotate(glm::mat4(1.0f), glm::radians(transform.rotation), glm::vec3({ 0.0f, 0.0f, 1.0f }))
+		  * glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
+
+		// Set vertex data
+		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[0];
 		data.quadVertexBufferPtr->Color = color;
 		data.quadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
-		data.quadVertexBufferPtr->TexIndex = texIndex;
+		data.quadVertexBufferPtr->TexIndex = textureIndex;
 		data.quadVertexBufferPtr->TilingFactor = tilingFactor;
 		data.quadVertexBufferPtr++;
 
-		data.quadVertexBufferPtr->Position = { transform.position.x + transform.scale.x, transform.position.y, transform.position.z };
+		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[1];
 		data.quadVertexBufferPtr->Color = color;
 		data.quadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
-		data.quadVertexBufferPtr->TexIndex = texIndex;
+		data.quadVertexBufferPtr->TexIndex = textureIndex;
 		data.quadVertexBufferPtr->TilingFactor = tilingFactor;
 		data.quadVertexBufferPtr++;
 
-		data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y + transform.scale.y, transform.position.z };
+		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[2];
 		data.quadVertexBufferPtr->Color = color;
 		data.quadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
-		data.quadVertexBufferPtr->TexIndex = texIndex;
+		data.quadVertexBufferPtr->TexIndex = textureIndex;
 		data.quadVertexBufferPtr->TilingFactor = tilingFactor;
 		data.quadVertexBufferPtr++;
 
-		data.quadVertexBufferPtr->Position = { transform.position.x + transform.scale.x, transform.position.y + transform.scale.y, transform.position.z };
+		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[3];
 		data.quadVertexBufferPtr->Color = color;
 		data.quadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
-		data.quadVertexBufferPtr->TexIndex = texIndex;
+		data.quadVertexBufferPtr->TexIndex = textureIndex;
 		data.quadVertexBufferPtr->TilingFactor = tilingFactor;
 		data.quadVertexBufferPtr++;
 
+		// Increment index count
 		data.quadIndexCount += 6;
+	}
 
-		/*
-		// Calculate and upload transform - only do rotation if it is set
+	// Draw a quad with a texture (3D position)
+	void Renderer2D::drawQuad(const Transform& transform, const Shared<Texture2D>& texture, float textureScale, const glm::vec4& tintColor)
+	{
+		PROFILE_FUNCTION();
+
+		// Set color to white
+		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+		// Set texture index
+		float textureIndex = 0.0f;
+		for (uint32_t i = 1; i < data.textureSlotIndex; i++)
+		{
+			if (*data.textureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		// Add texture to next slot
+		if (textureIndex == 0.0f)
+		{
+			textureIndex = (float)data.textureSlotIndex;
+			data.textureSlots[data.textureSlotIndex] = texture;
+			data.textureSlotIndex++;
+		}
+
+		// Calculate transform - only do rotation if it is set
 		glm::mat4 transformMatrix;
 		if (transform.rotation == 0.0f)
 			transformMatrix =
@@ -194,96 +243,36 @@ namespace Basil
 			* glm::rotate(glm::mat4(1.0f), glm::radians(transform.rotation), glm::vec3({ 0.0f, 0.0f, 1.0f }))
 			* glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
 
-		data->textureShader->setMat4("u_Transform", transformMatrix);
-
-		// Bind white texture, upload texture scale uniform
-		data->whiteTexture->bind();
-		data->textureShader->setFloat("u_TexScale", 1.0f);
-
-		// Upload color uniform
-		data->textureShader->setFloat4("u_Color", color);
-
-		// Bind VAO and draw
-		data->quadVertexArray->bind();
-		Renderer::drawIndexed(data->quadVertexArray);
-		*/
-	}
-
-	// Draw a quad with a texture (3D position)
-	void Renderer2D::drawQuad(const Transform& transform, float textureScale, const Shared<Texture2D>& texture, const glm::vec4& tintColor)
-	{
-		PROFILE_FUNCTION();
-
-		// Set color to white
-		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-
-		
-		float textureIndex = 0.0f;
-
-		for (uint32_t i = 1; i < data.textureSlotIndex; i++)
-		{
-			if (*data.textureSlots[i].get() == *texture.get())
-			{
-				textureIndex = (float)i;
-				break;
-			}
-		}
-
-		if (textureIndex == 0.0f)
-		{
-			textureIndex = (float)data.textureSlotIndex;
-			data.textureSlots[data.textureSlotIndex] = texture;
-			data.textureSlotIndex++;
-		}
-
-		data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y, transform.position.z };
+		// Set vertex data
+		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[0];
 		data.quadVertexBufferPtr->Color = color;
 		data.quadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
 		data.quadVertexBufferPtr->TexIndex = textureIndex;
 		data.quadVertexBufferPtr->TilingFactor = textureScale;
 		data.quadVertexBufferPtr++;
 
-		data.quadVertexBufferPtr->Position = { transform.position.x + transform.scale.x, transform.position.y, transform.position.z };
+		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[1];
 		data.quadVertexBufferPtr->Color = color;
 		data.quadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
 		data.quadVertexBufferPtr->TexIndex = textureIndex;
 		data.quadVertexBufferPtr->TilingFactor = textureScale;
 		data.quadVertexBufferPtr++;
 
-		data.quadVertexBufferPtr->Position = { transform.position.x, transform.position.y + transform.scale.y, transform.position.z };
+		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[2];
 		data.quadVertexBufferPtr->Color = color;
 		data.quadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
 		data.quadVertexBufferPtr->TexIndex = textureIndex;
 		data.quadVertexBufferPtr->TilingFactor = textureScale;
 		data.quadVertexBufferPtr++;
 
-		data.quadVertexBufferPtr->Position = { transform.position.x + transform.scale.x, transform.position.y + transform.scale.y, transform.position.z };
+		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[3];
 		data.quadVertexBufferPtr->Color = color;
 		data.quadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
 		data.quadVertexBufferPtr->TexIndex = textureIndex;
 		data.quadVertexBufferPtr->TilingFactor = textureScale;
 		data.quadVertexBufferPtr++;
 
+		// Increment index count
 		data.quadIndexCount += 6;
-
-		/*
-		// Calculate and upload transform
-		glm::mat4 transformMatrix =
-			glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
-			* glm::rotate(glm::mat4(1.0f), glm::radians(transform.rotation), glm::vec3({ 0.0f, 0.0f, 1.0f }))
-			* glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
-		data.textureShader->setMat4("u_Transform", transformMatrix);
-
-		// Bind texture, upload texture scale uniform
-		texture->bind();
-		data.textureShader->setFloat("u_TexScale", textureScale);
-
-		// Upload color uniform
-		data.textureShader->setFloat4("u_Color", tintColor);
-
-		// Bind VAO and draw quad
-		data.quadVertexArray->bind();
-		Renderer::drawIndexed(data.quadVertexArray);
-		*/
 	}
 }
