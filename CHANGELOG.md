@@ -12,6 +12,7 @@ Change log for the Basil Game Engine project.
 * `data.QuadVertexBufferBase` in Renderer2D is now deleted on shutdown.
 * Renderer2D now uses the `tintColor` argument when drawing a textured quad.
 * Branching is used instead in `Texture.glsl` instead of indexing the texture sampler.
+* Performed Instrumentor optimisation to remove \_\_cdecl and replace " with ' in the scope name at compile time. 
 
 ### Fixed
 * Issue where you could not render more than `Renderer2DData::maxTextureSlots` different textures.

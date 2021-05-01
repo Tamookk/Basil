@@ -70,7 +70,7 @@ namespace Basil
 		json << "{";
 		json << "\"cat\":\"function\",";
 		json << "\"dur\":" << (result.end - result.start) << ',';
-		json << "\"name\":\"" << name << "\",";
+		json << "\"name\":\"" << result.name << "\",";
 		json << "\"ph\":\"X\",";
 		json << "\"pid\":0,";
 		json << "\"tid\":" << result.threadID << ",";

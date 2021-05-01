@@ -29,7 +29,7 @@ void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 	// Render
 	Basil::Renderer2D::resetStats();
 	{
-		PROFILE_SCOPE("Renderer Prep")
+		PROFILE_SCOPE("Renderer Prep");
 		Basil::Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Basil::Renderer::clear();
 	}
