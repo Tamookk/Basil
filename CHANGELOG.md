@@ -7,6 +7,9 @@ Change log for the Basil Game Engine project.
 * Draw call splitting and stats.
 * Debug break definition for cross-platform compatibility.
 
+### Changed
+* Replaced `Renderer2D::drawQuad` vertex setup code with a for loop.
+
 
 ## 2021-04-30
 ### Added

@@ -183,6 +183,7 @@ namespace Basil
 
 		const float textureIndex = 0.0f;
 		const float tilingFactor = 1.0f;
+		constexpr glm::vec2 texCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {0.0f, 1.0f}, {1.0f, 1.0f} };
 
 		// Calculate transform - only do rotation if it is set
 		glm::mat4 transformMatrix;
@@ -197,33 +198,15 @@ namespace Basil
 		  * glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
 
 		// Set vertex data
-		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[0];
-		data.quadVertexBufferPtr->Color = color;
-		data.quadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
-		data.quadVertexBufferPtr->TexIndex = textureIndex;
-		data.quadVertexBufferPtr->TilingFactor = tilingFactor;
-		data.quadVertexBufferPtr++;
-
-		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[1];
-		data.quadVertexBufferPtr->Color = color;
-		data.quadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
-		data.quadVertexBufferPtr->TexIndex = textureIndex;
-		data.quadVertexBufferPtr->TilingFactor = tilingFactor;
-		data.quadVertexBufferPtr++;
-
-		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[2];
-		data.quadVertexBufferPtr->Color = color;
-		data.quadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
-		data.quadVertexBufferPtr->TexIndex = textureIndex;
-		data.quadVertexBufferPtr->TilingFactor = tilingFactor;
-		data.quadVertexBufferPtr++;
-
-		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[3];
-		data.quadVertexBufferPtr->Color = color;
-		data.quadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
-		data.quadVertexBufferPtr->TexIndex = textureIndex;
-		data.quadVertexBufferPtr->TilingFactor = tilingFactor;
-		data.quadVertexBufferPtr++;
+		for (int i = 0; i < 4; i++)
+		{
+			data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[i];
+			data.quadVertexBufferPtr->Color = color;
+			data.quadVertexBufferPtr->TexCoord = texCoords[i];
+			data.quadVertexBufferPtr->TexIndex = textureIndex;
+			data.quadVertexBufferPtr->TilingFactor = tilingFactor;
+			data.quadVertexBufferPtr++;
+		}
 
 		// Increment index and quad count
 		data.quadIndexCount += 6;
@@ -241,6 +224,9 @@ namespace Basil
 
 		// Set color to white
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+		// Define texture coordinates
+		constexpr glm::vec2 texCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {0.0f, 1.0f}, {1.0f, 1.0f} };
 
 		// Set texture index
 		float textureIndex = 0.0f;
@@ -274,33 +260,16 @@ namespace Basil
 			* glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
 
 		// Set vertex data
-		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[0];
-		data.quadVertexBufferPtr->Color = color;
-		data.quadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
-		data.quadVertexBufferPtr->TexIndex = textureIndex;
-		data.quadVertexBufferPtr->TilingFactor = textureScale;
-		data.quadVertexBufferPtr++;
-
-		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[1];
-		data.quadVertexBufferPtr->Color = color;
-		data.quadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
-		data.quadVertexBufferPtr->TexIndex = textureIndex;
-		data.quadVertexBufferPtr->TilingFactor = textureScale;
-		data.quadVertexBufferPtr++;
-
-		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[2];
-		data.quadVertexBufferPtr->Color = color;
-		data.quadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
-		data.quadVertexBufferPtr->TexIndex = textureIndex;
-		data.quadVertexBufferPtr->TilingFactor = textureScale;
-		data.quadVertexBufferPtr++;
-
-		data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[3];
-		data.quadVertexBufferPtr->Color = color;
-		data.quadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
-		data.quadVertexBufferPtr->TexIndex = textureIndex;
-		data.quadVertexBufferPtr->TilingFactor = textureScale;
-		data.quadVertexBufferPtr++;
+		// Set vertex data
+		for (int i = 0; i < 4; i++)
+		{
+			data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[i];
+			data.quadVertexBufferPtr->Color = color;
+			data.quadVertexBufferPtr->TexCoord = texCoords[i];
+			data.quadVertexBufferPtr->TexIndex = textureIndex;
+			data.quadVertexBufferPtr->TilingFactor = textureScale;
+			data.quadVertexBufferPtr++;
+		}
 
 		// Increment index and quad count
 		data.quadIndexCount += 6;
