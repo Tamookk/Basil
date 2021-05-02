@@ -23,6 +23,7 @@ namespace Basil
 		public:
 			Application();
 			virtual ~Application();
+			void close();
 			void onEvent(Event& e);
 			void pushLayer(Layer* layer);
 			void pushOverlay(Layer* layer);

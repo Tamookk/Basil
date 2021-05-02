@@ -44,6 +44,12 @@ namespace Basil
 		Renderer::shutdown();
 	}
 
+	// Close application
+	void Application::close()
+	{
+		running = false;
+	}
+
 	// Process an event
 	void Application::onEvent(Event& e)
 	{

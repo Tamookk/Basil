@@ -102,6 +102,12 @@ namespace Basil
 		return height;
 	}
 
+	// Return the renderer ID
+	uint32_t OpenGLTexture2D::getRendererID() const
+	{
+		return rendererID;
+	}
+
 	// Set texture data
 	void OpenGLTexture2D::setData(void* data, uint32_t size)
 	{

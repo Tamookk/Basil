@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-05-02
+### Added
+* Initial dockspace work.
+
+
 ## 2021-05-01
 ### Added
 * Transforms to the batch renderer.
