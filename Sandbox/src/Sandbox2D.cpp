@@ -12,6 +12,11 @@ void Sandbox2D::onAttach()
 
 	// Load texture
 	texture = Basil::Texture2D::create("assets/textures/test.png");
+
+	Basil::FramebufferSpecification fbSpec;
+	fbSpec.width = 1280;
+	fbSpec.height = 720;
+	framebuffer = Basil::Framebuffer::create(fbSpec);
 }
 
 void Sandbox2D::onDetach()
@@ -30,6 +35,7 @@ void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 	Basil::Renderer2D::resetStats();
 	{
 		PROFILE_SCOPE("Renderer Prep");
+		framebuffer->bind();
 		Basil::Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Basil::Renderer::clear();
 	}
@@ -65,6 +71,7 @@ void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 			}
 		}
 		Basil::Renderer2D::endScene();
+		framebuffer->unbind();
 	}
 }
 
@@ -78,7 +85,7 @@ void Sandbox2D::onImGuiRender()
 	PROFILE_FUNCTION();
 
 	// Switch to true to enable dockspace
-	static bool dockingEnabled = false;
+	static bool dockingEnabled = true;
 	if (dockingEnabled)
 	{
 		// Setup variables
@@ -147,8 +154,9 @@ void Sandbox2D::onImGuiRender()
 
 		ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
 
-		uint32_t textureID = texture->getRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ 256.0f, 256.0f });
+		uint32_t textureID = framebuffer->getColorAttachmentRendererID();
+		ImGui::Image((void*)textureID, ImVec2{ 1280, 720 });
+
 		ImGui::End();
 		ImGui::End();
 	}

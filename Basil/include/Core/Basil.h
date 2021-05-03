@@ -16,6 +16,7 @@
 #include "Core/Timestep.h"
 #include "Debug/Timer.h"
 #include "ImGui/ImGuiLayer.h"
+#include "Renderer/Framebuffer.h"
 #include "Renderer/IndexBuffer.h"
 #include "Renderer/OrthographicCamera.h"
 #include "Renderer/OrthographicCameraController.h"
