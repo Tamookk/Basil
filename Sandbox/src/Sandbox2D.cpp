@@ -12,11 +12,6 @@ void Sandbox2D::onAttach()
 
 	// Load texture
 	texture = Basil::Texture2D::create("assets/textures/test.png");
-
-	Basil::FramebufferSpecification fbSpec;
-	fbSpec.width = 1280;
-	fbSpec.height = 720;
-	framebuffer = Basil::Framebuffer::create(fbSpec);
 }
 
 void Sandbox2D::onDetach()
@@ -35,7 +30,6 @@ void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 	Basil::Renderer2D::resetStats();
 	{
 		PROFILE_SCOPE("Renderer Prep");
-		framebuffer->bind();
 		Basil::Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Basil::Renderer::clear();
 	}
@@ -71,7 +65,6 @@ void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 			}
 		}
 		Basil::Renderer2D::endScene();
-		framebuffer->unbind();
 	}
 }
 
@@ -84,95 +77,16 @@ void Sandbox2D::onImGuiRender()
 {
 	PROFILE_FUNCTION();
 
-	// Switch to true to enable dockspace
-	static bool dockingEnabled = true;
-	if (dockingEnabled)
-	{
-		// Setup variables
-		static bool dockSpaceOpen = true;
-		static bool optFullscreenPersistant = true;
-		bool optFullscreen = optFullscreenPersistant;
-		static ImGuiDockNodeFlags dockSpaceFlags = ImGuiDockNodeFlags_None;
+	// Render GUI
+	ImGui::Begin("Settings");
 
-		// Set flags
-		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+	Basil::Renderer2D::Statistics stats = Basil::Renderer2D::getStats();
+	ImGui::Text("Renderer2D Stats:");
+	ImGui::Text("Draw Calls: %d", stats.drawCalls);
+	ImGui::Text("Quads: %d", stats.quadCount);
+	ImGui::Text("Vertices: %d", stats.getTotalVertexCount());
+	ImGui::Text("Indices: %d", stats.getTotalIndexCount());
 
-		// If fullscreen
-		if (optFullscreen)
-		{
-			// Setup fullscreen mode
-			ImGuiViewport* viewport = ImGui::GetMainViewport();
-			ImGui::SetNextWindowPos(viewport->Pos);
-			ImGui::SetNextWindowSize(viewport->Size);
-			ImGui::SetNextWindowViewport(viewport->ID);
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-			windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-			windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-		}
-
-		// Set some flags
-		if (dockSpaceFlags & ImGuiDockNodeFlags_PassthruCentralNode)
-			windowFlags |= ImGuiWindowFlags_NoBackground;
-
-		// Create the ImGui instance
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-		ImGui::Begin("DockSpace Demo", &dockSpaceOpen, windowFlags);
-		ImGui::PopStyleVar();
-
-		if (optFullscreen)
-			ImGui::PopStyleVar(2);
-
-		ImGuiIO& io = ImGui::GetIO();
-		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-		{
-			ImGuiID dockspaceID = ImGui::GetID("MyDockspace");
-			ImGui::DockSpace(dockspaceID, ImVec2(0.0f, 0.0f), dockSpaceFlags);
-		}
-		
-		// Create menu bar
-		if (ImGui::BeginMenuBar())
-		{
-			if (ImGui::BeginMenu("File"))
-			{
-				if (ImGui::MenuItem("Exit"))
-					Basil::Application::get().close();
-				ImGui::EndMenu();
-			}
-			ImGui::EndMenuBar();
-		}
-
-		// Create settings panel
-		ImGui::Begin("Settings");
-
-		Basil::Renderer2D::Statistics stats = Basil::Renderer2D::getStats();
-		ImGui::Text("Renderer2D Stats:");
-		ImGui::Text("Draw Calls: %d", stats.drawCalls);
-		ImGui::Text("Quads: %d", stats.quadCount);
-		ImGui::Text("Vertices: %d", stats.getTotalVertexCount());
-		ImGui::Text("Indices: %d", stats.getTotalIndexCount());
-
-		ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-
-		uint32_t textureID = framebuffer->getColorAttachmentRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ 1280, 720 });
-
-		ImGui::End();
-		ImGui::End();
-	}
-	else
-	{
-		// Render GUI
-		ImGui::Begin("Settings");
-
-		Basil::Renderer2D::Statistics stats = Basil::Renderer2D::getStats();
-		ImGui::Text("Renderer2D Stats:");
-		ImGui::Text("Draw Calls: %d", stats.drawCalls);
-		ImGui::Text("Quads: %d", stats.quadCount);
-		ImGui::Text("Vertices: %d", stats.getTotalVertexCount());
-		ImGui::Text("Indices: %d", stats.getTotalIndexCount());
-
-		ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-		ImGui::End();
-	}
+	ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+	ImGui::End();
 }

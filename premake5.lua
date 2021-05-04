@@ -92,3 +92,42 @@ project "Sandbox"
 		defines { "RELEASE" }
 		runtime "Release"
 		optimize "On"
+
+project "Pesto"
+	location "Pesto"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "On"
+	targetdir("bin/" .. outputdir .. "/%{prj.name}")
+	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
+	files
+	{
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/include/**.h"
+	}
+	includedirs
+	{
+		"%{prj.name}/include",
+		"Basil/include",
+		"Basil/vendor/spdlog/include",
+		"Basil/vendor/GLFW/include",
+		"Basil/vendor/glad/include",
+		"Basil/vendor/imgui",
+		"Basil/vendor/glm"
+	}
+	links { "Basil" }
+	
+	filter "system:windows"
+		systemversion "latest"
+		defines { "PLATFORM_WINDOWS" }
+
+	filter "configurations:Debug"
+		defines { "DEBUG" }
+		runtime "Debug"
+		symbols "On"
+
+	filter "configurations:Release"
+		defines { "RELEASE" }
+		runtime "Release"
+		optimize "On"

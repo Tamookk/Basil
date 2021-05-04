@@ -5,11 +5,11 @@
 
 #include "Core/Basil.h"
 
-class Sandbox2D : public Basil::Layer
+class EditorLayer : public Basil::Layer
 {
 	public:
-		Sandbox2D();
-		virtual ~Sandbox2D() {}
+		EditorLayer();
+		virtual ~EditorLayer() {}
 		void onAttach() override;
 		void onDetach() override;
 		void onUpdate(Basil::Timestep timeStep) override;
@@ -21,5 +21,5 @@ class Sandbox2D : public Basil::Layer
 		Basil::Shared<Basil::Shader> shader;
 		Basil::Shared<Basil::Texture2D> texture;
 		glm::vec4 squareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
-		std::vector<Basil::ProfileResult> profileResults;
+		Basil::Shared<Basil::Framebuffer> framebuffer;
 };

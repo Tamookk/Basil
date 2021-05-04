@@ -21,7 +21,7 @@ namespace Basil
 	class Application
 	{
 		public:
-			Application();
+			Application(const std::string& name = "Basil Application");
 			virtual ~Application();
 			void close();
 			void onEvent(Event& e);

@@ -1,7 +1,3 @@
-/*
- * This cpp file is used to test the Basil Game Engine as it is being developed. 
- */
-
 #include "Core/Basil.h"
 #include "Core/EntryPoint.h"
 #include "ExampleLayer.h"

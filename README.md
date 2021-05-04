@@ -5,7 +5,12 @@ A game engine using the OpenGL API based on the tutorial found [here](https://ww
 
 This project was created and developed in Visual Studio Community 2019.
 
-This project includes a game engine (Basil), set to be built as a dll, and a test application (Sandbox), for testing the game engine as I develop it. Currently, this engine only supports Windows. I'm hoping that one day I can expand it to work on other platforms, however.
+This project includes:
+* A game engine (Basil)
+* A test application (Sandbox), for testing the game engine as I develop it
+* A game editor (Pesto), for developing games using Basil
+
+Currently, this engine only supports Windows. I'm hoping that one day I can expand it to work on other platforms, however.
 
 ## Getting Started
 Visual Studio 2019 is recommended.

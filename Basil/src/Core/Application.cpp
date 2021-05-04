@@ -9,7 +9,7 @@ namespace Basil
 	Application* Application::instance = nullptr;
 
 	// Constructor
-	Application::Application()
+	Application::Application(const std::string& name)
 	{
 		PROFILE_FUNCTION();
 
@@ -25,7 +25,7 @@ namespace Basil
 		instance = this;
 
 		// Set create the window and set the window callback
-		window = Window::create();
+		window = Window::create(WindowProps(name));
 		window->setEventCallback(BIND_EVENT(Application::onEvent));
 
 		// Initialise the renderer
