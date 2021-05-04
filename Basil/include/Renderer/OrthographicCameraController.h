@@ -16,6 +16,7 @@ namespace Basil
 			OrthographicCameraController(float aspectRatio, bool rotation = false);
 			void onUpdate(Timestep timeStep);
 			void onEvent(Event& e);
+			void resize(float width, float height);
 			OrthographicCamera& getCamera();
 			const OrthographicCamera& getCamera() const;
 			float getZoomLevel() const;

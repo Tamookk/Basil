@@ -20,6 +20,7 @@ class EditorLayer : public Basil::Layer
 		Basil::Shared<Basil::VertexArray> vao;
 		Basil::Shared<Basil::Shader> shader;
 		Basil::Shared<Basil::Texture2D> texture;
-		glm::vec4 squareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 		Basil::Shared<Basil::Framebuffer> framebuffer;
+		glm::vec4 squareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+		glm::vec2 viewportSize = { 0.0f, 0.0f };
 };

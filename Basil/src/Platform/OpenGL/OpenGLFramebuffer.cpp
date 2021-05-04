@@ -10,8 +10,11 @@ namespace Basil
 	{
 		// Initialise variables
 		specification = spec;
-
-		// Invalidate previous framebuffer
+		rendererID = 0;
+		colorAttachment = 0;
+		depthAttachment = 0;
+		
+		// Create frame buffer
 		invalidate();
 	}
 
@@ -19,11 +22,20 @@ namespace Basil
 	OpenGLFramebuffer::~OpenGLFramebuffer()
 	{
 		glDeleteFramebuffers(1, &rendererID);
+		glDeleteTextures(1, &colorAttachment);
+		glDeleteTextures(1, &depthAttachment);
 	}
 	
 	// Invalidate the framebuffer
 	void OpenGLFramebuffer::invalidate()
 	{
+		if (rendererID)
+		{
+			glDeleteFramebuffers(1, &rendererID);
+			glDeleteTextures(1, &colorAttachment);
+			glDeleteTextures(1, &depthAttachment);
+		}
+
 		// Create and bind OpenGL framebuffer
 		glCreateFramebuffers(1, &rendererID);
 		glBindFramebuffer(GL_FRAMEBUFFER, rendererID);
@@ -51,12 +63,21 @@ namespace Basil
 	void OpenGLFramebuffer::bind()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, rendererID);
+		glViewport(0, 0, specification.width, specification.height);
 	}
 
 	// Unbind the framebuffer
 	void OpenGLFramebuffer::unbind()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	// Resize the frame buffer
+	void OpenGLFramebuffer::resize(uint32_t width, uint32_t height)
+	{
+		specification.width = width;
+		specification.height = height;
+		invalidate();
 	}
 
 	// Return the color attachment renderer ID

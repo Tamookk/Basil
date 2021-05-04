@@ -84,95 +84,89 @@ void EditorLayer::onImGuiRender()
 {
 	PROFILE_FUNCTION();
 
-	// Switch to true to enable dockspace
-	static bool dockingEnabled = true;
-	if (dockingEnabled)
+	// Setup variables
+	static bool dockSpaceOpen = true;
+	static bool optFullscreenPersistant = true;
+	bool optFullscreen = optFullscreenPersistant;
+	static ImGuiDockNodeFlags dockSpaceFlags = ImGuiDockNodeFlags_None;
+
+	// Set flags
+	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+
+	// If fullscreen
+	if (optFullscreen)
 	{
-		// Setup variables
-		static bool dockSpaceOpen = true;
-		static bool optFullscreenPersistant = true;
-		bool optFullscreen = optFullscreenPersistant;
-		static ImGuiDockNodeFlags dockSpaceFlags = ImGuiDockNodeFlags_None;
-
-		// Set flags
-		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
-
-		// If fullscreen
-		if (optFullscreen)
-		{
-			// Setup fullscreen mode
-			ImGuiViewport* viewport = ImGui::GetMainViewport();
-			ImGui::SetNextWindowPos(viewport->Pos);
-			ImGui::SetNextWindowSize(viewport->Size);
-			ImGui::SetNextWindowViewport(viewport->ID);
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-			windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-			windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-		}
-
-		// Set some flags
-		if (dockSpaceFlags & ImGuiDockNodeFlags_PassthruCentralNode)
-			windowFlags |= ImGuiWindowFlags_NoBackground;
-
-		// Create the ImGui instance
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-		ImGui::Begin("DockSpace Demo", &dockSpaceOpen, windowFlags);
-		ImGui::PopStyleVar();
-
-		if (optFullscreen)
-			ImGui::PopStyleVar(2);
-
-		ImGuiIO& io = ImGui::GetIO();
-		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-		{
-			ImGuiID dockspaceID = ImGui::GetID("MyDockspace");
-			ImGui::DockSpace(dockspaceID, ImVec2(0.0f, 0.0f), dockSpaceFlags);
-		}
-
-		// Create menu bar
-		if (ImGui::BeginMenuBar())
-		{
-			if (ImGui::BeginMenu("File"))
-			{
-				if (ImGui::MenuItem("Exit"))
-					Basil::Application::get().close();
-				ImGui::EndMenu();
-			}
-			ImGui::EndMenuBar();
-		}
-
-		// Create settings panel
-		ImGui::Begin("Settings");
-
-		Basil::Renderer2D::Statistics stats = Basil::Renderer2D::getStats();
-		ImGui::Text("Renderer2D Stats:");
-		ImGui::Text("Draw Calls: %d", stats.drawCalls);
-		ImGui::Text("Quads: %d", stats.quadCount);
-		ImGui::Text("Vertices: %d", stats.getTotalVertexCount());
-		ImGui::Text("Indices: %d", stats.getTotalIndexCount());
-
-		ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-
-		uint32_t textureID = framebuffer->getColorAttachmentRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ 1280, 720 });
-
-		ImGui::End();
-		ImGui::End();
+		// Setup fullscreen mode
+		ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImGui::SetNextWindowPos(viewport->Pos);
+		ImGui::SetNextWindowSize(viewport->Size);
+		ImGui::SetNextWindowViewport(viewport->ID);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+		windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+		windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 	}
-	else
+
+	// Set some flags
+	if (dockSpaceFlags & ImGuiDockNodeFlags_PassthruCentralNode)
+		windowFlags |= ImGuiWindowFlags_NoBackground;
+
+	// Create the ImGui instance
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	ImGui::Begin("DockSpace Demo", &dockSpaceOpen, windowFlags);
+	ImGui::PopStyleVar();
+
+	if (optFullscreen)
+		ImGui::PopStyleVar(2);
+
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 	{
-		// Render GUI
-		ImGui::Begin("Settings");
-
-		Basil::Renderer2D::Statistics stats = Basil::Renderer2D::getStats();
-		ImGui::Text("Renderer2D Stats:");
-		ImGui::Text("Draw Calls: %d", stats.drawCalls);
-		ImGui::Text("Quads: %d", stats.quadCount);
-		ImGui::Text("Vertices: %d", stats.getTotalVertexCount());
-		ImGui::Text("Indices: %d", stats.getTotalIndexCount());
-
-		ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-		ImGui::End();
+		ImGuiID dockspaceID = ImGui::GetID("MyDockspace");
+		ImGui::DockSpace(dockspaceID, ImVec2(0.0f, 0.0f), dockSpaceFlags);
 	}
+
+
+	// Menu bar
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			if (ImGui::MenuItem("Exit"))
+				Basil::Application::get().close();
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+
+
+	// Settings panel
+	ImGui::Begin("Settings");
+	Basil::Renderer2D::Statistics stats = Basil::Renderer2D::getStats();
+	ImGui::Text("Renderer2D Stats:");
+	ImGui::Text("Draw Calls: %d", stats.drawCalls);
+	ImGui::Text("Quads: %d", stats.quadCount);
+	ImGui::Text("Vertices: %d", stats.getTotalVertexCount());
+	ImGui::Text("Indices: %d", stats.getTotalIndexCount());
+	ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+	ImGui::End();
+
+
+	// Viewport
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0, 0 });
+	ImGui::Begin("Viewport");
+	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+	if (viewportSize != *((glm::vec2*)&viewportPanelSize))
+	{
+		framebuffer->resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
+		viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+		cameraController.resize(viewportPanelSize.x, viewportPanelSize.y);
+	}
+	uint32_t textureID = framebuffer->getColorAttachmentRendererID();
+	ImGui::Image((void*)textureID, viewportPanelSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+	ImGui::End();
+	ImGui::PopStyleVar();
+
+
+	ImGui::End();
 }

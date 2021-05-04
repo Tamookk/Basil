@@ -2,23 +2,25 @@
 #include "Core/EntryPoint.h"
 #include "EditorLayer.h"
 
-class Pesto : public Basil::Application
+namespace Basil
 {
-public:
-	Pesto() : Application("Pesto")
+	class Pesto : public Application
 	{
-		//pushLayer(new ExampleLayer());
-		pushLayer(new EditorLayer());
-	}
+		public:
+			Pesto() : Application("Pesto")
+			{
+				pushLayer(new EditorLayer());
+			}
 
-	~Pesto()
+			~Pesto()
+			{
+
+			}
+		};
+
+	// Create a new instance of Sandbox
+	Application* createApplication()
 	{
-
+		return new Pesto();
 	}
-};
-
-// Create a new instance of Sandbox
-Basil::Application* Basil::createApplication()
-{
-	return new Pesto();
 }

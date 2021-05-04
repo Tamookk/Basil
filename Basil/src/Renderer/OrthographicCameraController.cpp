@@ -63,6 +63,13 @@ namespace Basil
 		dispatcher.dispatch<WindowResizeEvent>(BIND_EVENT(OrthographicCameraController::onWindowResize));
 	}
 
+	// Called when the viewport resizes
+	void OrthographicCameraController::resize(float width, float height)
+	{
+		aspectRatio = width / height;
+		camera.setProjectionMatrix(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
+	}
+
 	// Return the camera
 	OrthographicCamera& OrthographicCameraController::getCamera()
 	{
@@ -103,8 +110,7 @@ namespace Basil
 	{
 		PROFILE_FUNCTION();
 
-		aspectRatio = (float)e.getWidth() / (float)e.getHeight();
-		camera.setProjectionMatrix(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
+		resize((float)e.getWidth(), (float)e.getHeight());
 		return false;
 	}
 }

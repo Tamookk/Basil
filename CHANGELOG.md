@@ -4,6 +4,7 @@ Change log for the Basil Game Engine project.
 ## 2021-05-04
 ### Added
 * Pesto, the Basil Game Engine Editor.
+* A viewport panel for viewing the scene to Pesto.
 
 ### Changed
 * Updated `README.md`.
