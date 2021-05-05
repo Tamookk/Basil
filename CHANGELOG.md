@@ -10,12 +10,13 @@ Change log for the Basil Game Engine project.
 
 ### Fixed
 * ImGui events are now processed properly depending on the viewport in focus.
+* Flickering when the viewport in Pesto was resized.
 
 
 ## 2021-05-04
 ### Added
 * Pesto, the Basil Game Engine Editor.
-* A viewport panel for viewing the scene to Pesto.
+* A viewport panel for viewing the scene in Pesto.
 
 ### Changed
 * Updated `README.md`.

@@ -34,6 +34,16 @@ void EditorLayer::onUpdate(Basil::Timestep timeStep)
 	// Start timer for onUpdate
 	PROFILE_FUNCTION();
 
+	// Stop flickering on resize
+	{
+		Basil::FramebufferSpecification spec = framebuffer->getSpecification();
+		if (viewportSize.x > 0.0f && viewportSize.y > 0.0f && (spec.width != viewportSize.x || spec.height != viewportSize.y))
+		{
+			framebuffer->resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
+			cameraController.resize(viewportSize.x, viewportSize.y);
+		}
+	}
+
 	// Update camera if viewport is focused
 	if(viewportFocused)
 		cameraController.onUpdate(timeStep);
@@ -166,12 +176,7 @@ void EditorLayer::onImGuiRender()
 	viewportHovered = ImGui::IsWindowHovered();
 	Basil::Application::get().getImGuiLayer()->setBlockEvents(!viewportFocused || !viewportHovered);
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-	if (viewportSize != *((glm::vec2*)&viewportPanelSize))
-	{
-		framebuffer->resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
-		viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-		cameraController.resize(viewportPanelSize.x, viewportPanelSize.y);
-	}
+	viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 	uint32_t textureID = framebuffer->getColorAttachmentRendererID();
 	ImGui::Image((void*)textureID, viewportPanelSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 	ImGui::End();
