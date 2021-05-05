@@ -16,18 +16,10 @@ namespace Basil
 	class Input
 	{
 		public:
-			static Unique<Input> create();
 			static bool isKeyPressed(KeyCode keyCode);
 			static bool isMouseButtonPressed(MouseCode mouseCode);
+			static std::pair<float, float> getMousePosition();
 			static float getMouseX();
 			static float getMouseY();
-		protected:
-			virtual bool isKeyPressedImpl(KeyCode keyCode) = 0;
-			virtual bool isMouseButtonPressedImpl(MouseCode mouseCode) = 0;
-			virtual std::pair<float, float> getMousePositionImpl() = 0;
-			virtual float getMouseXImpl() = 0;
-			virtual float getMouseYImpl() = 0;
-		private:
-			static Unique<Input> instance;
 	};
 }

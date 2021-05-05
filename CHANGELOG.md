@@ -1,6 +1,14 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-05-05
+### Added
+* A virtual destructor to the Framebuffer class.
+
+### Changed
+* Changed how the Input class works; platform-specific input files are no longer chosen at run-time.
+
+
 ## 2021-05-04
 ### Added
 * Pesto, the Basil Game Engine Editor.

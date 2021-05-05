@@ -1,10 +1,13 @@
 #include "pch.h"
-#include "Platform/Windows/WindowsInput.h"
+#include "Core/Application.h"
+#include "Core/Input.h"
+
+#include <GLFW/glfw3.h>
 
 namespace Basil
 {
 	// Return if key is being pressed
-	bool WindowsInput::isKeyPressedImpl(KeyCode keyCode)
+	bool Input::isKeyPressed(KeyCode keyCode)
 	{
 		// Get window
 		GLFWwindow* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
@@ -15,7 +18,7 @@ namespace Basil
 	}
 
 	// Return if mouse button is being pressed
-	bool WindowsInput::isMouseButtonPressedImpl(MouseCode mouseCode)
+	bool Input::isMouseButtonPressed(MouseCode mouseCode)
 	{
 		// Get window
 		GLFWwindow* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
@@ -26,7 +29,7 @@ namespace Basil
 	}
 
 	// Return mouse position pair
-	std::pair<float, float> WindowsInput::getMousePositionImpl()
+	std::pair<float, float> Input::getMousePosition()
 	{
 		// Get window
 		GLFWwindow* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
@@ -38,14 +41,14 @@ namespace Basil
 	}
 
 	// Return mouse X position
-	float WindowsInput::getMouseXImpl()
+	float Input::getMouseX()
 	{
-		return getMousePositionImpl().first;
+		return getMousePosition().first;
 	}
 
 	// Return mouse Y position
-	float WindowsInput::getMouseYImpl()
+	float Input::getMouseY()
 	{
-		return getMousePositionImpl().second;
+		return getMousePosition().second;
 	}
 }
