@@ -13,14 +13,16 @@ namespace Basil
 	{
 		public:
 			ImGuiLayer();
-			~ImGuiLayer();
+			~ImGuiLayer() {}
 			void onAttach() override;
 			void onDetach() override;
 			void onEvent(Event& e) override;
 			void onImGuiRender() override;
 			void begin();
 			void end();
+			void setBlockEvents(bool block);
 		private:
+			bool blockEvents;
 			float time;
 	};
 }

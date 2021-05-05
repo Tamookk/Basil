@@ -24,6 +24,7 @@ namespace Basil
 			Application(const std::string& name = "Basil Application");
 			virtual ~Application();
 			void close();
+			ImGuiLayer* getImGuiLayer();
 			void onEvent(Event& e);
 			void pushLayer(Layer* layer);
 			void pushOverlay(Layer* layer);

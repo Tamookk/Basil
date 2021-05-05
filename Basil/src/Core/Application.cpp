@@ -50,6 +50,12 @@ namespace Basil
 		running = false;
 	}
 
+	// Return ImGui layer
+	ImGuiLayer* Application::getImGuiLayer()
+	{
+		return imGuiLayer;
+	}
+
 	// Process an event
 	void Application::onEvent(Event& e)
 	{

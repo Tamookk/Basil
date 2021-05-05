@@ -12,13 +12,8 @@ namespace Basil
 	// Constructor
 	ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer")
 	{
+		blockEvents = true;
 		time = 0.0f;
-	}
-
-	// Destructor
-	ImGuiLayer::~ImGuiLayer()
-	{
-
 	}
 
 	// On attach to layer stack
@@ -67,9 +62,12 @@ namespace Basil
 	// On event
 	void ImGuiLayer::onEvent(Event& e)
 	{
-		ImGuiIO& io = ImGui::GetIO();
-		e.handled |= e.isInCategory(MouseButtonEvent) & io.WantCaptureMouse;
-		e.handled |= e.isInCategory(KeyboardEvent) & io.WantCaptureKeyboard;
+		if (blockEvents)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			e.handled |= e.isInCategory(MouseEvent) & io.WantCaptureMouse;
+			e.handled |= e.isInCategory(KeyboardEvent) & io.WantCaptureKeyboard;
+		}
 	}
 
 	// On ImGui render
@@ -108,5 +106,11 @@ namespace Basil
 			ImGui::RenderPlatformWindowsDefault();
 			glfwMakeContextCurrent(backupCurrentContext);
 		}
+	}
+
+	// Set whether events are blocked
+	void ImGuiLayer::setBlockEvents(bool block)
+	{
+		blockEvents = block;
 	}
 }

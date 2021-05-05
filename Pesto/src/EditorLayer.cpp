@@ -4,7 +4,12 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 
-EditorLayer::EditorLayer() : Layer("Sandbox2D"), cameraController(1280.0f / 720.0f) {}
+// Constructor
+EditorLayer::EditorLayer() : Layer("Sandbox2D"), cameraController(1280.0f / 720.0f)
+{
+	viewportFocused = false;
+	viewportHovered = false;
+}
 
 void EditorLayer::onAttach()
 {
@@ -29,7 +34,9 @@ void EditorLayer::onUpdate(Basil::Timestep timeStep)
 	// Start timer for onUpdate
 	PROFILE_FUNCTION();
 
-	cameraController.onUpdate(timeStep);
+	// Update camera if viewport is focused
+	if(viewportFocused)
+		cameraController.onUpdate(timeStep);
 
 	// Render
 	Basil::Renderer2D::resetStats();
@@ -155,6 +162,9 @@ void EditorLayer::onImGuiRender()
 	// Viewport
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0, 0 });
 	ImGui::Begin("Viewport");
+	viewportFocused = ImGui::IsWindowFocused();
+	viewportHovered = ImGui::IsWindowHovered();
+	Basil::Application::get().getImGuiLayer()->setBlockEvents(!viewportFocused || !viewportHovered);
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 	if (viewportSize != *((glm::vec2*)&viewportPanelSize))
 	{

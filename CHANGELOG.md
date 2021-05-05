@@ -8,6 +8,9 @@ Change log for the Basil Game Engine project.
 ### Changed
 * Changed how the Input class works; platform-specific input files are no longer chosen at run-time.
 
+### Fixed
+* ImGui events are now processed properly depending on the viewport in focus.
+
 
 ## 2021-05-04
 ### Added
