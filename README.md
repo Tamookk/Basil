@@ -31,3 +31,4 @@ A list of third-party software used in this project:
 * [Dear ImGui](https://github.com/ocornut/imgui) for GUIs
 * [glm](https://github.com/g-truc/glm) for mathematics
 * [stb](https://github.com/nothings/stb) (specifically stb_image) for image loading
+* [EnTT](https://github.com/skypjack/entt) for an entity component system

@@ -28,7 +28,8 @@ project "Basil"
 		"%{prj.name}/vendor/glm/**.hpp",
 		"%{prj.name}/vendor/glm/**.inl",
 		"%{prj.name}/vendor/stb/**.cpp",
-		"%{prj.name}/vendor/stb/**.h"
+		"%{prj.name}/vendor/stb/**.h",
+		"%{prj.name}/vendor/entt/**.hpp"
 	}
 	defines { "_CRT_SECURE_NO_WARNINGS" }
 	includedirs
@@ -39,7 +40,8 @@ project "Basil"
 		"%{prj.name}/vendor/glad/include",
 		"%{prj.name}/vendor/imgui",
 		"%{prj.name}/vendor/glm",
-		"%{prj.name}/vendor/stb"
+		"%{prj.name}/vendor/stb",
+		"%{prj.name}/vendor/entt"
 	}
 	links { "GLFW", "GLAD", "ImGui", "opengl32.lib" }
 	

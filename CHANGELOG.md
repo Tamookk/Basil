@@ -2,6 +2,10 @@
 Change log for the Basil Game Engine project.
 
 ## 2021-05-06
+### Added
+* Licence for stb.
+* EnTT for an entity component system.
+
 ### Changed
 * Submodule project files are now generated in Basil/vendor instead of Basil/vendor/\[submodule\].
 * The OpenGL framebuffer will no longer resize if the window size is less than or equal to 0 in any dimension.
