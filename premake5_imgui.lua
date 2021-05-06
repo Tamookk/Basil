@@ -1,5 +1,5 @@
 project "ImGui"
-	location "Basil/vendor/imgui"
+	location "Basil/vendor/"
 	kind "StaticLib"
 	language "C++"
 	staticruntime "On"

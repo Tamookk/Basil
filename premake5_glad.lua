@@ -1,5 +1,5 @@
 project "GLAD"
-	location "Basil/vendor/glad"
+	location "Basil/vendor/"
 	kind "StaticLib"
 	language "C"
 	staticruntime "On"

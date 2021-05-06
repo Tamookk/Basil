@@ -1,6 +1,12 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-05-06
+### Changed
+* Submodule project files are now generated in Basil/vendor instead of Basil/vendor/\[submodule\].
+* The OpenGL framebuffer will no longer resize if the window size is less than or equal to 0 in any dimension.
+
+
 ## 2021-05-05
 ### Added
 * A virtual destructor to the Framebuffer class.

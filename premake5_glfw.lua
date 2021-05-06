@@ -1,5 +1,5 @@
 project "GLFW"
-	location "Basil/vendor/GLFW"
+	location "Basil/vendor/"
 	kind "StaticLib"
 	language "C"
 	staticruntime "On"

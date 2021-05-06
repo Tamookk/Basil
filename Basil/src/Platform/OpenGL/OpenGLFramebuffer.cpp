@@ -75,6 +75,11 @@ namespace Basil
 	// Resize the frame buffer
 	void OpenGLFramebuffer::resize(uint32_t width, uint32_t height)
 	{
+		if (width <= 0 || height <= 0)
+		{
+			LOG_WARN("Attempted to resize framebuffer to {0}, {1}", width, height);
+			return;
+		}
 		specification.width = width;
 		specification.height = height;
 		invalidate();
