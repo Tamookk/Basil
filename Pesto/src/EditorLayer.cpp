@@ -18,10 +18,20 @@ void EditorLayer::onAttach()
 	// Load texture
 	texture = Basil::Texture2D::create("assets/textures/test.png");
 
+	// Create framebuffer
 	Basil::FramebufferSpecification fbSpec;
 	fbSpec.width = 1280;
 	fbSpec.height = 720;
 	framebuffer = Basil::Framebuffer::create(fbSpec);
+
+	// Create scene
+	activeScene = Basil::makeShared<Basil::Scene>();
+
+	// Create square entity
+	auto square = activeScene->createEntity();
+	activeScene->reg().emplace<Basil::TransformComponent>(square);
+	activeScene->reg().emplace<Basil::SpriteRenderComponent>(square, glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
+	squareEntity = square;
 }
 
 void EditorLayer::onDetach()
@@ -60,8 +70,9 @@ void EditorLayer::onUpdate(Basil::Timestep timeStep)
 	{
 		PROFILE_SCOPE("Renderer Draw");
 		Basil::Renderer2D::beginScene(cameraController.getCamera());
+		activeScene->onUpdate(timeStep);
 
-		Basil::Transform transform;
+		Basil::TransformComponent transform;
 		Basil::Renderer2D::drawQuad(transform, squareColor);
 
 		transform.position = { -1.0f, 0.5f, 0.0f };

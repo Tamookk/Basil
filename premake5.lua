@@ -77,7 +77,8 @@ project "Sandbox"
 		"Basil/vendor/GLFW/include",
 		"Basil/vendor/glad/include",
 		"Basil/vendor/imgui",
-		"Basil/vendor/glm"
+		"Basil/vendor/glm",
+		"Basil/vendor/entt"
 	}
 	links { "Basil" }
 
@@ -116,7 +117,8 @@ project "Pesto"
 		"Basil/vendor/GLFW/include",
 		"Basil/vendor/glad/include",
 		"Basil/vendor/imgui",
-		"Basil/vendor/glm"
+		"Basil/vendor/glm",
+		"Basil/vendor/entt"
 	}
 	links { "Basil" }
 	

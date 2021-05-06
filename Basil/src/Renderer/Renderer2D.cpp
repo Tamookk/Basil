@@ -179,7 +179,7 @@ namespace Basil
 	}
 
 	// Draw a quad (3D position)
-	void Renderer2D::drawQuad(const Transform& transform, const glm::vec4& color)
+	void Renderer2D::drawQuad(const TransformComponent& transform, const glm::vec4& color)
 	{
 		PROFILE_FUNCTION();
 
@@ -220,7 +220,7 @@ namespace Basil
 	}
 
 	// Draw a quad with a texture (3D position)
-	void Renderer2D::drawQuad(const Transform& transform, const Shared<Texture2D>& texture, float textureScale, const glm::vec4& tintColor)
+	void Renderer2D::drawQuad(const TransformComponent& transform, const Shared<Texture2D>& texture, float textureScale, const glm::vec4& tintColor)
 	{
 		PROFILE_FUNCTION();
 

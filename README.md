@@ -25,10 +25,10 @@ From the project directory, open a command prompt and run `vendor\premake\premak
 ## Third-Party Dependencies
 A list of third-party software used in this project:
 * [spdlog](https://github.com/gabime/spdlog) for logging
-* [premake](https://github.com/premake/premake-core) for generating project files
+* [Premake](https://github.com/premake/premake-core) for generating project files
 * [GLFW](https://github.com/glfw/glfw) for OpenGL development
 * [glad](https://github.com/Dav1dde/glad) for accessing modern OpenGL functions and extensions
 * [Dear ImGui](https://github.com/ocornut/imgui) for GUIs
-* [glm](https://github.com/g-truc/glm) for mathematics
+* [GLM](https://github.com/g-truc/glm) for mathematics
 * [stb](https://github.com/nothings/stb) (specifically stb_image) for image loading
 * [EnTT](https://github.com/skypjack/entt) for an entity component system
