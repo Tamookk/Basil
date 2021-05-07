@@ -28,4 +28,5 @@
 #include "Renderer/VertexArray.h"
 #include "Renderer/VertexBuffer.h"
 #include "Scene/Component.h"
+#include "Scene/Entity.h"
 #include "Scene/Scene.h"

@@ -28,9 +28,8 @@ void EditorLayer::onAttach()
 	activeScene = Basil::makeShared<Basil::Scene>();
 
 	// Create square entity
-	auto square = activeScene->createEntity();
-	activeScene->reg().emplace<Basil::TransformComponent>(square);
-	activeScene->reg().emplace<Basil::SpriteRenderComponent>(square, glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
+	auto square = activeScene->createEntity("Green Square");
+	square.addComponent<Basil::SpriteRenderComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 	squareEntity = square;
 }
 
@@ -177,6 +176,17 @@ void EditorLayer::onImGuiRender()
 	ImGui::Text("Vertices: %d", stats.getTotalVertexCount());
 	ImGui::Text("Indices: %d", stats.getTotalIndexCount());
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+
+	if (squareEntity)
+	{
+		ImGui::Separator();
+		auto& tag = squareEntity.getComponent<Basil::TagComponent>().tag;
+		ImGui::Text("%s", tag.c_str());
+		auto& greenSquareColor = squareEntity.getComponent<Basil::SpriteRenderComponent>().color;
+		ImGui::ColorEdit4("Green Square Color", glm::value_ptr(greenSquareColor));
+		ImGui::Separator();
+	}
+
 	ImGui::End();
 
 

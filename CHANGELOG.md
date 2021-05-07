@@ -4,6 +4,7 @@ Change log for the Basil Game Engine project.
 ## 2021-05-07
 ### Added
 * Initial ECS work.
+* Entity class.
 
 
 ## 2021-05-06

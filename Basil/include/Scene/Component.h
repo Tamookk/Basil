@@ -7,6 +7,22 @@
 
 namespace Basil
 {
+	struct SpriteRenderComponent
+	{
+		SpriteRenderComponent() = default;
+		SpriteRenderComponent(const SpriteRenderComponent&) = default;
+		SpriteRenderComponent(const glm::vec4& color) : color(color) {}
+		glm::vec4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
+	};
+
+	struct TagComponent
+	{
+		TagComponent() = default;
+		TagComponent(const TagComponent&) = default;
+		TagComponent(const std::string& tag) : tag(tag) {}
+		std::string tag;
+	};
+
 	struct TransformComponent
 	{
 		TransformComponent() = default;
@@ -18,13 +34,5 @@ namespace Basil
 		glm::vec3 position{ 0.0f, 0.0f, 0.0f };
 		float rotation = 0.0f;
 		glm::vec3 scale{ 1.0f, 1.0f, 1.0f };
-	};
-
-	struct SpriteRenderComponent
-	{
-		SpriteRenderComponent() = default;
-		SpriteRenderComponent(const SpriteRenderComponent&) = default;
-		SpriteRenderComponent(const glm::vec4& color) : color(color) {}
-		glm::vec4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
 	};
 }

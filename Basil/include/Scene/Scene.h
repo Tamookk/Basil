@@ -9,15 +9,18 @@
 
 namespace Basil
 {
+	class Entity;
+
 	class Scene
 	{
 		public:
 			Scene();
 			~Scene();
-			entt::entity createEntity();
+			Entity createEntity(const std::string& name = std::string());
 			entt::registry& reg();
 			void onUpdate(Timestep timeStep);
 		private:
 			entt::registry registry;
+			friend class Entity;
 	};
 }

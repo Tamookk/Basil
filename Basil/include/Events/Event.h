@@ -49,6 +49,7 @@ namespace Basil
 	{
 		public:
 			EventDispatcher(Event& e);
+
 			template <typename T, typename F>
 			bool dispatch(const F& eventFunction)
 			{

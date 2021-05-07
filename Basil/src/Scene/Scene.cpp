@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Renderer/Renderer2D.h"
 #include "Scene/Component.h"
-#include "Scene/Scene.h"
+#include "Scene/Entity.h"
 
 #include <glm/glm.hpp>
 
@@ -39,9 +39,18 @@ namespace Basil
 	}
 
 	// Create an entity
-	entt::entity Scene::createEntity()
+	Entity Scene::createEntity(const std::string& name)
 	{
-		return registry.create();
+		// Create an entity
+		Entity entity = { registry.create(), this };
+
+		// Add a transform and tag component
+		entity.addComponent<TransformComponent>();
+		auto& tag = entity.addComponent<TagComponent>();
+		tag.tag = name.empty() ? "Entity" : name;
+
+		// Return the entity
+		return entity;
 	}
 
 	// Return the registry
