@@ -1,6 +1,17 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-05-08
+### Added
+* Camera component.
+
+### Changed
+* Changed `BIND_EVENT` in `Core.h` from `std::bind` to a lambda.
+
+### Fixed
+* `ERROR` was being used instead of `LOG_ERROR` in `OpenGLShader.cpp`.
+
+
 ## 2021-05-07
 ### Added
 * Initial ECS work.

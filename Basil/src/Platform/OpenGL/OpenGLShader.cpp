@@ -223,7 +223,7 @@ namespace Basil
 			}
 			else
 			{
-				ERROR("Could not read from file '{0}'", filePath);
+				LOG_ERROR("Could not read from file '{0}'", filePath);
 			}
 		}
 		else

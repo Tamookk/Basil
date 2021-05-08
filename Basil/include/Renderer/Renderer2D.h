@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include "Renderer/Camera.h"
 #include "Renderer/OrthographicCamera.h"
 #include "Renderer/Texture2D.h"
 #include "Scene/Component.h"
@@ -21,6 +22,7 @@ namespace Basil
 			};
 			static void init();
 			static void shutdown();
+			static void beginScene(const Camera& camera, const TransformComponent& transform);
 			static void beginScene(const OrthographicCamera& camera);
 			static void endScene();
 			static void flush();

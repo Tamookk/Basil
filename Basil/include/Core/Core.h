@@ -26,7 +26,7 @@
 	#define ASSERT_CLIENT(x, ...)
 #endif
 
-#define BIND_EVENT(x) std::bind(&x, this, std::placeholders::_1)
+#define BIND_EVENT(fn) [this](auto&&... args) -> decltype(auto) {return this->fn(std::forward<decltype(args)>(args)...);}
 
 namespace Basil
 {

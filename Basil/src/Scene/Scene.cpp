@@ -62,11 +62,33 @@ namespace Basil
 	// On update function
 	void Scene::onUpdate(Timestep timeStep)
 	{
-		auto group = registry.group<TransformComponent>(entt::get<SpriteRenderComponent>);
-		for (auto entity : group)
+		Camera* mainCamera = nullptr;
+		glm::mat4* cameraTransform = nullptr;
 		{
-			auto& [transform, sprite] = group.get<TransformComponent, SpriteRenderComponent>(entity);
-			Renderer2D::drawQuad(transform, sprite.color);
+			auto group = registry.view<TransformComponent, CameraComponent>();
+			for (auto entity : group)
+			{
+				auto& [transform, camera] = group.get<TransformComponent, CameraComponent>(entity);
+				if (camera.primary)
+				{
+					mainCamera = &camera.camera;
+					transform.updateTransform();
+					cameraTransform = &transform.transform;
+					break;
+				}
+			}
+		}
+
+		if (mainCamera)
+		{
+			Renderer2D::beginScene(mainCamera->getProjection(), *cameraTransform);
+			auto group = registry.group<TransformComponent>(entt::get<SpriteRenderComponent>);
+			for (auto entity : group)
+			{
+				auto& [transform, sprite] = group.get<TransformComponent, SpriteRenderComponent>(entity);
+				Renderer2D::drawQuad(transform, sprite.color);
+			}
+			Renderer2D::endScene();
 		}
 	}
 }

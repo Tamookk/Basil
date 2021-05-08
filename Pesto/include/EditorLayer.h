@@ -25,6 +25,9 @@ class EditorLayer : public Basil::Layer
 		glm::vec2 viewportSize = { 0.0f, 0.0f };
 		Basil::Shared<Basil::Scene> activeScene;
 		Basil::Entity squareEntity;
+		Basil::Entity cameraEntity;
+		Basil::Entity secondCameraEntity;
 		bool viewportFocused;
 		bool viewportHovered;
+		bool primaryCamera = true;
 };

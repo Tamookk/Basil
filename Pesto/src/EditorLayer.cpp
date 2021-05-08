@@ -31,6 +31,13 @@ void EditorLayer::onAttach()
 	auto square = activeScene->createEntity("Green Square");
 	square.addComponent<Basil::SpriteRenderComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 	squareEntity = square;
+
+	cameraEntity = activeScene->createEntity("Camera");
+	cameraEntity.addComponent<Basil::CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+
+	secondCameraEntity = activeScene->createEntity("Clip-Space Entity");
+	auto& cc = secondCameraEntity.addComponent<Basil::CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+	cc.primary = false;
 }
 
 void EditorLayer::onDetach()
@@ -68,8 +75,8 @@ void EditorLayer::onUpdate(Basil::Timestep timeStep)
 
 	{
 		PROFILE_SCOPE("Renderer Draw");
-		Basil::Renderer2D::beginScene(cameraController.getCamera());
 		activeScene->onUpdate(timeStep);
+		Basil::Renderer2D::beginScene(cameraController.getCamera());
 
 		Basil::TransformComponent transform;
 		Basil::Renderer2D::drawQuad(transform, squareColor);
@@ -185,6 +192,13 @@ void EditorLayer::onImGuiRender()
 		auto& greenSquareColor = squareEntity.getComponent<Basil::SpriteRenderComponent>().color;
 		ImGui::ColorEdit4("Green Square Color", glm::value_ptr(greenSquareColor));
 		ImGui::Separator();
+	}
+
+	ImGui::DragFloat3("Camera Transform", glm::value_ptr(cameraEntity.getComponent<Basil::TransformComponent>().position));
+	if (ImGui::Checkbox("Camera A", &primaryCamera))
+	{
+		cameraEntity.getComponent<Basil::CameraComponent>().primary = primaryCamera;
+		secondCameraEntity.getComponent<Basil::CameraComponent>().primary = !primaryCamera;
 	}
 
 	ImGui::End();

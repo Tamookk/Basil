@@ -135,11 +135,29 @@ namespace Basil
 	}
 
 	// Begin a scene
+	void Renderer2D::beginScene(const Camera& camera, const TransformComponent& transform)
+	{
+		PROFILE_FUNCTION();
+
+		// Generate view-projection matrix
+		glm::mat4 viewProj = camera.getProjection() * glm::inverse((glm::mat4)transform);
+
+		// Bind shader and upload uniforms
+		data.textureShader->bind();
+		data.textureShader->setMat4("u_ViewProjection", viewProj);
+
+		// Initialise buffer variables
+		data.quadIndexCount = 0;
+		data.quadVertexBufferPtr = data.quadVertexBufferBase;
+
+		// Set texture slot index
+		data.textureSlotIndex = 1;
+	}
+
 	void Renderer2D::beginScene(const OrthographicCamera& camera)
 	{
 		PROFILE_FUNCTION();
 
-		// Bind shader and upload uniforms
 		data.textureShader->bind();
 		data.textureShader->setMat4("u_ViewProjection", camera.getViewProjectionMatrix());
 
