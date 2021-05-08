@@ -13,27 +13,6 @@ namespace Basil
 		// Initialis variables
 		viewportWidth = 0;
 		viewportHeight = 0;
-
-#if ENTT_EXAMPLE_CODE
-		entt::entity entity = registry.create();
-		registry.emplace<TransformComponent>(entity, glm::mat4(1.0f));
-		registry.on_construct<TransformComponent>().connect<&OnTransformConstruct>();
-
-		if (registry.has<TransformComponent>(entity))
-			TransformComponent& transform = registry.get<TransformComponent>(entity);
-
-		auto view = registry.view<TransformComponent>();
-		for (auto entity : view)
-		{
-			TransformComponent& transform = view.get<TransformComponent>(entity);
-		}
-
-		auto group = registry.group<TransformComponent>(entt::get<MeshComponent>);
-		for (auto entity : group)
-		{
-			auto& [transform, mesh] = group.get<TransformComponent, MeshComponent>(entity);
-		}
-#endif
 	}
 
 	// Destructor
@@ -72,15 +51,12 @@ namespace Basil
 			{
 				if (!nsc.instance)
 				{
-					nsc.instantiateFunction();
+					nsc.instance = nsc.instantiateScript();
 					nsc.instance->entity = Entity{ entity, this };
-
-					if(nsc.onCreateFunction)
-						nsc.onCreateFunction(nsc.instance);
+					nsc.instance->onCreate();
 				}
 					
-				if(nsc.onUpdateFunction)
-					nsc.onUpdateFunction(nsc.instance, timeStep);
+				nsc.instance->onUpdate(timeStep);
 			});
 		}
 
@@ -91,7 +67,7 @@ namespace Basil
 			auto view = registry.view<TransformComponent, CameraComponent>();
 			for (auto entity : view)
 			{
-				auto& [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
 				if (camera.primary)
 				{
 					mainCamera = &camera.camera;
@@ -108,7 +84,7 @@ namespace Basil
 			auto group = registry.group<TransformComponent>(entt::get<SpriteRenderComponent>);
 			for (auto entity : group)
 			{
-				auto& [transform, sprite] = group.get<TransformComponent, SpriteRenderComponent>(entity);
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRenderComponent>(entity);
 				Renderer2D::drawQuad(transform, sprite.color);
 			}
 			Renderer2D::endScene();

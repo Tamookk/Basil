@@ -10,6 +10,7 @@ Change log for the Basil Game Engine project.
 
 ### Changed
 * Changed `BIND_EVENT` in `Core.h` from `std::bind` to a lambda.
+* Changed ScriptableEntity functions to be virtual.
 
 ### Fixed
 * `ERROR` was being used instead of `LOG_ERROR` in `OpenGLShader.cpp`.

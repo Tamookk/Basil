@@ -43,6 +43,7 @@ void EditorLayer::onAttach()
 	{
 	public:
 		void onCreate() {}
+
 		void onDestroy() {}
 
 		void onUpdate(Basil::Timestep timeStep)
