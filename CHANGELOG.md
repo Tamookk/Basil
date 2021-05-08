@@ -4,6 +4,8 @@ Change log for the Basil Game Engine project.
 ## 2021-05-08
 ### Added
 * Camera component.
+* SceneCamera class.
+* Camera resizing support.
 
 ### Changed
 * Changed `BIND_EVENT` in `Core.h` from `std::bind` to a lambda.

@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "Renderer/Camera.h"
+#include "Scene/SceneCamera.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -14,9 +14,9 @@ namespace Basil
 	{
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
-		CameraComponent(const glm::mat4& projection) : camera(projection) {}
-		Camera camera;
+		SceneCamera camera;
 		bool primary = true;
+		bool fixedAspectRatio = false;
 	};
 
 	struct SpriteRenderComponent

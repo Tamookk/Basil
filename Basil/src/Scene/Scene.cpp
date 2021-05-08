@@ -10,6 +10,10 @@ namespace Basil
 	// Constructor
 	Scene::Scene()
 	{
+		// Initialis variables
+		viewportWidth = 0;
+		viewportHeight = 0;
+
 #if ENTT_EXAMPLE_CODE
 		entt::entity entity = registry.create();
 		registry.emplace<TransformComponent>(entity, glm::mat4(1.0f));
@@ -65,10 +69,10 @@ namespace Basil
 		Camera* mainCamera = nullptr;
 		glm::mat4* cameraTransform = nullptr;
 		{
-			auto group = registry.view<TransformComponent, CameraComponent>();
-			for (auto entity : group)
+			auto view = registry.view<TransformComponent, CameraComponent>();
+			for (auto entity : view)
 			{
-				auto& [transform, camera] = group.get<TransformComponent, CameraComponent>(entity);
+				auto& [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
 				if (camera.primary)
 				{
 					mainCamera = &camera.camera;
@@ -89,6 +93,23 @@ namespace Basil
 				Renderer2D::drawQuad(transform, sprite.color);
 			}
 			Renderer2D::endScene();
+		}
+	}
+
+	// On viewport resize
+	void Scene::onViewportResize(uint32_t width, uint32_t height)
+	{
+		// Update class variables
+		viewportWidth = width;
+		viewportHeight = height;
+
+		// Resize camera
+		auto view = registry.view<CameraComponent>();
+		for (auto entity : view)
+		{
+			auto& cameraComponent = view.get<CameraComponent>(entity);
+			if (!cameraComponent.fixedAspectRatio)
+				cameraComponent.camera.setViewportSize(width, height);
 		}
 	}
 }

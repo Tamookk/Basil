@@ -33,10 +33,10 @@ void EditorLayer::onAttach()
 	squareEntity = square;
 
 	cameraEntity = activeScene->createEntity("Camera");
-	cameraEntity.addComponent<Basil::CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+	cameraEntity.addComponent<Basil::CameraComponent>();
 
 	secondCameraEntity = activeScene->createEntity("Clip-Space Entity");
-	auto& cc = secondCameraEntity.addComponent<Basil::CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+	auto& cc = secondCameraEntity.addComponent<Basil::CameraComponent>();
 	cc.primary = false;
 }
 
@@ -57,6 +57,8 @@ void EditorLayer::onUpdate(Basil::Timestep timeStep)
 		{
 			framebuffer->resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 			cameraController.resize(viewportSize.x, viewportSize.y);
+
+			activeScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 		}
 	}
 
@@ -201,6 +203,13 @@ void EditorLayer::onImGuiRender()
 		secondCameraEntity.getComponent<Basil::CameraComponent>().primary = !primaryCamera;
 	}
 
+	{
+		auto& camera = secondCameraEntity.getComponent<Basil::CameraComponent>().camera;
+		float orthoSize = camera.getOrthographicSize();
+		if (ImGui::DragFloat("Second Camera Ortho Size", &orthoSize))
+			camera.setOrthographicSize(orthoSize);
+	}
+
 	ImGui::End();
 
 
@@ -212,8 +221,8 @@ void EditorLayer::onImGuiRender()
 	Basil::Application::get().getImGuiLayer()->setBlockEvents(!viewportFocused || !viewportHovered);
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 	viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-	uint32_t textureID = framebuffer->getColorAttachmentRendererID();
-	ImGui::Image((void*)textureID, viewportPanelSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+	uint64_t textureID = framebuffer->getColorAttachmentRendererID();
+	ImGui::Image(reinterpret_cast<void*>(textureID), viewportPanelSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 	ImGui::End();
 	ImGui::PopStyleVar();
 

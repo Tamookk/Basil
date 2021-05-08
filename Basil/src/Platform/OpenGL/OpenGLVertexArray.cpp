@@ -111,7 +111,7 @@ namespace Basil
 							ShaderDataTypeToOpenGLBaseType(element.type),
 							element.normalised ? GL_TRUE : GL_FALSE,
 							layout.getStride(),
-							(const void*)(sizeof(float) * count * i)
+							(const void*)(element.offset * count * i)
 						);
 						glVertexAttribDivisor(index, 1);
 						index++;
