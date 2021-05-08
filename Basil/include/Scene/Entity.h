@@ -44,6 +44,9 @@ namespace Basil
 			}
 
 			operator bool() const;
+			operator uint32_t() const;
+			bool operator==(const Entity& other) const;
+			bool operator!=(const Entity& other) const;
 		private:
 			entt::entity entity = entt::null;
 			Scene* scene = nullptr;

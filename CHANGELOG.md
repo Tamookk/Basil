@@ -7,6 +7,7 @@ Change log for the Basil Game Engine project.
 * SceneCamera class.
 * Camera resizing support.
 * Initial native scripting support.
+* A scene hierarchy panel in Pesto.
 
 ### Changed
 * Changed `BIND_EVENT` in `Core.h` from `std::bind` to a lambda.

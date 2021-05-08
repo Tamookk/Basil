@@ -25,5 +25,6 @@ namespace Basil
 			uint32_t viewportWidth;
 			uint32_t viewportHeight;
 			friend class Entity;
+			friend class SceneHierarchyPanel;
 	};
 }
