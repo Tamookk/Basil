@@ -38,6 +38,30 @@ void EditorLayer::onAttach()
 	secondCameraEntity = activeScene->createEntity("Clip-Space Entity");
 	auto& cc = secondCameraEntity.addComponent<Basil::CameraComponent>();
 	cc.primary = false;
+
+	class CameraController : public Basil::ScriptableEntity
+	{
+	public:
+		void onCreate() {}
+		void onDestroy() {}
+
+		void onUpdate(Basil::Timestep timeStep)
+		{
+			auto& transform = getComponent<Basil::TransformComponent>();
+			float speed = 5.0f;
+
+			if (Basil::Input::isKeyPressed(Basil::KeyCode::A))
+				transform.position.x -= speed * timeStep;
+			if (Basil::Input::isKeyPressed(Basil::KeyCode::D))
+				transform.position.x += speed * timeStep;
+			if (Basil::Input::isKeyPressed(Basil::KeyCode::W))
+				transform.position.y += speed * timeStep;
+			if (Basil::Input::isKeyPressed(Basil::KeyCode::S))
+				transform.position.y -= speed * timeStep;
+		}
+	};
+
+	cameraEntity.addComponent<Basil::NativeScriptComponent>().bind<CameraController>();
 }
 
 void EditorLayer::onDetach()

@@ -66,6 +66,25 @@ namespace Basil
 	// On update function
 	void Scene::onUpdate(Timestep timeStep)
 	{
+		// Update scripts
+		{
+			registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
+			{
+				if (!nsc.instance)
+				{
+					nsc.instantiateFunction();
+					nsc.instance->entity = Entity{ entity, this };
+
+					if(nsc.onCreateFunction)
+						nsc.onCreateFunction(nsc.instance);
+				}
+					
+				if(nsc.onUpdateFunction)
+					nsc.onUpdateFunction(nsc.instance, timeStep);
+			});
+		}
+
+		// Render 2D
 		Camera* mainCamera = nullptr;
 		glm::mat4* cameraTransform = nullptr;
 		{
