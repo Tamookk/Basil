@@ -16,6 +16,7 @@ namespace Basil
 			SceneHierarchyPanel() = default;
 			SceneHierarchyPanel(const Shared<Scene>& context);
 			void setContext(const Shared<Scene>& context);
+			Entity& getSelectionContext();
 			void onImGuiRender();
 		private:
 			void drawEntityNode(Entity entity);

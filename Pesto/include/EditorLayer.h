@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include "Panels/PropertiesPanel.h"
 #include "Panels/SceneHierarchyPanel.h"
 
 #include "Core/Basil.h"
@@ -21,6 +22,7 @@ namespace Basil
 			void onImGuiRender() override;
 		private:
 			OrthographicCameraController cameraController;
+			PropertiesPanel propertiesPanel;
 			SceneHierarchyPanel sceneHierarchyPanel;
 			Shared<Framebuffer> framebuffer;
 			Shared<Scene> activeScene;

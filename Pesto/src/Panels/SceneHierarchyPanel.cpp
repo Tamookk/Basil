@@ -2,6 +2,7 @@
 
 #include "Scene/Component.h"
 
+#include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 
 namespace Basil
@@ -18,16 +19,27 @@ namespace Basil
 		this->context = context;
 	}
 
+	// Return the selection context
+	Entity& SceneHierarchyPanel::getSelectionContext()
+	{
+		return selectionContext;
+	}
+
 	// On ImGui render
 	void SceneHierarchyPanel::onImGuiRender()
 	{
-		// Create and render the ImGui panel
+		// Create and render the scene hierarchy panel
 		ImGui::Begin("Scene Hierarchy");
 		context->registry.each([&](auto entityID)
 		{
 			Entity entity{ entityID, context.get() };
 			drawEntityNode(entity);
 		});
+
+		// Clear selection when clicking on a blank space
+		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+			selectionContext = {};
+
 		ImGui::End();
 	}
 
@@ -37,7 +49,7 @@ namespace Basil
 		// Get the name of the entity
 		auto tag = entity.getComponent<TagComponent>().tag;
 		
-		//
+		// Set flags
 		ImGuiTreeNodeFlags flags = ((selectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
 		bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, tag.c_str());
 		if (ImGui::IsItemClicked())

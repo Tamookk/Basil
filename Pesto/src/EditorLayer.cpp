@@ -44,11 +44,11 @@ namespace Basil
 		class CameraController : public ScriptableEntity
 		{
 			public:
-				void onCreate() {}
+				void onCreate() override {}
 
-				void onDestroy() {}
+				void onDestroy() override {}
 
-				void onUpdate(Timestep timeStep)
+				void onUpdate(Timestep timeStep) override
 				{
 					auto& transform = getComponent<TransformComponent>();
 					float speed = 5.0f;
@@ -66,6 +66,7 @@ namespace Basil
 
 		cameraEntity.addComponent<NativeScriptComponent>().bind<CameraController>();
 
+		propertiesPanel.setContext(activeScene);
 		sceneHierarchyPanel.setContext(activeScene);
 	}
 
@@ -191,7 +192,6 @@ namespace Basil
 			ImGui::DockSpace(dockspaceID, ImVec2(0.0f, 0.0f), dockSpaceFlags);
 		}
 
-
 		// Menu bar
 		if (ImGui::BeginMenuBar())
 		{
@@ -204,8 +204,11 @@ namespace Basil
 			ImGui::EndMenuBar();
 		}
 
-
+		// Scene hierarchy panel
 		sceneHierarchyPanel.onImGuiRender();
+
+		// Properties panel
+		propertiesPanel.onImGuiRender(sceneHierarchyPanel.getSelectionContext());
 
 		// Settings panel
 		ImGui::Begin("Settings");
@@ -227,7 +230,7 @@ namespace Basil
 			ImGui::Separator();
 		}
 
-		ImGui::DragFloat3("Camera Transform", glm::value_ptr(cameraEntity.getComponent<TransformComponent>().position));
+		ImGui::DragFloat3("Camera Transform", glm::value_ptr(cameraEntity.getComponent<TransformComponent>().position), 0.1f);
 		if (ImGui::Checkbox("Camera A", &primaryCamera))
 		{
 			cameraEntity.getComponent<CameraComponent>().primary = primaryCamera;
