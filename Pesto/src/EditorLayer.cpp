@@ -29,10 +29,14 @@ namespace Basil
 		// Create scene
 		activeScene = makeShared<Scene>();
 
-		// Create square entity
+		// Create square entities
 		auto square = activeScene->createEntity("Green Square");
 		square.addComponent<SpriteRenderComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 		squareEntity = square;
+
+		auto redSquare = activeScene->createEntity("Red Square");
+		redSquare.addComponent<SpriteRenderComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
+		redSquare.getComponent<TransformComponent>().position = { 0.0f, 1.0f, 0.0f };
 
 		cameraEntity = activeScene->createEntity("Camera");
 		cameraEntity.addComponent<CameraComponent>();
