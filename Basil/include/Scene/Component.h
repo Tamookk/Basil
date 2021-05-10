@@ -55,20 +55,21 @@ namespace Basil
 	{
 		TransformComponent() = default;
 		TransformComponent(const TransformComponent&) = default;
-		TransformComponent(const glm::mat4& transform) : transform(transform) {}
-
-		const void updateTransform()
-		{
-			transform = glm::translate(glm::mat4(1.0f), position)
-					  * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f))
-					  * glm::scale(glm::mat4(1.0f), scale);
-		}
+		TransformComponent(const glm::vec3& translation) : translation(translation) {}
 		
-		operator glm::mat4& () { return transform; }
-		operator const glm::mat4& () const { return transform; }
-		glm::mat4 transform{ 1.0f };
-		glm::vec3 position{ 0.0f, 0.0f, 0.0f };
-		float rotation = 0.0f;
+		glm::mat4 getTransform() const
+		{
+			glm::mat4 localRotation = glm::rotate(glm::mat4(1.0f), rotation.x, { 1, 0, 0 })
+									* glm::rotate(glm::mat4(1.0f), rotation.y, { 0, 1, 0 })
+									* glm::rotate(glm::mat4(1.0f), rotation.z, { 0, 0, 1 });
+
+			return glm::translate(glm::mat4(1.0f), translation)
+					* localRotation
+					* glm::scale(glm::mat4(1.0f), scale);
+		}
+
+		glm::vec3 translation{ 0.0f, 0.0f, 0.0f };
+		glm::vec3 rotation = { 0.0f, 0.0f, 0.0f };
 		glm::vec3 scale{ 1.0f, 1.0f, 1.0f };
 	};
 }

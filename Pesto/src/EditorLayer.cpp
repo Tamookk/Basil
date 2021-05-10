@@ -36,7 +36,7 @@ namespace Basil
 
 		auto redSquare = activeScene->createEntity("Red Square");
 		redSquare.addComponent<SpriteRenderComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
-		redSquare.getComponent<TransformComponent>().position = { 0.0f, 1.0f, 0.0f };
+		redSquare.getComponent<TransformComponent>().translation = { 0.0f, 1.0f, 0.0f };
 
 		cameraEntity = activeScene->createEntity("Camera");
 		cameraEntity.addComponent<CameraComponent>();
@@ -54,17 +54,17 @@ namespace Basil
 
 				void onUpdate(Timestep timeStep) override
 				{
-					auto& transform = getComponent<TransformComponent>();
+					auto& translation = getComponent<TransformComponent>().translation;
 					float speed = 5.0f;
 
 					if (Input::isKeyPressed(KeyCode::A))
-						transform.position.x -= speed * timeStep;
+						translation.x -= speed * timeStep;
 					if (Input::isKeyPressed(KeyCode::D))
-						transform.position.x += speed * timeStep;
+						translation.x += speed * timeStep;
 					if (Input::isKeyPressed(KeyCode::W))
-						transform.position.y += speed * timeStep;
+						translation.y += speed * timeStep;
 					if (Input::isKeyPressed(KeyCode::S))
-						transform.position.y -= speed * timeStep;
+						translation.y -= speed * timeStep;
 				}
 		};
 
@@ -115,29 +115,29 @@ namespace Basil
 			Renderer2D::beginScene(cameraController.getCamera());
 
 			TransformComponent transform;
-			Renderer2D::drawQuad(transform, squareColor);
+			Renderer2D::drawQuad(transform.getTransform(), squareColor);
 
-			transform.position = { -1.0f, 0.5f, 0.0f };
+			transform.translation = { -1.0f, 0.5f, 0.0f };
 			transform.scale = { 0.5f, 0.5f, 1.0f };
-			Renderer2D::drawQuad(transform, { 1.0f, 0.0f, 0.0f, 1.0f });
+			Renderer2D::drawQuad(transform.getTransform(), { 1.0f, 0.0f, 0.0f, 1.0f });
 
-			transform.position = { 0.0f, 0.0f, -0.1f };
-			transform.rotation = 45.0f;
+			transform.translation = { 0.0f, 0.0f, -0.1f };
+			transform.rotation = { 0.0f, 0.0f, 45.0f };
 			transform.scale = { 10.0f, 10.0f, 1.0f };
-			Renderer2D::drawQuad(transform, texture, 10.0f);
+			Renderer2D::drawQuad(transform.getTransform(), texture, 10.0f);
 
 			Renderer2D::endScene();
 
 			Renderer2D::beginScene(cameraController.getCamera());
-			transform.rotation = 0.0f;
+			transform.rotation = { 0.0f, 0.0f, 0.0f };
 			transform.scale = { 1.0f, 1.0f, 1.0f };
 			for (float y = -5.0f; y < 5.0f; y += 0.5f)
 			{
 				for (float x = -5.0f; x < 5.0f; x += 0.5f)
 				{
 					glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f };
-					transform.position = { x, y, 0.0f };
-					Renderer2D::drawQuad(transform, color);
+					transform.translation = { x, y, 0.0f };
+					Renderer2D::drawQuad(transform.getTransform(), color);
 				}
 			}
 			Renderer2D::endScene();

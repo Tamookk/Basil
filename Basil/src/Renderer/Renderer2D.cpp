@@ -135,12 +135,12 @@ namespace Basil
 	}
 
 	// Begin a scene
-	void Renderer2D::beginScene(const Camera& camera, const TransformComponent& transform)
+	void Renderer2D::beginScene(const Camera& camera, const glm::mat4& transform)
 	{
 		PROFILE_FUNCTION();
 
 		// Generate view-projection matrix
-		glm::mat4 viewProj = camera.getProjection() * glm::inverse((glm::mat4)transform);
+		glm::mat4 viewProj = camera.getProjection() * glm::inverse(transform);
 
 		// Bind shader and upload uniforms
 		data.textureShader->bind();
@@ -197,7 +197,7 @@ namespace Basil
 	}
 
 	// Draw a quad (3D position)
-	void Renderer2D::drawQuad(const TransformComponent& transform, const glm::vec4& color)
+	void Renderer2D::drawQuad(const glm::mat4& transform, const glm::vec4& color)
 	{
 		PROFILE_FUNCTION();
 
@@ -209,22 +209,10 @@ namespace Basil
 		const float tilingFactor = 1.0f;
 		constexpr glm::vec2 texCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {0.0f, 1.0f}, {1.0f, 1.0f} };
 
-		// Calculate transform - only do rotation if it is set
-		glm::mat4 transformMatrix;
-		if (transform.rotation == 0.0f)
-			transformMatrix =
-			glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
-		  * glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
-		else
-			transformMatrix =
-			glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
-		  * glm::rotate(glm::mat4(1.0f), glm::radians(transform.rotation), glm::vec3({ 0.0f, 0.0f, 1.0f }))
-		  * glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
-
 		// Set vertex data
 		for (int i = 0; i < 4; i++)
 		{
-			data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[i];
+			data.quadVertexBufferPtr->Position = transform * data.quadVertexPositions[i];
 			data.quadVertexBufferPtr->Color = color;
 			data.quadVertexBufferPtr->TexCoord = texCoords[i];
 			data.quadVertexBufferPtr->TexIndex = textureIndex;
@@ -238,7 +226,7 @@ namespace Basil
 	}
 
 	// Draw a quad with a texture (3D position)
-	void Renderer2D::drawQuad(const TransformComponent& transform, const Shared<Texture2D>& texture, float textureScale, const glm::vec4& tintColor)
+	void Renderer2D::drawQuad(const glm::mat4& transform, const Shared<Texture2D>& texture, float textureScale, const glm::vec4& tintColor)
 	{
 		PROFILE_FUNCTION();
 
@@ -271,23 +259,10 @@ namespace Basil
 			data.textureSlotIndex++;
 		}
 
-		// Calculate transform - only do rotation if it is set
-		glm::mat4 transformMatrix;
-		if (transform.rotation == 0.0f)
-			transformMatrix =
-			glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
-			* glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
-		else
-			transformMatrix =
-			glm::translate(glm::mat4(1.0f), glm::vec3({ transform.position.x, transform.position.y, transform.position.z }))
-			* glm::rotate(glm::mat4(1.0f), glm::radians(transform.rotation), glm::vec3({ 0.0f, 0.0f, 1.0f }))
-			* glm::scale(glm::mat4(1.0f), { transform.scale.x, transform.scale.y, transform.scale.z });
-
-		// Set vertex data
 		// Set vertex data
 		for (int i = 0; i < 4; i++)
 		{
-			data.quadVertexBufferPtr->Position = transformMatrix * data.quadVertexPositions[i];
+			data.quadVertexBufferPtr->Position = transform * data.quadVertexPositions[i];
 			data.quadVertexBufferPtr->Color = tintColor;
 			data.quadVertexBufferPtr->TexCoord = texCoords[i];
 			data.quadVertexBufferPtr->TexIndex = textureIndex;

@@ -55,7 +55,7 @@ namespace Basil
 			{
 				if (event.getEventType() == T::getStaticType())
 				{
-					event.handled = eventFunction(static_cast<T&>(event));
+					event.handled |= eventFunction(static_cast<T&>(event));
 					return true;
 				}
 				return false;

@@ -62,7 +62,7 @@ namespace Basil
 
 		// Render 2D
 		Camera* mainCamera = nullptr;
-		glm::mat4* cameraTransform = nullptr;
+		glm::mat4 cameraTransform;
 		{
 			auto view = registry.view<TransformComponent, CameraComponent>();
 			for (auto entity : view)
@@ -71,8 +71,7 @@ namespace Basil
 				if (camera.primary)
 				{
 					mainCamera = &camera.camera;
-					transform.updateTransform();
-					cameraTransform = &transform.transform;
+					cameraTransform = transform.getTransform();
 					break;
 				}
 			}
@@ -80,12 +79,12 @@ namespace Basil
 
 		if (mainCamera)
 		{
-			Renderer2D::beginScene(*mainCamera, *cameraTransform);
+			Renderer2D::beginScene(*mainCamera, cameraTransform);
 			auto group = registry.group<TransformComponent>(entt::get<SpriteRenderComponent>);
 			for (auto entity : group)
 			{
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRenderComponent>(entity);
-				Renderer2D::drawQuad(transform, sprite.color);
+				Renderer2D::drawQuad(transform.getTransform(), sprite.color);
 			}
 			Renderer2D::endScene();
 		}

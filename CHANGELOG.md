@@ -5,6 +5,9 @@ Change log for the Basil Game Engine project.
 ### Added
 * Sprite Render Component UI to properties panel in Pesto.
 
+### Changed
+* Changed look of Transform Component UI in properties panel.
+
 
 ## 2021-05-09
 ### Added
