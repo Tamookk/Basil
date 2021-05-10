@@ -80,7 +80,7 @@ namespace Basil
 
 		if (mainCamera)
 		{
-			Renderer2D::beginScene(mainCamera->getProjection(), *cameraTransform);
+			Renderer2D::beginScene(*mainCamera, *cameraTransform);
 			auto group = registry.group<TransformComponent>(entt::get<SpriteRenderComponent>);
 			for (auto entity : group)
 			{

@@ -142,5 +142,15 @@ namespace Basil
 				ImGui::TreePop();
 			}
 		}
+
+		if (entity.hasComponent<SpriteRenderComponent>())
+		{
+			if (ImGui::TreeNodeEx((void*)typeid(SpriteRenderComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Sprite Render"))
+			{
+				auto& color = entity.getComponent<SpriteRenderComponent>().color;
+				ImGui::ColorEdit4("Color", glm::value_ptr(color));
+				ImGui::TreePop();
+			}
+		}
 	}
 }

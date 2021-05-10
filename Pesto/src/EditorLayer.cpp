@@ -215,39 +215,13 @@ namespace Basil
 		propertiesPanel.onImGuiRender(sceneHierarchyPanel.getSelectionContext());
 
 		// Settings panel
-		ImGui::Begin("Settings");
+		ImGui::Begin("Stats");
 		Renderer2D::Statistics stats = Renderer2D::getStats();
 		ImGui::Text("Renderer2D Stats:");
 		ImGui::Text("Draw Calls: %d", stats.drawCalls);
 		ImGui::Text("Quads: %d", stats.quadCount);
 		ImGui::Text("Vertices: %d", stats.getTotalVertexCount());
 		ImGui::Text("Indices: %d", stats.getTotalIndexCount());
-		ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-
-		if (squareEntity)
-		{
-			ImGui::Separator();
-			auto& tag = squareEntity.getComponent<TagComponent>().tag;
-			ImGui::Text("%s", tag.c_str());
-			auto& greenSquareColor = squareEntity.getComponent<SpriteRenderComponent>().color;
-			ImGui::ColorEdit4("Green Square Color", glm::value_ptr(greenSquareColor));
-			ImGui::Separator();
-		}
-
-		ImGui::DragFloat3("Camera Transform", glm::value_ptr(cameraEntity.getComponent<TransformComponent>().position), 0.1f);
-		if (ImGui::Checkbox("Camera A", &primaryCamera))
-		{
-			cameraEntity.getComponent<CameraComponent>().primary = primaryCamera;
-			secondCameraEntity.getComponent<CameraComponent>().primary = !primaryCamera;
-		}
-
-		{
-			auto& camera = secondCameraEntity.getComponent<CameraComponent>().camera;
-			float orthoSize = camera.getOrthographicSize();
-			if (ImGui::DragFloat("Second Camera Ortho Size", &orthoSize))
-				camera.setOrthographicSize(orthoSize);
-		}
-
 		ImGui::End();
 
 
