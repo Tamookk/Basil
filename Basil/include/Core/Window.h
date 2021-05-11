@@ -15,7 +15,7 @@ namespace Basil
 		unsigned int width;
 		unsigned int height;
 
-		WindowProps(const std::string& title = "Basil Game Engine", unsigned int width = 1280, unsigned int height = 720)
+		WindowProps(const std::string& title = "Basil Game Engine", unsigned int width = 1600, unsigned int height = 900)
 		{
 			this->title = title;
 			this->width = width;

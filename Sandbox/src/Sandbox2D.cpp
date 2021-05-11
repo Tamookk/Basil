@@ -39,16 +39,16 @@ void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 		Basil::Renderer2D::beginScene(cameraController.getCamera());
 
 		Basil::TransformComponent transform;
-		Basil::Renderer2D::drawQuad(transform, squareColor);
+		Basil::Renderer2D::drawQuad(transform.getTransform(), squareColor);
 
 		transform.translation = { -1.0f, 0.5f, 0.0f };
 		transform.scale = { 0.5f, 0.5f, 1.0f };
-		Basil::Renderer2D::drawQuad(transform, { 1.0f, 0.0f, 0.0f, 1.0f });
+		Basil::Renderer2D::drawQuad(transform.getTransform(), { 1.0f, 0.0f, 0.0f, 1.0f });
 
 		transform.translation = { 0.0f, 0.0f, -0.1f };
 		transform.rotation = { 0.0f, 0.0f, 45.0f };
 		transform.scale = { 10.0f, 10.0f, 1.0f };
-		Basil::Renderer2D::drawQuad(transform, texture, 10.0f);
+		Basil::Renderer2D::drawQuad(transform.getTransform(), texture, 10.0f);
 
 		Basil::Renderer2D::endScene();
 
@@ -61,7 +61,7 @@ void Sandbox2D::onUpdate(Basil::Timestep timeStep)
 			{
 				glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f };
 				transform.translation = { x, y, 0.0f };
-				Basil::Renderer2D::drawQuad(transform, color);
+				Basil::Renderer2D::drawQuad(transform.getTransform(), color);
 			}
 		}
 		Basil::Renderer2D::endScene();

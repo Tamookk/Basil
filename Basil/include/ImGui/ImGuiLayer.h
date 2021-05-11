@@ -21,6 +21,7 @@ namespace Basil
 			void begin();
 			void end();
 			void setBlockEvents(bool block);
+			void setDarkThemeColors();
 		private:
 			bool blockEvents;
 			float time;

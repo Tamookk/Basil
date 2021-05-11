@@ -149,11 +149,15 @@ namespace Basil
 			ImGui::PopStyleVar(2);
 
 		ImGuiIO& io = ImGui::GetIO();
+		ImGuiStyle& style = ImGui::GetStyle();
+		float minWinSizeX = style.WindowMinSize.x;
+		style.WindowMinSize.x = 370.0f;
 		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 		{
 			ImGuiID dockspaceID = ImGui::GetID("MyDockspace");
 			ImGui::DockSpace(dockspaceID, ImVec2(0.0f, 0.0f), dockSpaceFlags);
 		}
+		style.WindowMinSize.x = minWinSizeX;
 
 		// Menu bar
 		if (ImGui::BeginMenuBar())

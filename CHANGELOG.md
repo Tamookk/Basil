@@ -5,6 +5,9 @@ Change log for the Basil Game Engine project.
 ### Added
 * UI to add and remove entities and components.
 
+### Changed
+* Changed the look of Pesto's UI.
+
 
 ## 2021-05-10
 ### Added
