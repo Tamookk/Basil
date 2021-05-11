@@ -40,6 +40,15 @@ namespace Basil
 		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
 			selectionContext = {};
 
+		// Let user create entity when right clicking on a blank space
+		if (ImGui::BeginPopupContextWindow(0, 1, false))
+		{
+			if (ImGui::MenuItem("Create Empty Entity"))
+				context->createEntity("Empty Entity");
+
+			ImGui::EndPopup();
+		}
+
 		ImGui::End();
 	}
 
@@ -57,6 +66,16 @@ namespace Basil
 			selectionContext = entity;
 		}
 
+		// Allow user to delete entity if right clicking on one
+		bool entityDeleted = false;
+		if (ImGui::BeginPopupContextItem())
+		{
+			if (ImGui::MenuItem("Delete Entity"))
+				entityDeleted = true;
+
+			ImGui::EndPopup();
+		}
+
 		if (opened)
 		{
 			ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
@@ -64,6 +83,14 @@ namespace Basil
 			if (opened)
 				ImGui::TreePop();
 			ImGui::TreePop();
+		}
+
+		// Delete the entity
+		if (entityDeleted)
+		{
+			context->destroyEntity(entity);
+			if (selectionContext == entity)
+				selectionContext = {};
 		}
 	}
 }

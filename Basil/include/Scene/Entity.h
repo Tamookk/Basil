@@ -20,7 +20,9 @@ namespace Basil
 			T& addComponent(Args&&... args)
 			{
 				ASSERT(!hasComponent<T>(), "Entity already has component.");
-				return scene->registry.emplace<T>(entity, std::forward<Args>(args)...);
+				T& component = scene->registry.emplace<T>(entity, std::forward<Args>(args)...);
+				scene->onComponentAdded<T>(*this, component);
+				return component;
 			}
 
 			template <typename T>
@@ -44,6 +46,7 @@ namespace Basil
 			}
 
 			operator bool() const;
+			operator entt::entity() const;
 			operator uint32_t() const;
 			bool operator==(const Entity& other) const;
 			bool operator!=(const Entity& other) const;

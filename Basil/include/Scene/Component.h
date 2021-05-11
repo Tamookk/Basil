@@ -35,11 +35,11 @@ namespace Basil
 		}
 	};
 
-	struct SpriteRenderComponent
+	struct SpriteRendererComponent
 	{
-		SpriteRenderComponent() = default;
-		SpriteRenderComponent(const SpriteRenderComponent&) = default;
-		SpriteRenderComponent(const glm::vec4& color) : color(color) {}
+		SpriteRendererComponent() = default;
+		SpriteRendererComponent(const SpriteRendererComponent&) = default;
+		SpriteRendererComponent(const glm::vec4& color) : color(color) {}
 		glm::vec4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
 	};
 

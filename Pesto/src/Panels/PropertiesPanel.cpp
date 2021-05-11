@@ -84,6 +84,27 @@ namespace Basil
 		if (selectionContext)
 		{
 			drawComponents(selectionContext);
+
+			// A button to add a component
+			if (ImGui::Button("Add Component"))
+				ImGui::OpenPopup("Add Component");
+
+			if(ImGui::BeginPopup("Add Component"))
+			{
+				if (ImGui::MenuItem("Camera"))
+				{
+					selectionContext.addComponent<CameraComponent>();
+					ImGui::CloseCurrentPopup();
+				}
+
+				if (ImGui::MenuItem("Sprite Render"))
+				{
+					selectionContext.addComponent<SpriteRendererComponent>();
+					ImGui::CloseCurrentPopup();
+				}
+
+				ImGui::EndPopup();
+			}
 		}
 		ImGui::End();
 	}
@@ -109,10 +130,13 @@ namespace Basil
 			}
 		}
 
+		const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap;
+
 		// Transform component
 		if (entity.hasComponent<TransformComponent>())
 		{
-			if (ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
+			bool open = ImGui::TreeNodeEx((void*)typeid(TransformComponent).hash_code(), treeNodeFlags, "Transform");
+			if (open)
 			{
 				// Create drag floats for position, rotation, and scale
 				auto& translation = entity.getComponent<TransformComponent>().translation;
@@ -128,7 +152,7 @@ namespace Basil
 		// Camera component
 		if (entity.hasComponent<CameraComponent>())
 		{
-			if (ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Camera"))
+			if (ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), treeNodeFlags, "Camera"))
 			{
 				// Get camera component and camera
 				auto& cameraComponent = entity.getComponent<CameraComponent>();
@@ -200,14 +224,34 @@ namespace Basil
 			}
 		}
 
-		if (entity.hasComponent<SpriteRenderComponent>())
+		if (entity.hasComponent<SpriteRendererComponent>())
 		{
-			if (ImGui::TreeNodeEx((void*)typeid(SpriteRenderComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Sprite Render"))
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 0, 0 });
+			bool open = ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), treeNodeFlags, "Sprite Render");
+			ImGui::SameLine(ImGui::GetWindowWidth() - 25.0f);
+			if (ImGui::Button("+", ImVec2{ 20, 20 }))
 			{
-				auto& color = entity.getComponent<SpriteRenderComponent>().color;
+				ImGui::OpenPopup("Component Settings");
+			}
+			ImGui::PopStyleVar();
+
+			bool removeComponent = false;
+			if (ImGui::BeginPopup("Component Settings"))
+			{
+				if (ImGui::MenuItem("Remove Component"))
+					removeComponent = true;
+				ImGui::EndPopup();
+			}
+
+			if (open)
+			{
+				auto& color = entity.getComponent<SpriteRendererComponent>().color;
 				ImGui::ColorEdit4("Color", glm::value_ptr(color));
 				ImGui::TreePop();
 			}
+
+			if (removeComponent)
+				entity.removeComponent<SpriteRendererComponent>();
 		}
 	}
 }

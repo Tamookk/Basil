@@ -17,6 +17,12 @@ namespace Basil
 		return entity != entt::null;
 	}
 
+	// entt::entity operator
+	Entity::operator entt::entity() const
+	{
+		return entity;
+	}
+
 	// uint32_t cast operator
 	Entity::operator uint32_t() const
 	{

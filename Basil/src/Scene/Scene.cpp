@@ -2,6 +2,7 @@
 #include "Renderer/Renderer2D.h"
 #include "Scene/Component.h"
 #include "Scene/Entity.h"
+#include "Scene/Scene.h"
 
 #include <glm/glm.hpp>
 
@@ -34,6 +35,12 @@ namespace Basil
 
 		// Return the entity
 		return entity;
+	}
+
+	// Destroy an entity
+	void Scene::destroyEntity(Entity entity)
+	{
+		registry.destroy(entity);
 	}
 
 	// Return the registry
@@ -80,10 +87,10 @@ namespace Basil
 		if (mainCamera)
 		{
 			Renderer2D::beginScene(*mainCamera, cameraTransform);
-			auto group = registry.group<TransformComponent>(entt::get<SpriteRenderComponent>);
+			auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group)
 			{
-				auto [transform, sprite] = group.get<TransformComponent, SpriteRenderComponent>(entity);
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 				Renderer2D::drawQuad(transform.getTransform(), sprite.color);
 			}
 			Renderer2D::endScene();
@@ -106,4 +113,31 @@ namespace Basil
 				cameraComponent.camera.setViewportSize(width, height);
 		}
 	}
+
+	// On component added (only called if component you are trying to add does not exist)
+	template <typename T>
+	void Scene::onComponentAdded(Entity entity, T& component)
+	{
+		static_assert(false);
+	}
+
+	// Templates for components
+	template <>
+	void Scene::onComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
+	{
+		component.camera.setViewportSize(viewportWidth, viewportHeight);
+	}
+
+	template <>
+	void Scene::onComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component) {}
+
+	template <>
+	void Scene::onComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component) {}
+
+	template <>
+	void Scene::onComponentAdded<TagComponent>(Entity entity, TagComponent& component) {}
+
+	template <>
+	void Scene::onComponentAdded<TransformComponent>(Entity entity, TransformComponent& component) {}
+
 }

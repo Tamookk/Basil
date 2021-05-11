@@ -7,7 +7,7 @@
 namespace Basil
 {
 	// Constructor
-	EditorLayer::EditorLayer() : Layer("Sandbox2D"), cameraController(1280.0f / 720.0f)
+	EditorLayer::EditorLayer() : Layer("Sandbox2D")
 	{
 		viewportFocused = false;
 		viewportHovered = false;
@@ -16,9 +16,6 @@ namespace Basil
 	void EditorLayer::onAttach()
 	{
 		PROFILE_FUNCTION();
-
-		// Load texture
-		texture = Texture2D::create("assets/textures/test.png");
 
 		// Create framebuffer
 		FramebufferSpecification fbSpec;
@@ -31,11 +28,11 @@ namespace Basil
 
 		// Create square entities
 		auto square = activeScene->createEntity("Green Square");
-		square.addComponent<SpriteRenderComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
+		square.addComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 		squareEntity = square;
 
 		auto redSquare = activeScene->createEntity("Red Square");
-		redSquare.addComponent<SpriteRenderComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
+		redSquare.addComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
 		redSquare.getComponent<TransformComponent>().translation = { 0.0f, 1.0f, 0.0f };
 
 		cameraEntity = activeScene->createEntity("Camera");
@@ -90,15 +87,9 @@ namespace Basil
 			if (viewportSize.x > 0.0f && viewportSize.y > 0.0f && (spec.width != viewportSize.x || spec.height != viewportSize.y))
 			{
 				framebuffer->resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
-				cameraController.resize(viewportSize.x, viewportSize.y);
-
 				activeScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 			}
 		}
-
-		// Update camera if viewport is focused
-		if (viewportFocused)
-			cameraController.onUpdate(timeStep);
 
 		// Render
 		Renderer2D::resetStats();
@@ -112,43 +103,11 @@ namespace Basil
 		{
 			PROFILE_SCOPE("Renderer Draw");
 			activeScene->onUpdate(timeStep);
-			Renderer2D::beginScene(cameraController.getCamera());
-
-			TransformComponent transform;
-			Renderer2D::drawQuad(transform.getTransform(), squareColor);
-
-			transform.translation = { -1.0f, 0.5f, 0.0f };
-			transform.scale = { 0.5f, 0.5f, 1.0f };
-			Renderer2D::drawQuad(transform.getTransform(), { 1.0f, 0.0f, 0.0f, 1.0f });
-
-			transform.translation = { 0.0f, 0.0f, -0.1f };
-			transform.rotation = { 0.0f, 0.0f, 45.0f };
-			transform.scale = { 10.0f, 10.0f, 1.0f };
-			Renderer2D::drawQuad(transform.getTransform(), texture, 10.0f);
-
-			Renderer2D::endScene();
-
-			Renderer2D::beginScene(cameraController.getCamera());
-			transform.rotation = { 0.0f, 0.0f, 0.0f };
-			transform.scale = { 1.0f, 1.0f, 1.0f };
-			for (float y = -5.0f; y < 5.0f; y += 0.5f)
-			{
-				for (float x = -5.0f; x < 5.0f; x += 0.5f)
-				{
-					glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f };
-					transform.translation = { x, y, 0.0f };
-					Renderer2D::drawQuad(transform.getTransform(), color);
-				}
-			}
-			Renderer2D::endScene();
 			framebuffer->unbind();
 		}
 	}
 
-	void EditorLayer::onEvent(Event& e)
-	{
-		cameraController.onEvent(e);
-	}
+	void EditorLayer::onEvent(Event& e) {}
 
 	void EditorLayer::onImGuiRender()
 	{

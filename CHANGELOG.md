@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-05-11
+### Added
+* UI to add and remove entities and components.
+
+
 ## 2021-05-10
 ### Added
 * Sprite Render Component UI to properties panel in Pesto.

@@ -21,14 +21,10 @@ namespace Basil
 			void onEvent(Event& e) override;
 			void onImGuiRender() override;
 		private:
-			OrthographicCameraController cameraController;
 			PropertiesPanel propertiesPanel;
 			SceneHierarchyPanel sceneHierarchyPanel;
 			Shared<Framebuffer> framebuffer;
 			Shared<Scene> activeScene;
-			Shared<Shader> shader;
-			Shared<Texture2D> texture;
-			Shared<VertexArray> vao;
 			glm::vec2 viewportSize = { 0.0f, 0.0f };
 			glm::vec4 squareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 			Entity squareEntity;
