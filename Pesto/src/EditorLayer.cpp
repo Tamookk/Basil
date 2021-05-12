@@ -1,4 +1,5 @@
 #include "EditorLayer.h"
+#include "Scene/SceneSerializer.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -164,6 +165,18 @@ namespace Basil
 		{
 			if (ImGui::BeginMenu("File"))
 			{
+				if (ImGui::MenuItem("Serialize"))
+				{
+					SceneSerializer serializer(activeScene);
+					serializer.serialize("assets/scenes/Example.scene");
+				}
+
+				if (ImGui::MenuItem("Deserialize"))
+				{
+					SceneSerializer serializer(activeScene);
+					serializer.deserialize("assets/scenes/Example.scene");
+				}
+
 				if (ImGui::MenuItem("Exit"))
 					Application::get().close();
 				ImGui::EndMenu();

@@ -3,7 +3,8 @@ Change log for the Basil Game Engine project.
 
 ## 2021-05-12
 ### Added
-* yaml-cpp submodule for scene serialisation.
+* yaml-cpp submodule for scene serialization.
+* Scene serialization.
 
 
 ## 2021-05-11

@@ -31,5 +31,6 @@ namespace Basil
 			friend class Entity;
 			friend class PropertiesPanel;
 			friend class SceneHierarchyPanel;
+			friend class SceneSerializer;
 	};
 }
