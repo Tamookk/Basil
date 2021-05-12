@@ -9,6 +9,7 @@ group "Dependencies"
 	include "premake5_glfw.lua"
 	include "premake5_glad.lua"
 	include "premake5_imgui.lua"
+	include "premake5_yaml-cpp.lua"
 group ""
 
 project "Basil"
@@ -29,7 +30,7 @@ project "Basil"
 		"%{prj.name}/vendor/glm/**.inl",
 		"%{prj.name}/vendor/stb/**.cpp",
 		"%{prj.name}/vendor/stb/**.h",
-		"%{prj.name}/vendor/entt/**.hpp"
+		"%{prj.name}/vendor/entt/**.hpp",
 	}
 	defines { "_CRT_SECURE_NO_WARNINGS" }
 	includedirs
@@ -41,9 +42,10 @@ project "Basil"
 		"%{prj.name}/vendor/imgui",
 		"%{prj.name}/vendor/glm",
 		"%{prj.name}/vendor/stb",
-		"%{prj.name}/vendor/entt"
+		"%{prj.name}/vendor/entt",
+		"%{prj.name}/vendor/yaml-cpp/include"
 	}
-	links { "GLFW", "GLAD", "ImGui", "opengl32.lib" }
+	links { "GLFW", "GLAD", "ImGui", "yaml-cpp", "opengl32.lib" }
 	
 	filter "system:windows"
 		cppdialect "C++17"
@@ -78,7 +80,8 @@ project "Sandbox"
 		"Basil/vendor/glad/include",
 		"Basil/vendor/imgui",
 		"Basil/vendor/glm",
-		"Basil/vendor/entt"
+		"Basil/vendor/entt",
+		"Basil/vendor/yaml-cpp/include"
 	}
 	links { "Basil" }
 
@@ -118,7 +121,8 @@ project "Pesto"
 		"Basil/vendor/glad/include",
 		"Basil/vendor/imgui",
 		"Basil/vendor/glm",
-		"Basil/vendor/entt"
+		"Basil/vendor/entt",
+		"Basil/vendor/yaml-cpp/include"
 	}
 	links { "Basil" }
 	

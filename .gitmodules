@@ -10,3 +10,6 @@
 [submodule "Basil/vendor/glm"]
 	path = Basil/vendor/glm
 	url = https://github.com/g-truc/glm
+[submodule "Basil/vendor/yaml-cpp"]
+	path = Basil/vendor/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp

@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-05-12
+### Added
+* yaml-cpp submodule for scene serialisation.
+
+
 ## 2021-05-11
 ### Added
 * UI to add and remove entities and components.
