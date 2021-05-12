@@ -20,6 +20,7 @@ namespace YAML
 			node.push_back(rhs.x);
 			node.push_back(rhs.y);
 			node.push_back(rhs.z);
+			node.SetStyle(EmitterStyle::Flow);
 			return node;
 		}
 
@@ -46,6 +47,7 @@ namespace YAML
 			node.push_back(rhs.y);
 			node.push_back(rhs.z);
 			node.push_back(rhs.w);
+			node.SetStyle(EmitterStyle::Flow);
 			return node;
 		}
 
@@ -197,12 +199,7 @@ namespace Basil
 	bool SceneSerializer::deserialize(const std::string& filePath)
 	{
 		// Open file
-		std::ifstream stream(filePath);
-		std::stringstream strStream;
-		strStream << stream.rdbuf();
-
-		// Pass file contents to YAML Node
-		YAML::Node data = YAML::Load(strStream.str());
+		YAML::Node data = YAML::LoadFile(filePath);
 		if (!data["Scene"])
 			return false;
 

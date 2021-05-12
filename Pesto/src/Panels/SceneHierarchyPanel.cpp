@@ -17,6 +17,7 @@ namespace Basil
 	void SceneHierarchyPanel::setContext(const Shared<Scene>& context)
 	{
 		this->context = context;
+		selectionContext = {};
 	}
 
 	// Return the selection context

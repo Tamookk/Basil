@@ -5,6 +5,7 @@ Change log for the Basil Game Engine project.
 ### Added
 * yaml-cpp submodule for scene serialization.
 * Scene serialization.
+* Open and save file dialogs
 
 
 ## 2021-05-11

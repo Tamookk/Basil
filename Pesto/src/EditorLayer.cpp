@@ -1,5 +1,6 @@
 #include "EditorLayer.h"
 #include "Scene/SceneSerializer.h"
+#include "Utils/PlatfomUtils.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -108,7 +109,11 @@ namespace Basil
 		}
 	}
 
-	void EditorLayer::onEvent(Event& e) {}
+	void EditorLayer::onEvent(Event& e)
+	{
+		EventDispatcher dispatcher(e);
+		dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT(EditorLayer::onKeyPressed));
+	}
 
 	void EditorLayer::onImGuiRender()
 	{
@@ -165,18 +170,19 @@ namespace Basil
 		{
 			if (ImGui::BeginMenu("File"))
 			{
-				if (ImGui::MenuItem("Serialize"))
-				{
-					SceneSerializer serializer(activeScene);
-					serializer.serialize("assets/scenes/Example.scene");
-				}
+				// New scene
+				if (ImGui::MenuItem("New", "Ctrl+N"))
+					newScene();
 
-				if (ImGui::MenuItem("Deserialize"))
-				{
-					SceneSerializer serializer(activeScene);
-					serializer.deserialize("assets/scenes/Example.scene");
-				}
+				// Open scene file
+				if (ImGui::MenuItem("Open...", "Ctrl+O"))
+					openScene();
 
+				// Save scene file
+				if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
+					saveSceneAs();
+
+				// Exit application
 				if (ImGui::MenuItem("Exit"))
 					Application::get().close();
 				ImGui::EndMenu();
@@ -216,5 +222,66 @@ namespace Basil
 
 
 		ImGui::End();
+	}
+
+	// On key pressed function
+	bool EditorLayer::onKeyPressed(KeyPressedEvent& e)
+	{
+		// Shortcuts
+		if (e.getRepeatCount() > 0)
+			return false;
+
+		bool control = Input::isKeyPressed(Key::LeftControl) || Input::isKeyPressed(Key::RightControl);
+		bool shift = Input::isKeyPressed(Key::LeftShift) || Input::isKeyPressed(Key::RightShift);
+		switch (e.getKeycode())
+		{
+			case (int)Key::N:
+				if (control)
+					newScene();
+				break;
+			case (int)Key::O:
+				if (control)
+					openScene();
+				break;
+			case (int)Key::S:
+				if (control && shift)
+					saveSceneAs();
+				break;
+		}
+		return false;
+	}
+
+	// Make a new scene
+	void EditorLayer::newScene()
+	{
+		activeScene = makeShared<Scene>();
+		activeScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
+		sceneHierarchyPanel.setContext(activeScene);
+	}
+
+	// Open a scene
+	void EditorLayer::openScene()
+	{
+		std::string filePath = FileDialogs::openFile("Basil Scene (*.scene)\0*.scene\0");
+		if (!filePath.empty())
+		{
+			activeScene = makeShared<Scene>();
+			activeScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
+			sceneHierarchyPanel.setContext(activeScene);
+
+			SceneSerializer serializer(activeScene);
+			serializer.deserialize(filePath);
+		}
+	}
+
+	// Save a scene as
+	void EditorLayer::saveSceneAs()
+	{
+		std::string filePath = FileDialogs::saveFile("Basil Scene (*.scene)\0*.scene\0");
+		if (!filePath.empty())
+		{
+			SceneSerializer serializer(activeScene);
+			serializer.serialize(filePath);
+		}
 	}
 }

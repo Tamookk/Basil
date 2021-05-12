@@ -15,21 +15,31 @@ namespace Basil
 		public:
 			EditorLayer();
 			virtual ~EditorLayer() {}
+			
 			void onAttach() override;
 			void onDetach() override;
 			void onUpdate(Timestep timeStep) override;
 			void onEvent(Event& e) override;
 			void onImGuiRender() override;
 		private:
+			bool onKeyPressed(KeyPressedEvent& e);
+			
+			void newScene();
+			void openScene();
+			void saveSceneAs();
+
 			PropertiesPanel propertiesPanel;
 			SceneHierarchyPanel sceneHierarchyPanel;
 			Shared<Framebuffer> framebuffer;
 			Shared<Scene> activeScene;
+
 			glm::vec2 viewportSize = { 0.0f, 0.0f };
 			glm::vec4 squareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+			
 			Entity squareEntity;
 			Entity cameraEntity;
 			Entity secondCameraEntity;
+			
 			bool viewportFocused;
 			bool viewportHovered;
 			bool primaryCamera = true;
