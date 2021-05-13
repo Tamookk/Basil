@@ -31,6 +31,9 @@ namespace Basil
 		// Create scene
 		activeScene = makeShared<Scene>();
 
+		// Set up editor camera
+		editorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
+
 		// Create square entities
 		auto square = activeScene->createEntity("Green Square");
 		square.addComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
@@ -92,9 +95,13 @@ namespace Basil
 			if (viewportSize.x > 0.0f && viewportSize.y > 0.0f && (spec.width != viewportSize.x || spec.height != viewportSize.y))
 			{
 				framebuffer->resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
+				editorCamera.setViewportSize(viewportSize.x, viewportSize.y);
 				activeScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 			}
 		}
+
+		// Update editor camera
+		editorCamera.onUpdate(timeStep);
 
 		// Render
 		Renderer2D::resetStats();
@@ -107,13 +114,17 @@ namespace Basil
 
 		{
 			PROFILE_SCOPE("Renderer Draw");
-			activeScene->onUpdate(timeStep);
+			activeScene->onUpdateEditor(timeStep, editorCamera);
 			framebuffer->unbind();
 		}
 	}
 
 	void EditorLayer::onEvent(Event& e)
 	{
+		// Editor camera on event
+		editorCamera.onEvent(e);
+
+		// Dispatch key pressed event
 		EventDispatcher dispatcher(e);
 		dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT(EditorLayer::onKeyPressed));
 	}
@@ -233,11 +244,15 @@ namespace Basil
 			float windowHeight = ImGui::GetWindowHeight();
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
-			// Set camera
-			auto cameraEntity = activeScene->getPrimaryCameraEntity();
-			const auto& camera = cameraEntity.getComponent<CameraComponent>().camera;
-			const glm::mat4& cameraProjection = camera.getProjection();
-			glm::mat4 cameraView = glm::inverse(cameraEntity.getComponent<TransformComponent>().getTransform());
+			// Set camera (runtime camera from entity)
+			//auto cameraEntity = activeScene->getPrimaryCameraEntity();
+			//const auto& camera = cameraEntity.getComponent<CameraComponent>().camera;
+			//const glm::mat4& cameraProjection = camera.getProjection();
+			//glm::mat4 cameraView = glm::inverse(cameraEntity.getComponent<TransformComponent>().getTransform());
+
+			// Editor camera
+			const glm::mat4& cameraProjection = editorCamera.getProjection();
+			glm::mat4 cameraView = editorCamera.getViewMatrix();
 
 			// Entity transform
 			auto& tc = selectedEntity.getComponent<TransformComponent>();

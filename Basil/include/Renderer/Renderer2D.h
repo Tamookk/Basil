@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Renderer/Camera.h"
+#include "Renderer/EditorCamera.h"
 #include "Renderer/OrthographicCamera.h"
 #include "Renderer/Texture2D.h"
 #include "Scene/Component.h"
@@ -24,6 +25,7 @@ namespace Basil
 			static void shutdown();
 			static void beginScene(const Camera& camera, const glm::mat4& transform);
 			static void beginScene(const OrthographicCamera& camera);
+			static void beginScene(const EditorCamera& camera);
 			static void endScene();
 			static void flush();
 			static void drawQuad(const glm::mat4& transform, const glm::vec4& color);

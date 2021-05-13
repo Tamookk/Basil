@@ -15,6 +15,7 @@ namespace Basil
 		// Create struct
 		OPENFILENAMEA ofn;
 		CHAR szFile[260] = { 0 };
+		CHAR currentDir[256] = { 0 };
 		
 		// Zero out struct
 		ZeroMemory(&ofn, sizeof(OPENFILENAME));
@@ -24,6 +25,8 @@ namespace Basil
 		ofn.hwndOwner = glfwGetWin32Window((GLFWwindow*)Application::get().getWindow().getNativeWindow());
 		ofn.lpstrFile = szFile;
 		ofn.nMaxFile = sizeof(szFile);
+		if (GetCurrentDirectoryA(256, currentDir))
+			ofn.lpstrInitialDir = currentDir;
 		ofn.lpstrFilter = filter;
 		ofn.nFilterIndex = 1;
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
@@ -43,6 +46,7 @@ namespace Basil
 		// Create struct
 		OPENFILENAMEA ofn;
 		CHAR szFile[260] = { 0 };
+		CHAR currentDir[256] = { 0 };
 
 		// Zero out struct
 		ZeroMemory(&ofn, sizeof(OPENFILENAME));
@@ -52,10 +56,12 @@ namespace Basil
 		ofn.hwndOwner = glfwGetWin32Window((GLFWwindow*)Application::get().getWindow().getNativeWindow());
 		ofn.lpstrFile = szFile;
 		ofn.nMaxFile = sizeof(szFile);
+		if (GetCurrentDirectoryA(256, currentDir))
+			ofn.lpstrInitialDir = currentDir;
 		ofn.lpstrFilter = filter;
 		ofn.nFilterIndex = 1;
 		ofn.lpstrDefExt = std::strchr(filter, '\0') + 1;
-		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
 
 		// Attempt to open the file
 		if (GetSaveFileNameA(&ofn) == TRUE)

@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Core/Timestep.h"
+#include "Renderer/EditorCamera.h"
 
 #include <entt.hpp>
 
@@ -19,7 +20,8 @@ namespace Basil
 			Entity createEntity(const std::string& name = std::string());
 			void destroyEntity(Entity entity);
 			entt::registry& reg();
-			void onUpdate(Timestep timeStep);
+			void onUpdateRuntime(Timestep timeStep);
+			void onUpdateEditor(Timestep timeStep, EditorCamera& camera);
 			void onViewportResize(uint32_t width, uint32_t height);
 			Entity getPrimaryCameraEntity();
 		private:

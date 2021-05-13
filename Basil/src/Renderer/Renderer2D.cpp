@@ -167,6 +167,21 @@ namespace Basil
 		data.textureSlotIndex = 1;
 	}
 
+	void Renderer2D::beginScene(const EditorCamera& camera)
+	{
+		PROFILE_FUNCTION();
+
+		glm::mat4 viewProj = camera.getViewProjection();
+
+		data.textureShader->bind();
+		data.textureShader->setMat4("u_ViewProjection", viewProj);
+
+		data.quadIndexCount = 0;
+		data.quadVertexBufferPtr = data.quadVertexBufferBase;
+
+		data.textureSlotIndex = 1;
+	}
+
 	// End a scene
 	void Renderer2D::endScene()
 	{

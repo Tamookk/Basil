@@ -4,6 +4,7 @@ Change log for the Basil Game Engine project.
 ## 2021-05-13
 ### Added
 * Transformation gizmos to Pesto using ImGuizmo.
+* An editor camera for Pesto.
 
 
 ## 2021-05-12

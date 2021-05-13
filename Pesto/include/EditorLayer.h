@@ -5,6 +5,7 @@
 
 #include "Panels/PropertiesPanel.h"
 #include "Panels/SceneHierarchyPanel.h"
+#include "Renderer/EditorCamera.h"
 
 #include "Core/Basil.h"
 
@@ -36,6 +37,8 @@ namespace Basil
 			glm::vec2 viewportSize = { 0.0f, 0.0f };
 			glm::vec4 squareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 			
+			EditorCamera editorCamera;
+
 			Entity squareEntity;
 			Entity cameraEntity;
 			Entity secondCameraEntity;
