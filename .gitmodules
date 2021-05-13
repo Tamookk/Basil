@@ -13,3 +13,6 @@
 [submodule "Basil/vendor/yaml-cpp"]
 	path = Basil/vendor/yaml-cpp
 	url = https://github.com/jbeder/yaml-cpp
+[submodule "Basil/vendor/ImGuizmo"]
+	path = Basil/vendor/ImGuizmo
+	url = https://github.com/TheCherno/ImGuizmo

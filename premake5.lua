@@ -31,6 +31,8 @@ project "Basil"
 		"%{prj.name}/vendor/stb/**.cpp",
 		"%{prj.name}/vendor/stb/**.h",
 		"%{prj.name}/vendor/entt/**.hpp",
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp",
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h"
 	}
 	defines { "_CRT_SECURE_NO_WARNINGS" }
 	includedirs
@@ -43,10 +45,15 @@ project "Basil"
 		"%{prj.name}/vendor/glm",
 		"%{prj.name}/vendor/stb",
 		"%{prj.name}/vendor/entt",
-		"%{prj.name}/vendor/yaml-cpp/include"
+		"%{prj.name}/vendor/yaml-cpp/include",
+		"%{prj.name}/vendor/ImGuizmo"
 	}
+
 	links { "GLFW", "GLAD", "ImGui", "yaml-cpp", "opengl32.lib" }
 	
+	filter "files:Basil/vendor/ImGuizmo/**.cpp"
+		flags { "NoPCH" }
+
 	filter "system:windows"
 		cppdialect "C++17"
 		systemversion "latest"
@@ -81,7 +88,8 @@ project "Sandbox"
 		"Basil/vendor/imgui",
 		"Basil/vendor/glm",
 		"Basil/vendor/entt",
-		"Basil/vendor/yaml-cpp/include"
+		"Basil/vendor/yaml-cpp/include",
+		"Basil/vendor/imguizmo"
 	}
 	links { "Basil" }
 
@@ -122,7 +130,8 @@ project "Pesto"
 		"Basil/vendor/imgui",
 		"Basil/vendor/glm",
 		"Basil/vendor/entt",
-		"Basil/vendor/yaml-cpp/include"
+		"Basil/vendor/yaml-cpp/include",
+		"Basil/vendor/imguizmo"
 	}
 	links { "Basil" }
 	

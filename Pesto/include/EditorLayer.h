@@ -43,5 +43,7 @@ namespace Basil
 			bool viewportFocused;
 			bool viewportHovered;
 			bool primaryCamera = true;
+
+			int gizmoType;
 	};
 }

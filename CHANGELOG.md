@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-05-13
+### Added
+* Transformation gizmos to Pesto using ImGuizmo.
+
+
 ## 2021-05-12
 ### Added
 * yaml-cpp submodule for scene serialization.

@@ -21,6 +21,7 @@ namespace Basil
 			entt::registry& reg();
 			void onUpdate(Timestep timeStep);
 			void onViewportResize(uint32_t width, uint32_t height);
+			Entity getPrimaryCameraEntity();
 		private:
 			template <typename T>
 			void onComponentAdded(Entity entity, T& component);

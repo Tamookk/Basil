@@ -114,6 +114,20 @@ namespace Basil
 		}
 	}
 
+	// Get primary camera entity
+	Entity Scene::getPrimaryCameraEntity()
+	{
+		auto view = registry.view<CameraComponent>();
+		for (auto entity : view)
+		{
+			const auto& camera = view.get<CameraComponent>(entity);
+			if (camera.primary)
+				return Entity{ entity, this };
+		}
+
+		return {};
+	}
+
 	// On component added (only called if component you are trying to add does not exist)
 	template <typename T>
 	void Scene::onComponentAdded(Entity entity, T& component)

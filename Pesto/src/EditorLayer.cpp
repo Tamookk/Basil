@@ -1,10 +1,12 @@
 #include "EditorLayer.h"
+#include "Math/Math.h"
 #include "Scene/SceneSerializer.h"
 #include "Utils/PlatfomUtils.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
+#include <ImGuizmo.h>
 
 namespace Basil
 {
@@ -13,6 +15,7 @@ namespace Basil
 	{
 		viewportFocused = false;
 		viewportHovered = false;
+		gizmoType = -1;
 	}
 
 	void EditorLayer::onAttach()
@@ -212,11 +215,57 @@ namespace Basil
 		ImGui::Begin("Viewport");
 		viewportFocused = ImGui::IsWindowFocused();
 		viewportHovered = ImGui::IsWindowHovered();
-		Application::get().getImGuiLayer()->setBlockEvents(!viewportFocused || !viewportHovered);
+		Application::get().getImGuiLayer()->setBlockEvents(!viewportFocused && !viewportHovered);
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 		uint64_t textureID = framebuffer->getColorAttachmentRendererID();
 		ImGui::Image(reinterpret_cast<void*>(textureID), viewportPanelSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+		
+		// Gizmos
+		Entity selectedEntity = sceneHierarchyPanel.getSelectionContext();
+		if (selectedEntity && gizmoType != -1)
+		{
+			ImGuizmo::SetOrthographic(false);
+			ImGuizmo::SetDrawlist();
+
+			// Set rect size
+			float windowWidth = ImGui::GetWindowWidth();
+			float windowHeight = ImGui::GetWindowHeight();
+			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+			// Set camera
+			auto cameraEntity = activeScene->getPrimaryCameraEntity();
+			const auto& camera = cameraEntity.getComponent<CameraComponent>().camera;
+			const glm::mat4& cameraProjection = camera.getProjection();
+			glm::mat4 cameraView = glm::inverse(cameraEntity.getComponent<TransformComponent>().getTransform());
+
+			// Entity transform
+			auto& tc = selectedEntity.getComponent<TransformComponent>();
+			glm::mat4 transform = tc.getTransform();
+
+			// Snapping
+			bool snap = Input::isKeyPressed(Key::LeftControl);
+			float snapValue = 0.5f;
+			if (gizmoType == ImGuizmo::OPERATION::ROTATE)
+				snapValue = 45.0f;
+
+			float snapValues[3] = { snapValue, snapValue, snapValue };
+
+			ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), (ImGuizmo::OPERATION)gizmoType,
+				ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, snap ? snapValues : nullptr);
+
+			if (ImGuizmo::IsUsing())
+			{
+				glm::vec3 translation, rotation, scale;
+				Math::decomposeTransform(transform, translation, rotation, scale);
+
+				glm::vec3 deltaRotation = rotation - tc.rotation;
+				tc.translation = translation;
+				tc.rotation += deltaRotation;
+				tc.scale = scale;
+			}
+		}
+		
 		ImGui::End();
 		ImGui::PopStyleVar();
 
@@ -246,6 +295,23 @@ namespace Basil
 			case (int)Key::S:
 				if (control && shift)
 					saveSceneAs();
+				break;
+
+			// Gizmos
+			case (int)Key::Q:
+				gizmoType = -1;
+				break;
+
+			case (int)Key::W:
+				gizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				break;
+
+			case (int)Key::E:
+				gizmoType = ImGuizmo::OPERATION::ROTATE;
+				break;
+
+			case (int)Key::R:
+				gizmoType = ImGuizmo::OPERATION::SCALE;
 				break;
 		}
 		return false;

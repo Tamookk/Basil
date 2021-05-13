@@ -6,6 +6,7 @@
 #include <backends/imgui_impl_opengl3.h>
 #include <GLFW/glfw3.h>
 #include <imgui.h>
+#include <ImGuizmo.h>
 
 namespace Basil
 {
@@ -87,6 +88,9 @@ namespace Basil
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+
+		// ImGuizmo
+		ImGuizmo::BeginFrame();
 	}
 
 	// On end
