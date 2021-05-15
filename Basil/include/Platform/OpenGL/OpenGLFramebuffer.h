@@ -16,12 +16,16 @@ namespace Basil
 			void bind() override;
 			void unbind() override;
 			void resize(uint32_t width, uint32_t height) override;
-			uint32_t getColorAttachmentRendererID() const override;
+			uint32_t getColorAttachmentRendererID(uint32_t index = 0) const override;
 			const FramebufferSpecification& getSpecification() const override;
 		private:
 			uint32_t rendererID;
-			uint32_t colorAttachment;
-			uint32_t depthAttachment;
 			FramebufferSpecification specification;
+
+			std::vector<FramebufferTextureSpecification> colorAttachmentSpecifications;
+			FramebufferTextureSpecification depthAttachmentSpecification;
+
+			std::vector<uint32_t> colorAttachments;
+			uint32_t depthAttachment;
 	};
 }

@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-05-15
+### Changed
+* Refactored framebuffers to allow for multiple render targets.
+
+
 ## 2021-05-13
 ### Added
 * Transformation gizmos to Pesto using ImGuizmo.

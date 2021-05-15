@@ -24,6 +24,7 @@ namespace Basil
 
 		// Create framebuffer
 		FramebufferSpecification fbSpec;
+		fbSpec.attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
 		fbSpec.width = 1280;
 		fbSpec.height = 720;
 		framebuffer = Framebuffer::create(fbSpec);
