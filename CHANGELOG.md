@@ -2,6 +2,9 @@
 Change log for the Basil Game Engine project.
 
 ## 2021-05-15
+### Added
+* GL_RED_INTEGER as a framebuffer format.
+
 ### Changed
 * Refactored framebuffers to allow for multiple render targets.
 

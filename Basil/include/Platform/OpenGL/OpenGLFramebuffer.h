@@ -16,6 +16,7 @@ namespace Basil
 			void bind() override;
 			void unbind() override;
 			void resize(uint32_t width, uint32_t height) override;
+			int readPixel(uint32_t attachmentIndex, int x, int y) override;
 			uint32_t getColorAttachmentRendererID(uint32_t index = 0) const override;
 			const FramebufferSpecification& getSpecification() const override;
 		private:

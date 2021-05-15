@@ -24,7 +24,7 @@ namespace Basil
 
 		// Create framebuffer
 		FramebufferSpecification fbSpec;
-		fbSpec.attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
+		fbSpec.attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
 		fbSpec.width = 1280;
 		fbSpec.height = 720;
 		framebuffer = Framebuffer::create(fbSpec);
@@ -116,6 +116,21 @@ namespace Basil
 		{
 			PROFILE_SCOPE("Renderer Draw");
 			activeScene->onUpdateEditor(timeStep, editorCamera);
+
+			auto [mx, my] = ImGui::GetMousePos();
+			mx -= viewportBounds[0].x;
+			my -= viewportBounds[0].y;
+			glm::vec2 viewportSize = viewportBounds[1] - viewportBounds[0];
+			my = viewportSize.y - my;
+			int mouseX = (int)mx;
+			int mouseY = (int)my;
+
+			if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+			{
+				int pixelData = framebuffer->readPixel(1, mouseX, mouseY);
+				LOG_WARN("Pixel data = {0}", pixelData);
+			}
+
 			framebuffer->unbind();
 		}
 	}
@@ -225,13 +240,25 @@ namespace Basil
 		// Viewport
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0, 0 });
 		ImGui::Begin("Viewport");
+		auto viewportOffset = ImGui::GetCursorPos();
+
 		viewportFocused = ImGui::IsWindowFocused();
 		viewportHovered = ImGui::IsWindowHovered();
+		
 		Application::get().getImGuiLayer()->setBlockEvents(!viewportFocused && !viewportHovered);
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 		uint64_t textureID = framebuffer->getColorAttachmentRendererID();
 		ImGui::Image(reinterpret_cast<void*>(textureID), viewportPanelSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+		auto windowSize = ImGui::GetWindowSize();
+		ImVec2 minBound = ImGui::GetWindowPos();
+		minBound.x += viewportOffset.x;
+		minBound.y += viewportOffset.y;
+
+		ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
+		viewportBounds[0] = { minBound.x, minBound.y };
+		viewportBounds[1] = { maxBound.x, maxBound.y };
 		
 		// Gizmos
 		Entity selectedEntity = sceneHierarchyPanel.getSelectionContext();
