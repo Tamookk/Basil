@@ -79,6 +79,21 @@ namespace Basil
 
 			return false;
 		}
+
+		// Basil texture format to OpenGL texture format
+		static GLenum BasilFBTextureFormatToGL(FramebufferTextureFormat format)
+		{
+			switch (format)
+			{
+				case FramebufferTextureFormat::RGBA8:
+					return GL_RGBA8;
+				case FramebufferTextureFormat::RED_INTEGER:
+					return GL_RED_INTEGER;
+			}
+
+			ASSERT(false, "Invalid framebuffer texture format.");
+			return 0;
+		}
 	}
 
 	// Constructor
@@ -213,6 +228,15 @@ namespace Basil
 		int pixelData;
 		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
 		return pixelData;
+	}
+
+	// Clear a color attachment
+	void OpenGLFramebuffer::clearAttachment(uint32_t attachmentIndex, int value)
+	{
+		ASSERT(attachmentIndex < colorAttachments.size(), "");
+
+		auto& spec = colorAttachmentSpecifications[attachmentIndex];
+		glClearTexImage(colorAttachments[attachmentIndex], 0, Utils::BasilFBTextureFormatToGL(spec.textureFormat), GL_INT, &value);
 	}
 
 	// Return the color attachment renderer ID

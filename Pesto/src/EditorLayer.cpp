@@ -111,6 +111,7 @@ namespace Basil
 			framebuffer->bind();
 			Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 			Renderer::clear();
+			framebuffer->clearAttachment(1, -1);
 		}
 
 		{
