@@ -80,11 +80,6 @@ namespace Basil
 				case ShaderDataType::Float2:
 				case ShaderDataType::Float3:
 				case ShaderDataType::Float4:
-				case ShaderDataType::Int:
-				case ShaderDataType::Int2:
-				case ShaderDataType::Int3:
-				case ShaderDataType::Int4:
-				case ShaderDataType::Bool:
 				{
 					glEnableVertexAttribArray(index);
 					glVertexAttribPointer(
@@ -92,6 +87,23 @@ namespace Basil
 						element.getComponentCount(),
 						ShaderDataTypeToOpenGLBaseType(element.type),
 						element.normalised ? GL_TRUE : GL_FALSE,
+						layout.getStride(),
+						(const void*)element.offset
+					);
+					index++;
+					break;
+				}
+				case ShaderDataType::Int:
+				case ShaderDataType::Int2:
+				case ShaderDataType::Int3:
+				case ShaderDataType::Int4:
+				case ShaderDataType::Bool:
+				{
+					glEnableVertexAttribArray(index);
+					glVertexAttribIPointer(
+						index,
+						element.getComponentCount(),
+						ShaderDataTypeToOpenGLBaseType(element.type),
 						layout.getStride(),
 						(const void*)(intptr_t)element.offset
 					);

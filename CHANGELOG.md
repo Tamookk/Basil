@@ -1,6 +1,12 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-05-18
+### Fixed
+* Bug where program would crash if you changed the gizmo type while using it.
+* OpenGLVertexArray for integer attributes.
+
+
 ## 2021-05-17
 ### Added
 * Added API to clear texture attachments.

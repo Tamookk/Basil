@@ -343,19 +343,23 @@ namespace Basil
 
 			// Gizmos
 			case (int)Key::Q:
-				gizmoType = -1;
+				if(!ImGuizmo::IsUsing())
+					gizmoType = -1;
 				break;
 
 			case (int)Key::W:
-				gizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				if (!ImGuizmo::IsUsing())
+					gizmoType = ImGuizmo::OPERATION::TRANSLATE;
 				break;
 
 			case (int)Key::E:
-				gizmoType = ImGuizmo::OPERATION::ROTATE;
+				if (!ImGuizmo::IsUsing())
+					gizmoType = ImGuizmo::OPERATION::ROTATE;
 				break;
 
 			case (int)Key::R:
-				gizmoType = ImGuizmo::OPERATION::SCALE;
+				if (!ImGuizmo::IsUsing())
+					gizmoType = ImGuizmo::OPERATION::SCALE;
 				break;
 		}
 		return false;
