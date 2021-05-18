@@ -129,7 +129,7 @@ namespace Basil
 			if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
 			{
 				int pixelData = framebuffer->readPixel(1, mouseX, mouseY);
-				LOG_WARN("Pixel data = {0}", pixelData);
+				hoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, activeScene.get());
 			}
 
 			framebuffer->unbind();
@@ -144,6 +144,7 @@ namespace Basil
 		// Dispatch key pressed event
 		EventDispatcher dispatcher(e);
 		dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT(EditorLayer::onKeyPressed));
+		dispatcher.dispatch<MouseButtonPressedEvent>(BIND_EVENT(EditorLayer::onMouseButtonPressed));
 	}
 
 	void EditorLayer::onImGuiRender()
@@ -225,7 +226,7 @@ namespace Basil
 		sceneHierarchyPanel.onImGuiRender();
 
 		// Properties panel
-		propertiesPanel.onImGuiRender(sceneHierarchyPanel.getSelectionContext());
+		propertiesPanel.onImGuiRender(sceneHierarchyPanel.getSelectedEntity());
 
 		// Settings panel
 		ImGui::Begin("Stats");
@@ -262,7 +263,7 @@ namespace Basil
 		viewportBounds[1] = { maxBound.x, maxBound.y };
 		
 		// Gizmos
-		Entity selectedEntity = sceneHierarchyPanel.getSelectionContext();
+		Entity selectedEntity = sceneHierarchyPanel.getSelectedEntity();
 		if (selectedEntity && gizmoType != -1)
 		{
 			ImGuizmo::SetOrthographic(false);
@@ -361,6 +362,17 @@ namespace Basil
 				if (!ImGuizmo::IsUsing())
 					gizmoType = ImGuizmo::OPERATION::SCALE;
 				break;
+		}
+		return false;
+	}
+
+	// On mouse button pressed function
+	bool EditorLayer::onMouseButtonPressed(MouseButtonPressedEvent& e)
+	{
+		if (e.getMouseButton() == (int)Mouse::ButtonLeft)
+		{
+			if (viewportHovered && !ImGuizmo::IsOver() && !Input::isKeyPressed(Key::LeftAlt))
+				sceneHierarchyPanel.setSelectedEntity(hoveredEntity);
 		}
 		return false;
 	}

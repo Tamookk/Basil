@@ -28,8 +28,9 @@ namespace Basil
 			static void beginScene(const EditorCamera& camera);
 			static void endScene();
 			static void flush();
-			static void drawQuad(const glm::mat4& transform, const glm::vec4& color);
-			static void drawQuad(const glm::mat4& transform, const Shared<Texture2D>& texture, float textureScale = 1.0f, const glm::vec4& tintColor = glm::vec4(1.0f));
+			static void drawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID = -1);
+			static void drawQuad(const glm::mat4& transform, const Shared<Texture2D>& texture, float textureScale = 1.0f, const glm::vec4& tintColor = glm::vec4(1.0f), int entityID = -1);
+			static void drawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID);
 			static void resetStats();
 			static Statistics getStats();
 		private:

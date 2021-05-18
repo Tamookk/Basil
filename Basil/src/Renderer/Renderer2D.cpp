@@ -16,6 +16,9 @@ namespace Basil
 		glm::vec2 TexCoord;
 		float TexIndex;
 		float TilingFactor;
+
+		// Editor only
+		int EntityID;
 	};
 
 	// For storing renderer data
@@ -77,7 +80,8 @@ namespace Basil
 				{ "a_Color",		ShaderDataType::Float4 },
 				{ "a_TexCoord",		ShaderDataType::Float2 },
 				{ "a_TexIndex",		ShaderDataType::Float },
-				{ "a_TilingFactor", ShaderDataType::Float }
+				{ "a_TilingFactor", ShaderDataType::Float },
+				{ "a_EntityID",		ShaderDataType::Int }
 			});
 		data.quadVertexArray->addVertexBuffer(data.quadVertexBuffer);
 		data.quadVertexBufferBase = new QuadVertex[data.maxVertices];
@@ -212,7 +216,7 @@ namespace Basil
 	}
 
 	// Draw a quad (3D position)
-	void Renderer2D::drawQuad(const glm::mat4& transform, const glm::vec4& color)
+	void Renderer2D::drawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID)
 	{
 		PROFILE_FUNCTION();
 
@@ -232,6 +236,7 @@ namespace Basil
 			data.quadVertexBufferPtr->TexCoord = texCoords[i];
 			data.quadVertexBufferPtr->TexIndex = textureIndex;
 			data.quadVertexBufferPtr->TilingFactor = tilingFactor;
+			data.quadVertexBufferPtr->EntityID = entityID;
 			data.quadVertexBufferPtr++;
 		}
 
@@ -241,7 +246,7 @@ namespace Basil
 	}
 
 	// Draw a quad with a texture (3D position)
-	void Renderer2D::drawQuad(const glm::mat4& transform, const Shared<Texture2D>& texture, float textureScale, const glm::vec4& tintColor)
+	void Renderer2D::drawQuad(const glm::mat4& transform, const Shared<Texture2D>& texture, float textureScale, const glm::vec4& tintColor, int entityID)
 	{
 		PROFILE_FUNCTION();
 
@@ -282,12 +287,19 @@ namespace Basil
 			data.quadVertexBufferPtr->TexCoord = texCoords[i];
 			data.quadVertexBufferPtr->TexIndex = textureIndex;
 			data.quadVertexBufferPtr->TilingFactor = textureScale;
+			data.quadVertexBufferPtr->EntityID = entityID;
 			data.quadVertexBufferPtr++;
 		}
 
 		// Increment index and quad count
 		data.quadIndexCount += 6;
 		data.stats.quadCount++;
+	}
+
+	// Draw a sprite
+	void Renderer2D::drawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
+	{
+		drawQuad(transform, src.color, entityID);
 	}
 
 	// Reset statistics

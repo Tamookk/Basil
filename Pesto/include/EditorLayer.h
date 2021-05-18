@@ -24,6 +24,7 @@ namespace Basil
 			void onImGuiRender() override;
 		private:
 			bool onKeyPressed(KeyPressedEvent& e);
+			bool onMouseButtonPressed(MouseButtonPressedEvent& e);
 			
 			void newScene();
 			void openScene();
@@ -44,6 +45,7 @@ namespace Basil
 			Entity squareEntity;
 			Entity cameraEntity;
 			Entity secondCameraEntity;
+			Entity hoveredEntity;
 			
 			bool viewportFocused;
 			bool viewportHovered;

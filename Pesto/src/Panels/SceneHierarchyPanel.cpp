@@ -20,10 +20,16 @@ namespace Basil
 		selectionContext = {};
 	}
 
-	// Return the selection context
-	Entity& SceneHierarchyPanel::getSelectionContext()
+	// Return the selected entity
+	Entity& SceneHierarchyPanel::getSelectedEntity()
 	{
 		return selectionContext;
+	}
+
+	// Set the selected entity
+	void SceneHierarchyPanel::setSelectedEntity(Entity entity)
+	{
+		selectionContext = entity;
 	}
 
 	// On ImGui render

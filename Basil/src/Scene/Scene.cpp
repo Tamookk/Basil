@@ -91,10 +91,23 @@ namespace Basil
 			for (auto entity : group)
 			{
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-				Renderer2D::drawQuad(transform.getTransform(), sprite.color);
+				Renderer2D::drawSprite(transform.getTransform(), sprite, (int)entity);
 			}
 			Renderer2D::endScene();
 		}
+	}
+
+	// On update function for the editor
+	void Scene::onUpdateEditor(Timestep timeStep, EditorCamera& camera)
+	{
+		Renderer2D::beginScene(camera);
+		auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		for (auto entity : group)
+		{
+			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+			Renderer2D::drawSprite(transform.getTransform(), sprite, (int)entity);
+		}
+		Renderer2D::endScene();
 	}
 
 	// On viewport resize
@@ -126,19 +139,6 @@ namespace Basil
 		}
 
 		return {};
-	}
-
-	// On update function for the editor
-	void Scene::onUpdateEditor(Timestep timeStep, EditorCamera& camera)
-	{
-		Renderer2D::beginScene(camera);
-		auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		for (auto entity : group)
-		{
-			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-			Renderer2D::drawQuad(transform.getTransform(), sprite.color);
-		}
-		Renderer2D::endScene();
 	}
 
 	// On component added (only called if component you are trying to add does not exist)
