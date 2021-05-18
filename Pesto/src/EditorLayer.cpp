@@ -242,7 +242,11 @@ namespace Basil
 		// Viewport
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0, 0 });
 		ImGui::Begin("Viewport");
-		auto viewportOffset = ImGui::GetCursorPos();
+		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
+		auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
+		auto viewportOffset = ImGui::GetWindowPos();
+		viewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
+		viewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
 		viewportFocused = ImGui::IsWindowFocused();
 		viewportHovered = ImGui::IsWindowHovered();
@@ -252,15 +256,6 @@ namespace Basil
 		viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 		uint64_t textureID = framebuffer->getColorAttachmentRendererID();
 		ImGui::Image(reinterpret_cast<void*>(textureID), viewportPanelSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
-
-		auto windowSize = ImGui::GetWindowSize();
-		ImVec2 minBound = ImGui::GetWindowPos();
-		minBound.x += viewportOffset.x;
-		minBound.y += viewportOffset.y;
-
-		ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
-		viewportBounds[0] = { minBound.x, minBound.y };
-		viewportBounds[1] = { maxBound.x, maxBound.y };
 		
 		// Gizmos
 		Entity selectedEntity = sceneHierarchyPanel.getSelectedEntity();
@@ -270,10 +265,7 @@ namespace Basil
 			ImGuizmo::SetDrawlist();
 
 			// Set rect size
-			float windowWidth = ImGui::GetWindowWidth();
-			float windowHeight = ImGui::GetWindowHeight();
-			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
-
+			ImGuizmo::SetRect(viewportBounds[0].x, viewportBounds[0].y, viewportBounds[1].x - viewportBounds[0].x, viewportBounds[1].y - viewportBounds[1].x);
 			// Set camera (runtime camera from entity)
 			//auto cameraEntity = activeScene->getPrimaryCameraEntity();
 			//const auto& camera = cameraEntity.getComponent<CameraComponent>().camera;

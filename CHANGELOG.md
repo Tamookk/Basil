@@ -8,6 +8,7 @@ Change log for the Basil Game Engine project.
 ### Fixed
 * Bug where program would crash if you changed the gizmo type while using it.
 * OpenGLVertexArray for integer attributes.
+* Wrong viewport bounds when viewport tab bar is visible.
 
 
 ## 2021-05-17
