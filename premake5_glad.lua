@@ -2,7 +2,6 @@ project "GLAD"
 	location "Basil/vendor/"
 	kind "StaticLib"
 	language "C"
-	staticruntime "On"
 	gladdir = "Basil/vendor/glad/"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")

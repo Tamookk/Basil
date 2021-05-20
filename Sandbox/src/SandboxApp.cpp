@@ -19,7 +19,7 @@ class Sandbox : public Basil::Application
 };
 
 // Create a new instance of Sandbox
-Basil::Application* Basil::createApplication()
+Basil::Application* Basil::createApplication(Basil::ApplicationCommandLineArgs args)
 {
 	return new Sandbox();
 }

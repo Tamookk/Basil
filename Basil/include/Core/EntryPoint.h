@@ -9,7 +9,7 @@
 #include "Core/Log.h"
 
 #ifdef PLATFORM_WINDOWS
-extern Basil::Application* Basil::createApplication();
+extern Basil::Application* Basil::createApplication(ApplicationCommandLineArgs args);
 
 int main(int argc, char* argv[])
 {
@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 	Basil::Log::init();
 
 	PROFILE_BEGIN_SESSION("Startup", "Profile-Startup.json");
-	auto app = Basil::createApplication();
+	auto app = Basil::createApplication({ argc, argv });
 	PROFILE_END_SESSION();
 
 	PROFILE_BEGIN_SESSION("Runtime", "Profile-Runtime.json");

@@ -1,9 +1,12 @@
+include "Dependencies.lua"
+
 workspace "Basil"
 	architecture "x64"
 	configurations { "Debug", "Release" }
 	startproject "Sandbox"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+VULKAN_SDK = os.getenv("VULKAN_SDK")
 
 group "Dependencies"
 	include "premake5_glfw.lua"
@@ -17,11 +20,14 @@ project "Basil"
 	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "On"
+	staticruntime "Off"
+
 	targetdir("bin/" .. outputdir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
+
 	pchheader "pch.h"
 	pchsource "Basil/src/pch.cpp"
+
 	files
 	{
 		"%{prj.name}/src/**.cpp",
@@ -30,23 +36,25 @@ project "Basil"
 		"%{prj.name}/vendor/glm/**.inl",
 		"%{prj.name}/vendor/stb/**.cpp",
 		"%{prj.name}/vendor/stb/**.h",
-		"%{prj.name}/vendor/entt/**.hpp",
 		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp",
 		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h"
 	}
+
 	defines { "_CRT_SECURE_NO_WARNINGS" }
+
 	includedirs
 	{
 		"%{prj.name}/include",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{prj.name}/vendor/GLFW/include",
-		"%{prj.name}/vendor/glad/include",
-		"%{prj.name}/vendor/imgui",
-		"%{prj.name}/vendor/glm",
-		"%{prj.name}/vendor/stb",
-		"%{prj.name}/vendor/entt",
-		"%{prj.name}/vendor/yaml-cpp/include",
-		"%{prj.name}/vendor/ImGuizmo"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.glad}",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.GLM}",
+		"%{IncludeDir.stb}",
+		"%{IncludeDir.EnTT}",
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}",
+		"%{IncludeDir.VulkanSDK}"
 	}
 
 	links { "GLFW", "GLAD", "ImGui", "yaml-cpp", "opengl32.lib" }
@@ -61,6 +69,13 @@ project "Basil"
 
 	filter "configurations:Debug"
 		defines { "DEBUG" }
+		links
+		{
+			"%{Library.ShaderC_Debug}",
+			"%{Library.SPIRV_Cross_Debug}",
+			"%{Library.SPIRV_Cross_GLSL_Debug}"
+		}
+
 		runtime "Debug"
 		symbols "On"
 
@@ -68,13 +83,19 @@ project "Basil"
 		defines { "RELEASE" }
 		runtime "Release"
 		optimize "On"
+		links
+		{
+			"%{Library.ShaderC_Release}",
+			"%{Library.SPIRV_Cross_Release}",
+			"%{Library.SPIRV_Cross_GLSL_Release}"
+		}
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "On"
+	staticruntime "Off"
 	targetdir("bin/" .. outputdir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
 	files { "%{prj.name}/src/**.cpp", "%{prj.name}/include/**.h" }
@@ -83,13 +104,13 @@ project "Sandbox"
 		"%{prj.name}/include",
 		"Basil/include",
 		"Basil/vendor/spdlog/include",
-		"Basil/vendor/GLFW/include",
-		"Basil/vendor/glad/include",
-		"Basil/vendor/imgui",
-		"Basil/vendor/glm",
-		"Basil/vendor/entt",
-		"Basil/vendor/yaml-cpp/include",
-		"Basil/vendor/imguizmo"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.glad}",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.GLM}",
+		"%{IncludeDir.EnTT}",
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}"
 	}
 	links { "Basil" }
 
@@ -112,7 +133,7 @@ project "Pesto"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "On"
+	staticruntime "Off"
 	targetdir("bin/" .. outputdir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
 	files
@@ -125,13 +146,13 @@ project "Pesto"
 		"%{prj.name}/include",
 		"Basil/include",
 		"Basil/vendor/spdlog/include",
-		"Basil/vendor/GLFW/include",
-		"Basil/vendor/glad/include",
-		"Basil/vendor/imgui",
-		"Basil/vendor/glm",
-		"Basil/vendor/entt",
-		"Basil/vendor/yaml-cpp/include",
-		"Basil/vendor/imguizmo"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.glad}",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.GLM}",
+		"%{IncludeDir.EnTT}",
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}"
 	}
 	links { "Basil" }
 	

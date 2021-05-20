@@ -39,8 +39,18 @@ namespace Basil
 		private:
 			std::string readFile(const std::string& filePath);
 			std::unordered_map<GLenum, std::string> preProcess(const std::string& source);
-			void compile(std::unordered_map<GLenum, std::string>& shaderSources);
+			void compileOrGetVulkanBinaries(std::unordered_map<GLenum, std::string>& shaderSources);
+			void compileOrGetOpenGLBinaries();
+			void createProgram();
+			void reflect(GLenum stage, const std::vector<uint32_t>& shaderData);
+
 			uint32_t rendererID;
+			std::string filePath;
 			std::string name;
+
+			std::unordered_map<GLenum, std::vector<uint32_t>> VulkanSPIRV;
+			std::unordered_map<GLenum, std::vector<uint32_t>> OpenGLSPIRV;
+
+			std::unordered_map<GLenum, std::string> OpenGLSourceCode;
 	};
 }

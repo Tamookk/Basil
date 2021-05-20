@@ -152,7 +152,8 @@ namespace Basil
 	template <>
 	void Scene::onComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
 	{
-		component.camera.setViewportSize(viewportWidth, viewportHeight);
+		if(viewportWidth > 0 && viewportHeight > 0)
+			component.camera.setViewportSize(viewportWidth, viewportHeight);
 	}
 
 	template <>

@@ -17,10 +17,12 @@ Visual Studio 2019 is recommended.
 
 Clone the repository with `git clone --recursive https://github.com/Tamookk/Basil`.
 
-### Windows Instructions
-From the project directory, open a command prompt and run `vendor\premake\premake5.exe vs2019`. This will generate all necessary project files for building this project within Visual Studio 2019. Once done, simply open `Basil.sln` and build away!
+This project requires [Python 3](https://www.python.org/) for setup.
 
-**Please note** that the .sln and .vcxproj files included in the repository are not enough on their own to successfully build the project within VS2019. Project files *must* be generated using premake first.
+### Windows Instructions
+1. From the `scripts` directory inside the project directory, open a command prompt and run `Setup.bat`. This will install all dependencies and generate all necessary project files for building this project within Visual Studio 2019.
+2. If you do not have the Vulkan SDK installed already, then this script will have to be run again after restarting your computer.
+3. Once done, simply open `Basil.sln` and build away!
 
 ## Third-Party Dependencies
 A list of third-party software used in this project:
@@ -33,4 +35,6 @@ A list of third-party software used in this project:
 * [GLM](https://github.com/g-truc/glm) for mathematics
 * [stb](https://github.com/nothings/stb) (specifically stb_image) for image loading
 * [EnTT](https://github.com/skypjack/entt) for an entity component system
-* [yaml-cpp](https://github.com/jbeder/yaml-cpp) for scene serialization.
+* [yaml-cpp](https://github.com/jbeder/yaml-cpp) for scene serialization
+* [SPIRV-Cross](https://github.com/KhronosGroup/SPIRV-Cross) for converting SPIR-V to other shader languages
+* [Shaderc](https://github.com/google/shaderc) for shader compilation.

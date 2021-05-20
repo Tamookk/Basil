@@ -2,9 +2,11 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/Renderer2D.h"
 #include "Renderer/Shader.h"
+#include "Renderer/UniformBuffer.h"
 #include "Renderer/VertexArray.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Basil
 {
@@ -44,6 +46,13 @@ namespace Basil
 		glm::vec4 quadVertexPositions[4];
 
 		Renderer2D::Statistics stats;
+
+		struct CameraData
+		{
+			glm::mat4 viewProjection;
+		};
+		CameraData cameraBuffer;
+		Shared<UniformBuffer> cameraUniformBuffer;
 	};
 
 	// Declare a pointer to the data storage
@@ -84,6 +93,7 @@ namespace Basil
 				{ "a_EntityID",		ShaderDataType::Int }
 			});
 		data.quadVertexArray->addVertexBuffer(data.quadVertexBuffer);
+
 		data.quadVertexBufferBase = new QuadVertex[data.maxVertices];
 
 		// Generate indices
@@ -118,8 +128,6 @@ namespace Basil
 
 		// Initialise shader
 		data.textureShader = Shader::create("assets/shaders/Texture.glsl");
-		data.textureShader->bind();
-		data.textureShader->setIntArray("u_Textures", samplers, data.maxTextureSlots);
 
 		// Set texture slot 0 to the white texture
 		data.textureSlots[0] = data.whiteTexture;
@@ -128,6 +136,8 @@ namespace Basil
 		data.quadVertexPositions[1] = {  0.5f, -0.5f, 0.0f, 1.0f };
 		data.quadVertexPositions[2] = { -0.5f,  0.5f, 0.0f, 1.0f };
 		data.quadVertexPositions[3] = {  0.5f,  0.5f, 0.0f, 1.0f };
+
+		data.cameraUniformBuffer = UniformBuffer::create(sizeof(Renderer2DData::CameraData), 0);
 	}
 
 	// Shutdown function
@@ -144,11 +154,8 @@ namespace Basil
 		PROFILE_FUNCTION();
 
 		// Generate view-projection matrix
-		glm::mat4 viewProj = camera.getProjection() * glm::inverse(transform);
-
-		// Bind shader and upload uniforms
-		data.textureShader->bind();
-		data.textureShader->setMat4("u_ViewProjection", viewProj);
+		data.cameraBuffer.viewProjection = camera.getProjection() * glm::inverse(transform);
+		data.cameraUniformBuffer->setData(&data.cameraBuffer, sizeof(Renderer2DData::CameraData));
 
 		// Initialise buffer variables
 		data.quadIndexCount = 0;
@@ -165,36 +172,34 @@ namespace Basil
 		data.textureShader->bind();
 		data.textureShader->setMat4("u_ViewProjection", camera.getViewProjectionMatrix());
 
-		data.quadIndexCount = 0;
-		data.quadVertexBufferPtr = data.quadVertexBufferBase;
-
-		data.textureSlotIndex = 1;
+		startBatch();
 	}
 
 	void Renderer2D::beginScene(const EditorCamera& camera)
 	{
 		PROFILE_FUNCTION();
 
-		glm::mat4 viewProj = camera.getViewProjection();
+		data.cameraBuffer.viewProjection = camera.getViewProjection();
+		data.cameraUniformBuffer->setData(&data.cameraBuffer, sizeof(Renderer2DData::CameraData));
 
-		data.textureShader->bind();
-		data.textureShader->setMat4("u_ViewProjection", viewProj);
-
-		data.quadIndexCount = 0;
-		data.quadVertexBufferPtr = data.quadVertexBufferBase;
-
-		data.textureSlotIndex = 1;
+		startBatch();
 	}
 
 	// End a scene
 	void Renderer2D::endScene()
 	{
 		PROFILE_FUNCTION();
-
-		uint32_t dataSize = (uint32_t)((uint8_t*)data.quadVertexBufferPtr - (uint8_t*)data.quadVertexBufferBase);
-		data.quadVertexBuffer->setData(data.quadVertexBufferBase, dataSize);
 		
 		flush();
+	}
+
+	// Start a batch
+	void Renderer2D::startBatch()
+	{
+		data.quadIndexCount = 0;
+		data.quadVertexBufferPtr = data.quadVertexBufferBase;
+
+		data.textureSlotIndex = 1;
 	}
 
 	// Flush
@@ -204,29 +209,39 @@ namespace Basil
 		if (data.quadIndexCount == 0)
 			return;
 
+		uint32_t dataSize = (uint32_t)((uint8_t*)data.quadVertexBufferPtr - (uint8_t*)data.quadVertexBufferBase);
+		data.quadVertexBuffer->setData(data.quadVertexBufferBase, dataSize);
+
 		// Bind textures
 		for (uint32_t i = 0; i < data.textureSlotIndex; i++)
 			data.textureSlots[i]->bind(i);
 
 		// Draw
+		data.textureShader->bind();
 		Renderer::drawIndexed(data.quadVertexArray, data.quadIndexCount);
 
 		// Increment draw calls
 		data.stats.drawCalls++;
 	}
 
+	void Renderer2D::nextBatch()
+	{
+		flush();
+		startBatch();
+	}
+
 	// Draw a quad (3D position)
 	void Renderer2D::drawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID)
 	{
 		PROFILE_FUNCTION();
-
-		// Flush and reset if index limit reached
-		if (data.quadIndexCount >= Renderer2DData::maxIndices)
-			flushAndReset();
-
+		
 		const float textureIndex = 0.0f;
 		const float tilingFactor = 1.0f;
 		constexpr glm::vec2 texCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {0.0f, 1.0f}, {1.0f, 1.0f} };
+
+		// Flush and reset if index limit reached
+		if (data.quadIndexCount >= Renderer2DData::maxIndices)
+			nextBatch();
 
 		// Set vertex data
 		for (int i = 0; i < 4; i++)
@@ -250,18 +265,18 @@ namespace Basil
 	{
 		PROFILE_FUNCTION();
 
-		// Flush and reset if index limit reached
-		if (data.quadIndexCount >= Renderer2DData::maxIndices)
-			flushAndReset();
-
 		// Define texture coordinates
 		constexpr glm::vec2 texCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {0.0f, 1.0f}, {1.0f, 1.0f} };
+
+		// Flush and reset if index limit reached
+		if (data.quadIndexCount >= Renderer2DData::maxIndices)
+			nextBatch();
 
 		// Set texture index
 		float textureIndex = 0.0f;
 		for (uint32_t i = 1; i < data.textureSlotIndex; i++)
 		{
-			if (*data.textureSlots[i].get() == *texture.get())
+			if (*data.textureSlots[i] == *texture)
 			{
 				textureIndex = (float)i;
 				break;
@@ -272,7 +287,7 @@ namespace Basil
 		if (textureIndex == 0.0f)
 		{
 			if (data.textureSlotIndex >= Renderer2DData::maxTextureSlots)
-				flushAndReset();
+				nextBatch();
 
 			textureIndex = (float)data.textureSlotIndex;
 			data.textureSlots[data.textureSlotIndex] = texture;
@@ -312,17 +327,5 @@ namespace Basil
 	Renderer2D::Statistics Renderer2D::getStats()
 	{
 		return data.stats;
-	}
-
-	// Flush and reset renderer data
-	void Renderer2D::flushAndReset()
-	{
-		// End scene
-		endScene();
-
-		// Reset renderer data
-		data.quadIndexCount = 0;
-		data.quadVertexBufferPtr = data.quadVertexBufferBase;
-		data.textureSlotIndex = 1;
 	}
 }

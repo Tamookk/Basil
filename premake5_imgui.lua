@@ -2,7 +2,6 @@ project "ImGui"
 	location "Basil/vendor/"
 	kind "StaticLib"
 	language "C++"
-	staticruntime "On"
 	imguidir = "Basil/vendor/imgui/"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")

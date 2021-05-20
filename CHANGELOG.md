@@ -1,6 +1,18 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-05-20
+### Added
+* Python scripts to retrieve dependencies.
+* Uniform buffers.
+* Command line arguments.
+* shaderc and SPIRV-Cross submodules.
+
+### Changed
+* Now using new shader system.
+* Made Premake scripts better.
+
+
 ## 2021-05-18
 ### Added
 * Selecting entities in the viewport.

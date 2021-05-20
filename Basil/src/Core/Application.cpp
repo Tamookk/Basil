@@ -9,7 +9,7 @@ namespace Basil
 	Application* Application::instance = nullptr;
 
 	// Constructor
-	Application::Application(const std::string& name)
+	Application::Application(const std::string& name, ApplicationCommandLineArgs args)
 	{
 		PROFILE_FUNCTION();
 
@@ -17,6 +17,7 @@ namespace Basil
 		ASSERT(!instance, "Application already exists!");
 
 		// Initialise variables
+		commandLineArgs = args;
 		running = true;
 		minimised = false;
 		lastFrameTime = 0.0f;
@@ -96,6 +97,12 @@ namespace Basil
 	Application& Application::get()
 	{
 		return *instance;
+	}
+
+	// Return command line arguments
+	ApplicationCommandLineArgs Application::getCommandLineArgs() const
+	{
+		return commandLineArgs;
 	}
 
 	// Return the window pointer

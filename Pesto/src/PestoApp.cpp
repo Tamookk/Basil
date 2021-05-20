@@ -7,7 +7,7 @@ namespace Basil
 	class Pesto : public Application
 	{
 		public:
-			Pesto() : Application("Pesto")
+			Pesto(ApplicationCommandLineArgs args) : Application("Pesto", args)
 			{
 				pushLayer(new EditorLayer());
 			}
@@ -19,8 +19,8 @@ namespace Basil
 		};
 
 	// Create a new instance of Sandbox
-	Application* createApplication()
+	Application* createApplication(ApplicationCommandLineArgs args)
 	{
-		return new Pesto();
+		return new Pesto(args);
 	}
 }

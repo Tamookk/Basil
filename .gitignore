@@ -404,3 +404,6 @@ FodyWeavers.xsd
 **.ini
 **.json
 **.log
+Basil/vendor/VulkanSDK/**
+Pesto/assets/cache/**
+scripts/__pycache__/**

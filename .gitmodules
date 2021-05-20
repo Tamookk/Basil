@@ -16,3 +16,9 @@
 [submodule "Basil/vendor/ImGuizmo"]
 	path = Basil/vendor/ImGuizmo
 	url = https://github.com/TheCherno/ImGuizmo
+[submodule "Basil/vendor/SPIRV-Cross"]
+	path = Basil/vendor/SPIRV-Cross
+	url = https://github.com/KhronosGroup/SPIRV-Cross
+[submodule "Basil/vendor/shaderc"]
+	path = Basil/vendor/shaderc
+	url = https://github.com/google/shaderc

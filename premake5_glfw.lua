@@ -2,7 +2,6 @@ project "GLFW"
 	location "Basil/vendor/"
 	kind "StaticLib"
 	language "C"
-	staticruntime "On"
 	glfwdir = "Basil/vendor/GLFW/"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")

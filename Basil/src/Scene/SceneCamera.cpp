@@ -49,6 +49,7 @@ namespace Basil
 	// Set viewport size
 	void SceneCamera::setViewportSize(uint32_t width, uint32_t height)
 	{
+		ASSERT(width > 0 && height > 0, "");
 		aspectRatio = (float)width / (float)height;
 		recalculateProjection();
 	}

@@ -1,4 +1,5 @@
 #include "EditorLayer.h"
+#include "Core/Application.h"
 #include "Math/Math.h"
 #include "Scene/SceneSerializer.h"
 #include "Utils/PlatfomUtils.h"
@@ -31,6 +32,14 @@ namespace Basil
 
 		// Create scene
 		activeScene = makeShared<Scene>();
+
+		auto commandLineArgs = Application::get().getCommandLineArgs();
+		if (commandLineArgs.count > 1)
+		{
+			auto sceneFilePath = commandLineArgs[1];
+			SceneSerializer serializer(activeScene);
+			serializer.deserialize(sceneFilePath);
+		}
 
 		// Set up editor camera
 		editorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
@@ -265,7 +274,7 @@ namespace Basil
 			ImGuizmo::SetDrawlist();
 
 			// Set rect size
-			ImGuizmo::SetRect(viewportBounds[0].x, viewportBounds[0].y, viewportBounds[1].x - viewportBounds[0].x, viewportBounds[1].y - viewportBounds[1].x);
+			ImGuizmo::SetRect(viewportBounds[0].x, viewportBounds[0].y, viewportBounds[1].x - viewportBounds[0].x, viewportBounds[1].y - viewportBounds[0].y);
 			// Set camera (runtime camera from entity)
 			//auto cameraEntity = activeScene->getPrimaryCameraEntity();
 			//const auto& camera = cameraEntity.getComponent<CameraComponent>().camera;
