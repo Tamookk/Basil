@@ -12,14 +12,14 @@ namespace Basil
 {
 	class PropertiesPanel
 	{
-	public:
-		PropertiesPanel() = default;
-		PropertiesPanel(const Shared<Scene>& context);
-		void setContext(const Shared<Scene>& context);
-		void onImGuiRender(Entity& selectionContext);
-	private:
-		void drawComponents(Entity entity);
-		Shared<Scene> context;
-		Entity selectionContext;
+		public:
+			PropertiesPanel() = default;
+			PropertiesPanel(const Shared<Scene>& context);
+			void setContext(const Shared<Scene>& context);
+			void onImGuiRender(Entity& selectionContext);
+		private:
+			void drawComponents(Entity entity);
+			Shared<Scene> context;
+			Entity selectionContext;
 	};
 }

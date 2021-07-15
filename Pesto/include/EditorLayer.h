@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include "Panels/ContentBrowserPanel.h"
 #include "Panels/PropertiesPanel.h"
 #include "Panels/SceneHierarchyPanel.h"
 #include "Renderer/EditorCamera.h"
@@ -30,6 +31,7 @@ namespace Basil
 			void openScene();
 			void saveSceneAs();
 
+			ContentBrowserPanel contentBrowserPanel;
 			PropertiesPanel propertiesPanel;
 			SceneHierarchyPanel sceneHierarchyPanel;
 			Shared<Framebuffer> framebuffer;

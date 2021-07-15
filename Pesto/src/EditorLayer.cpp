@@ -231,6 +231,9 @@ namespace Basil
 			ImGui::EndMenuBar();
 		}
 
+		// Content browser panel
+		contentBrowserPanel.onImGuiRender();
+		
 		// Scene hierarchy panel
 		sceneHierarchyPanel.onImGuiRender();
 

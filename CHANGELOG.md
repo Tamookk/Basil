@@ -5,6 +5,7 @@ Change log for the Basil Game Engine project.
 ### Added
 * A Python script to install Premake (instead of storing the exe in the repository).
 * Post-build commands for copying Vulkan dlls to the output directory.
+* Initial Content Browser panel work.
 
 ### Changed
 * Made some changes to the setup scripts:
