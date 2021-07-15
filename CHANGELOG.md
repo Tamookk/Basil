@@ -2,6 +2,9 @@
 Change log for the Basil Game Engine project.
 
 ## 2021-07-15
+### Added
+* A Python script to install Premake (instead of storing the exe in the repository).
+
 ### Changed
 * Made some changes to the setup scripts:
   * VulkanSDK directory is now created if it doesn't exist.
