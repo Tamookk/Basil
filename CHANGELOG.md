@@ -1,6 +1,16 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-07-15
+### Changed
+* Made some changes to the setup scripts:
+  * VulkanSDK directory is now created if it doesn't exist.
+  * Setup is in different classes.
+  * A progress bar has been added to the unzip function.
+  * The UserAgent requirement has been removed.
+  * Asks to use pip to install Python prerequisites to not break Python installs that don't use pip.
+
+
 ## 2021-05-20
 ### Added
 * Python scripts to retrieve dependencies.
