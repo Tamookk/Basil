@@ -12,6 +12,7 @@ Change log for the Basil Game Engine project.
 
 ### Removed
 * Unused variable `time` in `ImGuiLayer.h/cpp`.
+* Non-working URL from the URL list in `SetupVulkan.py`.
 
 
 ## 2021-05-20

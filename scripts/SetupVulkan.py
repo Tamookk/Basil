@@ -62,7 +62,6 @@ class VulkanConfiguration:
         shadercdLib = Path(f"{self.vulkanDirectory}/Lib/shaderc_sharedd.lib")
 
         VulkanSDKDebugLibsURLlist = [
-            f"https://files.lunar.com/VulkanSDK-{self.requiredVulkanVersion}-DebugLibs.zip",
             f"https://sdk.lunarg.com/sdk/download/{self.requiredVulkanVersion}/windows/VulkanSDK-{self.requiredVulkanVersion}-DebugLibs.zip",
             f"https://files.lunarg.com/SDK-{self.requiredVulkanVersion}/VulkanSDK-{self.requiredVulkanVersion}-DebugLibs.zip"
 
