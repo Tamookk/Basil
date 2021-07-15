@@ -6,7 +6,7 @@
 class Sandbox : public Basil::Application
 {
 	public:
-		Sandbox()
+		Sandbox(Basil::ApplicationCommandLineArgs args)
 		{
 			//pushLayer(new ExampleLayer());
 			pushLayer(new Sandbox2D());
@@ -21,5 +21,5 @@ class Sandbox : public Basil::Application
 // Create a new instance of Sandbox
 Basil::Application* Basil::createApplication(Basil::ApplicationCommandLineArgs args)
 {
-	return new Sandbox();
+	return new Sandbox(args);
 }

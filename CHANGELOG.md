@@ -13,6 +13,10 @@ Change log for the Basil Game Engine project.
   * The UserAgent requirement has been removed.
   * Asks to use pip to install Python prerequisites to not break Python installs that don't use pip.
 
+### Fixed
+* Made fixes to Sandbox to ensure it compiles and runs on a fresh checkout.
+* Fixed error in `Texture.glsl` that would cause the program to crash when using textures. 
+
 ### Removed
 * Unused variable `time` in `ImGuiLayer.h/cpp`.
 * Non-working URL from the URL list in `SetupVulkan.py`.

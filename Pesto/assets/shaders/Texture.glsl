@@ -54,8 +54,6 @@ layout(location = 4) in flat int v_EntityID;
 
 layout(binding = 0) uniform sampler2D u_Textures[32];
 
-uniform sampler2D u_Textures[32];
-
 void main()
 {
 	vec4 texColor = Input.Color;

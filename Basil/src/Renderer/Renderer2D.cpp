@@ -169,8 +169,8 @@ namespace Basil
 	{
 		PROFILE_FUNCTION();
 
-		data.textureShader->bind();
-		data.textureShader->setMat4("u_ViewProjection", camera.getViewProjectionMatrix());
+		data.cameraBuffer.viewProjection = camera.getViewProjectionMatrix();
+		data.cameraUniformBuffer->setData(&data.cameraBuffer, sizeof(Renderer2DData::CameraData));
 
 		startBatch();
 	}
