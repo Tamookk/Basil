@@ -122,6 +122,10 @@ project "Sandbox"
 		defines { "DEBUG" }
 		runtime "Debug"
 		symbols "On"
+		postbuildcommands
+		{
+			"{COPYDIR} \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\""
+		}
 
 	filter "configurations:Release"
 		defines { "RELEASE" }
@@ -164,6 +168,10 @@ project "Pesto"
 		defines { "DEBUG" }
 		runtime "Debug"
 		symbols "On"
+		postbuildcommands
+		{
+			"{COPYDIR} \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\""
+		}
 
 	filter "configurations:Release"
 		defines { "RELEASE" }
