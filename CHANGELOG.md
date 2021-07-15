@@ -10,6 +10,9 @@ Change log for the Basil Game Engine project.
   * The UserAgent requirement has been removed.
   * Asks to use pip to install Python prerequisites to not break Python installs that don't use pip.
 
+### Removed
+* Unused variable `time` in `ImGuiLayer.h/cpp`.
+
 
 ## 2021-05-20
 ### Added

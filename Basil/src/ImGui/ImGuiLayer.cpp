@@ -14,7 +14,6 @@ namespace Basil
 	ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer")
 	{
 		blockEvents = true;
-		time = 0.0f;
 	}
 
 	// On attach to layer stack

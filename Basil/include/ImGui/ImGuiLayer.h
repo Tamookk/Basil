@@ -24,6 +24,5 @@ namespace Basil
 			void setDarkThemeColors();
 		private:
 			bool blockEvents;
-			float time;
 	};
 }
