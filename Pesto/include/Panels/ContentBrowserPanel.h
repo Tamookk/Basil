@@ -5,6 +5,8 @@
 
 #include <filesystem>
 
+#include "Renderer/Texture2D.h"
+
 namespace Basil
 {
 	class ContentBrowserPanel
@@ -12,8 +14,9 @@ namespace Basil
 		public:
 			ContentBrowserPanel();
 			void onImGuiRender();
-
 		private:
 			std::filesystem::path currentDirectory;
+			Shared<Texture2D> directoryIcon;
+			Shared<Texture2D> fileIcon;
 	};
 }

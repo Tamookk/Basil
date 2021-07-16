@@ -1,6 +1,14 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-07-16
+### Added
+* Content Browser panel icons.
+
+### Changed
+* Layout of the Content Browser panel.
+
+
 ## 2021-07-15
 ### Added
 * A Python script to install Premake (instead of storing the exe in the repository).

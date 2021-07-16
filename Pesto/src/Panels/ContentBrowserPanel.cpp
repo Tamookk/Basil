@@ -12,6 +12,8 @@ namespace Basil
 	{
 		// Initialise variables
 		currentDirectory = assetPath;
+		directoryIcon = Texture2D::create("res/icons/content_browser/folder.png");
+		fileIcon = Texture2D::create("res/icons/content_browser/file.png");
 	}
 
 	// On ImGui render
@@ -29,6 +31,20 @@ namespace Basil
 			}
 		}
 
+		// Calculate number of columns in content browser
+		static float padding = 16.0f;
+		static float thumbnailSize = 128.0f;
+		float cellSize = thumbnailSize + padding;
+		float panelWidth = ImGui::GetContentRegionAvail().x;
+		int columnCount = (int)(panelWidth / cellSize);
+		
+		// Ensure there is always at least one column
+		if (columnCount < 1)
+			columnCount = 1;
+
+		// Set column count
+		ImGui::Columns(columnCount, 0, false);
+
 		// For each top-level item in the current directory
 		for (auto& directoryEntry : std::filesystem::directory_iterator(currentDirectory))
 		{
@@ -37,22 +53,28 @@ namespace Basil
 			auto relativePath = std::filesystem::relative(path, assetPath);
 			std::string fileNameString = relativePath.filename().string();
 
-			if (directoryEntry.is_directory())
+			// Get the icon and create a button with the icon
+			Shared<Texture2D> icon = directoryEntry.is_directory() ? directoryIcon : fileIcon;
+			ImGui::ImageButton((ImTextureID)icon->getRendererID(), { thumbnailSize, thumbnailSize }, { 0,1 }, { 1,0 });
+
+			// Enter the directory if the directory button is double clicked
+			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 			{
-				// Enter directory if button is clicked
-				if (ImGui::Button(fileNameString.c_str()))
-				{
+				if (directoryEntry.is_directory())
 					currentDirectory /= path.filename();
-				}
-			}
-			else
-			{
-				if(ImGui::Button(fileNameString.c_str()))
-				{ }
 			}
 
-			
+			// Add the name of the directory/file under the button
+			ImGui::TextWrapped(fileNameString.c_str());
+			ImGui::NextColumn();	
 		}
+
+		// Reset column count
+		ImGui::Columns(1);
+
+		// Add sliders for setting thumbnail size and padding
+		ImGui::SliderFloat("Thumbnail Size", &thumbnailSize, 16, 512);
+		ImGui::SliderFloat("Padding", &padding, 0, 32);
 
 		ImGui::End();
 	}
