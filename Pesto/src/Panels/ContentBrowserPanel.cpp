@@ -5,7 +5,7 @@
 namespace Basil
 {
 	// Temporary
-	constexpr char* assetPath = "assets";
+	extern const std::filesystem::path assetPath = "assets";
 
 	// Constructor
 	ContentBrowserPanel::ContentBrowserPanel()
@@ -53,9 +53,23 @@ namespace Basil
 			auto relativePath = std::filesystem::relative(path, assetPath);
 			std::string fileNameString = relativePath.filename().string();
 
+			// Push an ImGui ID
+			ImGui::PushID(fileNameString.c_str());
+
 			// Get the icon and create a button with the icon
 			Shared<Texture2D> icon = directoryEntry.is_directory() ? directoryIcon : fileIcon;
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 			ImGui::ImageButton((ImTextureID)icon->getRendererID(), { thumbnailSize, thumbnailSize }, { 0,1 }, { 1,0 });
+
+			// Send drag and drop data to the viewport (currently a scene file)
+			if (ImGui::BeginDragDropSource())
+			{
+				const wchar_t* itemPath = relativePath.c_str();
+				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t), ImGuiCond_Once);
+				ImGui::EndDragDropSource();
+			}
+
+			ImGui::PopStyleColor();
 
 			// Enter the directory if the directory button is double clicked
 			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
@@ -66,7 +80,8 @@ namespace Basil
 
 			// Add the name of the directory/file under the button
 			ImGui::TextWrapped(fileNameString.c_str());
-			ImGui::NextColumn();	
+			ImGui::NextColumn();
+			ImGui::PopID();
 		}
 
 		// Reset column count

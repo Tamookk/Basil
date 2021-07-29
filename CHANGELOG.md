@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-07-29
+### Added
+* Drag + drop to the Content Browser panel.
+
+
 ## 2021-07-16
 ### Added
 * Content Browser panel icons.

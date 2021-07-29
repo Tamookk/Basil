@@ -29,6 +29,7 @@ namespace Basil
 			
 			void newScene();
 			void openScene();
+			void openScene(const std::filesystem::path path);
 			void saveSceneAs();
 
 			ContentBrowserPanel contentBrowserPanel;

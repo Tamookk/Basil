@@ -11,6 +11,8 @@
 
 namespace Basil
 {
+	extern const std::filesystem::path assetPath;
+
 	// Constructor
 	EditorLayer::EditorLayer() : Layer("Sandbox2D")
 	{
@@ -268,6 +270,20 @@ namespace Basil
 		viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 		uint64_t textureID = framebuffer->getColorAttachmentRendererID();
 		ImGui::Image(reinterpret_cast<void*>(textureID), viewportPanelSize, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+		// Accept drag and drop data from the Content Browser panel (currently a scene file)
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* data = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+			{
+				const wchar_t* path = (const wchar_t*)data->Data;
+
+				// Open a scene
+				openScene(std::filesystem::path(assetPath) / path);
+			}
+
+			ImGui::EndDragDropTarget();
+		}
 		
 		// Gizmos
 		Entity selectedEntity = sceneHierarchyPanel.getSelectedEntity();
@@ -394,14 +410,18 @@ namespace Basil
 	{
 		std::string filePath = FileDialogs::openFile("Basil Scene (*.scene)\0*.scene\0");
 		if (!filePath.empty())
-		{
-			activeScene = makeShared<Scene>();
-			activeScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
-			sceneHierarchyPanel.setContext(activeScene);
+			openScene(filePath);
+	}
 
-			SceneSerializer serializer(activeScene);
-			serializer.deserialize(filePath);
-		}
+	// Open a scene (with a given file path)
+	void EditorLayer::openScene(const std::filesystem::path path)
+	{
+		activeScene = makeShared<Scene>();
+		activeScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
+		sceneHierarchyPanel.setContext(activeScene);
+
+		SceneSerializer serializer(activeScene);
+		serializer.deserialize(path.string());
 	}
 
 	// Save a scene as
