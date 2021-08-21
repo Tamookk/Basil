@@ -1,6 +1,12 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-08-21
+### Added
+* Drag + drop textures to the Sprite Renderer Component.
+* A tiling factor to the Sprite Renderer Component.
+
+
 ## 2021-07-29
 ### Added
 * Drag + drop to the Content Browser panel.

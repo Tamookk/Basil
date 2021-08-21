@@ -314,7 +314,10 @@ namespace Basil
 	// Draw a sprite
 	void Renderer2D::drawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
 	{
-		drawQuad(transform, src.color, entityID);
+		if (src.texture)
+			drawQuad(transform, src.texture, src.tilingFactor, src.color, entityID);
+		else
+			drawQuad(transform, src.color, entityID);
 	}
 
 	// Reset statistics

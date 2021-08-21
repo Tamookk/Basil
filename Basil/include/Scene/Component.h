@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include "Renderer/Texture2D.h"
 #include "Scene/SceneCamera.h"
 #include "Scene/ScriptableEntity.h"
 
@@ -42,7 +43,9 @@ namespace Basil
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
 		SpriteRendererComponent(const glm::vec4& color) : color(color) {}
+		float tilingFactor = 1.0f;
 		glm::vec4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
+		Shared<Texture2D> texture;
 	};
 
 	struct TagComponent
