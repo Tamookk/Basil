@@ -2,6 +2,9 @@
 Change log for the Basil Game Engine project.
 
 ## 2021-09-11
+### Changed
+* Default texture magnification filter changed to linear.
+
 ### Fixed
 * Texture index being interpolated in shaders.
 
