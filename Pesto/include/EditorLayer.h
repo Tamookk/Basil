@@ -15,6 +15,13 @@ namespace Basil
 	class EditorLayer : public Layer
 	{
 		public:
+			enum class SceneState
+			{
+				Edit = 0,
+				Play = 1
+			};
+
+		public:
 			EditorLayer();
 			virtual ~EditorLayer() {}
 			
@@ -32,9 +39,17 @@ namespace Basil
 			void openScene(const std::filesystem::path path);
 			void saveSceneAs();
 
+			void onScenePlay();
+			void onSceneStop();
+
+			// -- UI -- //
+			void UI_Toolbar();
+
+			// -- Panels -- //
 			ContentBrowserPanel contentBrowserPanel;
 			PropertiesPanel propertiesPanel;
 			SceneHierarchyPanel sceneHierarchyPanel;
+
 			Shared<Framebuffer> framebuffer;
 			Shared<Scene> activeScene;
 
@@ -55,5 +70,11 @@ namespace Basil
 			bool primaryCamera = true;
 
 			int gizmoType;
+
+			SceneState sceneState;
+
+			// -- Editor Resources -- //
+			Shared<Texture2D> iconPlay;
+			Shared<Texture2D> iconStop;
 	};
 }

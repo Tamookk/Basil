@@ -19,11 +19,16 @@ namespace Basil
 		viewportFocused = false;
 		viewportHovered = false;
 		gizmoType = -1;
+		sceneState = SceneState::Edit;
 	}
 
 	void EditorLayer::onAttach()
 	{
 		PROFILE_FUNCTION();
+
+		// Set play and stop icons
+		iconPlay = Texture2D::create("res/icons/editor_play_stop/play_button.png");
+		iconStop = Texture2D::create("res/icons/editor_play_stop/stop_button.png");
 
 		// Create framebuffer
 		FramebufferSpecification fbSpec;
@@ -112,9 +117,6 @@ namespace Basil
 			}
 		}
 
-		// Update editor camera
-		editorCamera.onUpdate(timeStep);
-
 		// Render
 		Renderer2D::resetStats();
 		{
@@ -125,9 +127,25 @@ namespace Basil
 			framebuffer->clearAttachment(1, -1);
 		}
 
+		// Update scene
 		{
 			PROFILE_SCOPE("Renderer Draw");
-			activeScene->onUpdateEditor(timeStep, editorCamera);
+			switch (sceneState)
+			{
+				case SceneState::Edit:
+				{
+					PROFILE_SCOPE("Editor Update");
+					editorCamera.onUpdate(timeStep);
+					activeScene->onUpdateEditor(timeStep, editorCamera);
+					break;
+				}
+				case SceneState::Play:
+				{
+					PROFILE_SCOPE("Play Update");
+					activeScene->onUpdateRuntime(timeStep);
+					break;
+				}
+			}
 
 			auto [mx, my] = ImGui::GetMousePos();
 			mx -= viewportBounds[0].x;
@@ -334,6 +352,7 @@ namespace Basil
 		ImGui::End();
 		ImGui::PopStyleVar();
 
+		UI_Toolbar();
 
 		ImGui::End();
 	}
@@ -433,5 +452,60 @@ namespace Basil
 			SceneSerializer serializer(activeScene);
 			serializer.serialize(filePath);
 		}
+	}
+
+	// When the scene plays
+	void EditorLayer::onScenePlay()
+	{
+		sceneState = SceneState::Play;
+	}
+
+	// When the scene stops
+	void EditorLayer::onSceneStop()
+	{
+		sceneState = SceneState::Edit;
+	}
+
+
+	// -- UI -- //
+	// Create the UI toolbar
+	void EditorLayer::UI_Toolbar()
+	{
+		// Push style
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 2));
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0, 0));
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+		auto& colors = ImGui::GetStyle().Colors;
+		const auto& buttonHoveredColor = colors[ImGuiCol_ButtonHovered];
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(buttonHoveredColor.x, buttonHoveredColor.y, buttonHoveredColor.z, 0.5f));
+		const auto& buttonActiveColor = colors[ImGuiCol_ButtonActive];
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(buttonActiveColor.x, buttonActiveColor.y, buttonActiveColor.z, 0.5f));
+
+		// Create toolbar flags
+		int toolbarFlags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar;
+		toolbarFlags |= ImGuiWindowFlags_NoScrollWithMouse;
+
+		// Begin toolbar
+		ImGui::Begin("##Toolbar", nullptr, toolbarFlags);
+
+		// Set button size and icon
+		float size = ImGui::GetWindowHeight() - 4;
+		Shared<Texture2D> icon = sceneState == SceneState::Edit ? iconPlay : iconStop;
+	
+		ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5) - (size * 0.5));
+
+		// If button pressed
+		if (ImGui::ImageButton((ImTextureID)icon->getRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0))
+		{
+			if (sceneState == SceneState::Edit)
+				onScenePlay();
+			else if (sceneState == SceneState::Play)
+				onSceneStop();
+		}
+
+		// End toolbar
+		ImGui::PopStyleVar(2);
+		ImGui::PopStyleColor(3);
+		ImGui::End();
 	}
 }

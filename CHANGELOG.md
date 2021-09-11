@@ -2,6 +2,10 @@
 Change log for the Basil Game Engine project.
 
 ## 2021-09-11
+### Added
+* Play/stop button to the editor.
+* `imgui.ini` file, so the Pesto editor layout is consistent across compiles/installs of Basil.
+
 ### Changed
 * Default texture magnification filter changed to linear.
 
