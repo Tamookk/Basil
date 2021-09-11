@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-09-11
+### Fixed
+* Texture index being interpolated in shaders.
+
+
 ## 2021-08-21
 ### Added
 * Drag + drop textures to the Sprite Renderer Component.
