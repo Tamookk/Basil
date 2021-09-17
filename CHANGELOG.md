@@ -8,6 +8,10 @@ Change log for the Basil Game Engine project.
 * A try-catch block when deserializing scenes for parser exceptions.
 * A check for the file extension when opening scene files.
 
+### Changed
+* Setup script now updates git submodules.
+
+
 ## 2021-09-11
 ### Added
 * Play/stop button to the editor.
