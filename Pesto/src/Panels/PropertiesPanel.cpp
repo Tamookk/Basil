@@ -293,7 +293,11 @@ namespace Basil
 				{
 					const wchar_t* path = (const wchar_t*)payload->Data;
 					std::filesystem::path texturePath = std::filesystem::path(assetPath) / path;
-					component.texture = Texture2D::create(texturePath.string());
+					Shared<Texture2D> texture = Texture2D::create(texturePath.string());
+					if (texture->isTextureLoaded())
+						component.texture = texture;
+					else
+						LOG_WARN("Could not load texture {0}", texturePath.filename().string());
 				}
 				ImGui::EndDragDropTarget();
 			}

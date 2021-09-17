@@ -199,7 +199,17 @@ namespace Basil
 	bool SceneSerializer::deserialize(const std::string& filePath)
 	{
 		// Open file
-		YAML::Node data = YAML::LoadFile(filePath);
+		YAML::Node data;
+		
+		try
+		{
+			data = YAML::LoadFile(filePath);
+		}
+		catch (YAML::ParserException e)
+		{
+			return false;
+		}
+
 		if (!data["Scene"])
 			return false;
 

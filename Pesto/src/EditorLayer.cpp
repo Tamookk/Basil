@@ -435,12 +435,21 @@ namespace Basil
 	// Open a scene (with a given file path)
 	void EditorLayer::openScene(const std::filesystem::path path)
 	{
-		activeScene = makeShared<Scene>();
-		activeScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
-		sceneHierarchyPanel.setContext(activeScene);
+		if (path.extension().string() != ".scene")
+		{
+			LOG_WARN("Could not load {0} - not a scene file", path.filename().string());
+			return;
+		}
 
-		SceneSerializer serializer(activeScene);
-		serializer.deserialize(path.string());
+		Shared<Scene> newScene = makeShared<Scene>();
+		SceneSerializer serializer(newScene);
+
+		if (serializer.deserialize(path.string()))
+		{
+			activeScene = newScene;
+			activeScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
+			sceneHierarchyPanel.setContext(activeScene);
+		}
 	}
 
 	// Save a scene as

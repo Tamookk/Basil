@@ -13,6 +13,7 @@ namespace Basil
 
 		// Initialise variables
 		this->path = path;
+		isLoaded = false;
 		internalFormat = 0;
 		dataFormat = 0;
 
@@ -24,13 +25,16 @@ namespace Basil
 			PROFILE_SCOPE("stbi_load - OpenGLTexture2D::OpenGLTexture2D(const std::string&)");
 			data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 		}
-		ASSERT(data, "Failed to load image.");
-		this->width = width;
-		this->height = height;
-
-		// Set internal and data format based on number of channels in image
-		switch (channels)
+		if (data)
 		{
+			isLoaded = true;
+
+			this->width = width;
+			this->height = height;
+
+			// Set internal and data format based on number of channels in image
+			switch (channels)
+			{
 			case 3:
 				internalFormat = GL_RGB8;
 				dataFormat = GL_RGB;
@@ -42,23 +46,24 @@ namespace Basil
 			default:
 				ASSERT(internalFormat & dataFormat, "Format not supported!");
 				break;
+			}
+
+			// Create texture in OpenGL
+			glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
+			glTextureStorage2D(rendererID, 1, internalFormat, this->width, this->height);
+
+			// Set texture parameters
+			glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTextureParameteri(rendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTextureParameteri(rendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+			// Upload texture
+			glTextureSubImage2D(rendererID, 0, 0, 0, this->width, this->height, dataFormat, GL_UNSIGNED_BYTE, data);
+
+			// Free the data from memory
+			stbi_image_free(data);
 		}
-
-		// Create texture in OpenGL
-		glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
-		glTextureStorage2D(rendererID, 1, internalFormat, this->width, this->height);
-
-		// Set texture parameters
-		glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTextureParameteri(rendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-		// Upload texture
-		glTextureSubImage2D(rendererID, 0, 0, 0, this->width, this->height, dataFormat, GL_UNSIGNED_BYTE, data);
-
-		// Free the data from memory
-		stbi_image_free(data);
 	}
 
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
@@ -124,6 +129,12 @@ namespace Basil
 		PROFILE_FUNCTION();
 
 		glBindTextureUnit(slot, rendererID);
+	}
+
+	// Return whether image is loaded
+	bool OpenGLTexture2D::isTextureLoaded() const
+	{
+		return isLoaded;
 	}
 
 	// Equality operator override
