@@ -38,3 +38,4 @@ A list of third-party software used in this project:
 * [yaml-cpp](https://github.com/jbeder/yaml-cpp) for scene serialization
 * [SPIRV-Cross](https://github.com/KhronosGroup/SPIRV-Cross) for converting SPIR-V to other shader languages
 * [Shaderc](https://github.com/google/shaderc) for shader compilation.
+* [Box2D](https://github.com/erincatto/box2d) for physics.

@@ -13,6 +13,7 @@ group "Dependencies"
 	include "premake5_glad.lua"
 	include "premake5_imgui.lua"
 	include "premake5_yaml-cpp.lua"
+	include "premake5_box2d.lua"
 group ""
 
 project "Basil"
@@ -54,10 +55,11 @@ project "Basil"
 		"%{IncludeDir.EnTT}",
 		"%{IncludeDir.yaml_cpp}",
 		"%{IncludeDir.ImGuizmo}",
-		"%{IncludeDir.VulkanSDK}"
+		"%{IncludeDir.Box2D}",
+		"%{IncludeDir.VulkanSDK}",
 	}
 
-	links { "GLFW", "GLAD", "ImGui", "yaml-cpp", "opengl32.lib" }
+	links { "GLFW", "GLAD", "ImGui", "yaml-cpp", "Box2D", "opengl32.lib" }
 	
 	filter "files:Basil/vendor/ImGuizmo/**.cpp"
 		flags { "NoPCH" }
@@ -110,7 +112,8 @@ project "Sandbox"
 		"%{IncludeDir.GLM}",
 		"%{IncludeDir.EnTT}",
 		"%{IncludeDir.yaml_cpp}",
-		"%{IncludeDir.ImGuizmo}"
+		"%{IncludeDir.ImGuizmo}",
+		"%{IncludeDir.Box2D}"
 	}
 	links { "Basil" }
 
@@ -156,7 +159,8 @@ project "Pesto"
 		"%{IncludeDir.GLM}",
 		"%{IncludeDir.EnTT}",
 		"%{IncludeDir.yaml_cpp}",
-		"%{IncludeDir.ImGuizmo}"
+		"%{IncludeDir.ImGuizmo}",
+		"%{IncludeDir.Box2D}"
 	}
 	links { "Basil" }
 	

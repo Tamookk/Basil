@@ -22,3 +22,6 @@
 [submodule "Basil/vendor/shaderc"]
 	path = Basil/vendor/shaderc
 	url = https://github.com/google/shaderc
+[submodule "Basil/vendor/box2d"]
+	path = Basil/vendor/box2d
+	url = https://github.com/erincatto/box2d
