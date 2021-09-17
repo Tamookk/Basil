@@ -1,6 +1,10 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-09-18
+### Added
+* Logging for GLM matrices, vectors, and quaternions.
+
 ## 2021-09-11
 ### Added
 * Play/stop button to the editor.
