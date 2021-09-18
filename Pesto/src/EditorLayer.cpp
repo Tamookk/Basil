@@ -240,6 +240,10 @@ namespace Basil
 					openScene();
 
 				// Save scene file
+				if (ImGui::MenuItem("Save...", "Ctrl+S"))
+					saveScene();
+
+				// Save scene file as 
 				if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
 					saveSceneAs();
 
@@ -377,8 +381,11 @@ namespace Basil
 					openScene();
 				break;
 			case (int)Key::S:
-				if (control && shift)
-					saveSceneAs();
+				if (control)
+					if (shift)
+						saveSceneAs();
+					else
+						saveScene();
 				break;
 
 			// Gizmos
@@ -422,6 +429,7 @@ namespace Basil
 		activeScene = makeShared<Scene>();
 		activeScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 		sceneHierarchyPanel.setContext(activeScene);
+		activeScenePath = "";
 	}
 
 	// Open a scene
@@ -430,6 +438,7 @@ namespace Basil
 		std::string filePath = FileDialogs::openFile("Basil Scene (*.scene)\0*.scene\0");
 		if (!filePath.empty())
 			openScene(filePath);
+
 	}
 
 	// Open a scene (with a given file path)
@@ -449,7 +458,17 @@ namespace Basil
 			activeScene = newScene;
 			activeScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 			sceneHierarchyPanel.setContext(activeScene);
+			activeScenePath = path;
 		}
+	}
+
+	// Save a scene
+	void EditorLayer::saveScene()
+	{
+		if (activeScenePath.empty())
+			saveSceneAs();
+		else
+			serializeScene(activeScenePath);
 	}
 
 	// Save a scene as
@@ -458,9 +477,18 @@ namespace Basil
 		std::string filePath = FileDialogs::saveFile("Basil Scene (*.scene)\0*.scene\0");
 		if (!filePath.empty())
 		{
-			SceneSerializer serializer(activeScene);
-			serializer.serialize(filePath);
+			serializeScene(filePath);
+			activeScenePath = filePath;
 		}
+	}
+
+	// Serialize a scene
+	void EditorLayer::serializeScene(const std::filesystem::path& path)
+	{
+		ASSERT(!path.empty(), "Path is empty");
+
+		SceneSerializer serializer(activeScene);
+		serializer.serialize(path.string());
 	}
 
 	// When the scene plays

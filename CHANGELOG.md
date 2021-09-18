@@ -12,11 +12,15 @@ Change log for the Basil Game Engine project.
 * A check when loading textures to see if texture data was actually loaded.
 * A try-catch block when deserializing scenes for parser exceptions.
 * A check for the file extension when opening scene files.
+* The ability to save opened scenes into the same file.
 
 ### Changed
 * Setup script now updates git submodules.
 * Components that already exist on entities are now no longer listed in the add component UI.
 * Default size of BoxCollider2DComponent.
+
+### Fixed
+* Physics components not serializing correctly.
 
 
 ## 2021-09-11

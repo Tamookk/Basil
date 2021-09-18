@@ -37,7 +37,9 @@ namespace Basil
 			void newScene();
 			void openScene();
 			void openScene(const std::filesystem::path path);
+			void saveScene();
 			void saveSceneAs();
+			void serializeScene(const std::filesystem::path& path);
 
 			void onScenePlay();
 			void onSceneStop();
@@ -52,6 +54,7 @@ namespace Basil
 
 			Shared<Framebuffer> framebuffer;
 			Shared<Scene> activeScene;
+			std::filesystem::path activeScenePath;
 
 			glm::vec2 viewportSize = { 0.0f, 0.0f };
 			glm::vec2 viewportBounds[2];

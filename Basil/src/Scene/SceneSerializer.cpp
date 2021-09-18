@@ -216,8 +216,6 @@ namespace Basil
 			out << YAML::EndMap;
 		}
 
-		out << YAML::EndMap;
-
 		// Rigidbody 2D component
 		if (entity.hasComponent<Rigidbody2DComponent>())
 		{
@@ -247,6 +245,8 @@ namespace Basil
 
 			out << YAML::EndMap;
 		}
+
+		out << YAML::EndMap;
 	}
 
 	// Serialize
