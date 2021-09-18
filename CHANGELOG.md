@@ -4,6 +4,7 @@ Change log for the Basil Game Engine project.
 ## 2021-09-18
 ### Added
 * Box2D submodule for physics.
+* An example 2D Physics scene.
 * Logging for GLM matrices, vectors, and quaternions.
 * A check when loading textures to see if texture data was actually loaded.
 * A try-catch block when deserializing scenes for parser exceptions.
