@@ -13,6 +13,7 @@ Change log for the Basil Game Engine project.
 
 ### Changed
 * Setup script now updates git submodules.
+* Components that already exist on entities are now no longer listed in the add component UI.
 
 
 ## 2021-09-11

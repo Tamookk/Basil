@@ -183,19 +183,23 @@ namespace Basil
 		if (ImGui::BeginPopup("AddComponent"))
 		{
 			// Camera menu item - add a Camera Component
-			if (ImGui::MenuItem("Camera"))
+			if (!entity.hasComponent<CameraComponent>())
 			{
-				if(!entity.hasComponent<CameraComponent>())
+				if (ImGui::MenuItem("Camera"))
+				{
 					entity.addComponent<CameraComponent>();
-				ImGui::CloseCurrentPopup();
+					ImGui::CloseCurrentPopup();
+				}
 			}
 
 			// Sprite renderer menu item - add a Sprite Renderer Component
-			if (ImGui::MenuItem("Sprite Renderer"))
+			if (!entity.hasComponent<SpriteRendererComponent>())
 			{
-				if(!entity.hasComponent<SpriteRendererComponent>())
+				if (ImGui::MenuItem("Sprite Renderer"))
+				{
 					entity.addComponent<SpriteRendererComponent>();
-				ImGui::CloseCurrentPopup();
+					ImGui::CloseCurrentPopup();
+				}
 			}
 
 			ImGui::EndPopup();
