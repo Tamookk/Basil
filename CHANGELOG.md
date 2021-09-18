@@ -7,6 +7,7 @@ Change log for the Basil Game Engine project.
 * An example 2D Physics scene.
 * Initial physics work - a rigidbody and box collider framework.
 * Ability to add box collider and rigidbody components to entities.
+* Serializing and deserializing Rigidbody2D and BoxCollider2D components on entities.
 * Logging for GLM matrices, vectors, and quaternions.
 * A check when loading textures to see if texture data was actually loaded.
 * A try-catch block when deserializing scenes for parser exceptions.
