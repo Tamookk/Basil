@@ -8,6 +8,8 @@
 
 #include <entt.hpp>
 
+class b2World;
+
 namespace Basil
 {
 	class Entity;
@@ -19,6 +21,8 @@ namespace Basil
 			~Scene();
 			Entity createEntity(const std::string& name = std::string());
 			void destroyEntity(Entity entity);
+			void onRuntimeStart();
+			void onRuntimeStop();
 			entt::registry& reg();
 			void onUpdateRuntime(Timestep timeStep);
 			void onUpdateEditor(Timestep timeStep, EditorCamera& camera);
@@ -31,6 +35,9 @@ namespace Basil
 			entt::registry registry;
 			uint32_t viewportWidth;
 			uint32_t viewportHeight;
+
+			b2World* box2DWorld;
+
 			friend class Entity;
 			friend class PropertiesPanel;
 			friend class SceneHierarchyPanel;

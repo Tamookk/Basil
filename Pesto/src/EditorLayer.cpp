@@ -467,12 +467,14 @@ namespace Basil
 	void EditorLayer::onScenePlay()
 	{
 		sceneState = SceneState::Play;
+		activeScene->onRuntimeStart();
 	}
 
 	// When the scene stops
 	void EditorLayer::onSceneStop()
 	{
 		sceneState = SceneState::Edit;
+		activeScene->onRuntimeStop();
 	}
 
 
