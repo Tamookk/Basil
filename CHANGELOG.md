@@ -6,6 +6,7 @@ Change log for the Basil Game Engine project.
 * Box2D submodule for physics.
 * An example 2D Physics scene.
 * Initial physics work - a rigidbody and box collider framework.
+* Ability to add box collider and rigidbody components to entities.
 * Logging for GLM matrices, vectors, and quaternions.
 * A check when loading textures to see if texture data was actually loaded.
 * A try-catch block when deserializing scenes for parser exceptions.
@@ -14,6 +15,7 @@ Change log for the Basil Game Engine project.
 ### Changed
 * Setup script now updates git submodules.
 * Components that already exist on entities are now no longer listed in the add component UI.
+* Default size of BoxCollider2DComponent.
 
 
 ## 2021-09-11
