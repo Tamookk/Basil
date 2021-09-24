@@ -3,6 +3,7 @@
 #include "Scene/Component.h"
 #include "Scene/Entity.h"
 #include "Scene/Scene.h"
+#include "Scene/ScriptableEntity.h"
 
 #include <box2d/b2_body.h>
 #include <box2d/b2_fixture.h>
@@ -41,10 +42,17 @@ namespace Basil
 	// Create an entity
 	Entity Scene::createEntity(const std::string& name)
 	{
+		return createEntityWithUUID(UUID(), name);
+	}
+
+	// Create an entity
+	Entity Scene::createEntityWithUUID(UUID uuid, const std::string& name)
+	{
 		// Create an entity
 		Entity entity = { registry.create(), this };
 
-		// Add a transform and tag component
+		// Add an ID, transform and tag component
+		entity.addComponent<IDComponent>(uuid);
 		entity.addComponent<TransformComponent>();
 		auto& tag = entity.addComponent<TagComponent>();
 		tag.tag = name.empty() ? "Entity" : name;
@@ -232,6 +240,9 @@ namespace Basil
 	}
 
 	// Templates for components
+	template <>
+	void Scene::onComponentAdded<IDComponent>(Entity entity, IDComponent& component) {}
+
 	template <>
 	void Scene::onComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
 	{

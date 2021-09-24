@@ -3,6 +3,8 @@
  */
 #pragma once
 
+#include "Core/UUID.h"
+#include "Scene/Component.h"
 #include "Scene/Scene.h"
 
 #include <entt.hpp>
@@ -48,6 +50,7 @@ namespace Basil
 			operator bool() const;
 			operator entt::entity() const;
 			operator uint32_t() const;
+			UUID getUUID();
 			bool operator==(const Entity& other) const;
 			bool operator!=(const Entity& other) const;
 		private:

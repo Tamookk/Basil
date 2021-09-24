@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Core/Timestep.h"
+#include "Core/UUID.h"
 #include "Renderer/EditorCamera.h"
 
 #include <entt.hpp>
@@ -20,6 +21,7 @@ namespace Basil
 			Scene();
 			~Scene();
 			Entity createEntity(const std::string& name = std::string());
+			Entity createEntityWithUUID(UUID uuid, const std::string& name = std::string());
 			void destroyEntity(Entity entity);
 			void onRuntimeStart();
 			void onRuntimeStop();

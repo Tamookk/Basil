@@ -3,9 +3,9 @@
  */
 #pragma once
 
+#include "Core/UUID.h"
 #include "Renderer/Texture2D.h"
 #include "Scene/SceneCamera.h"
-#include "Scene/ScriptableEntity.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -23,6 +23,15 @@ namespace Basil
 		bool fixedAspectRatio = false;
 	};
 
+	struct IDComponent
+	{
+		UUID id;
+
+		IDComponent() = default;
+		IDComponent(const IDComponent&) = default;
+	};
+
+	class ScriptableEntity;	// Forward declaration
 	struct NativeScriptComponent
 	{
 		ScriptableEntity* instance = nullptr;

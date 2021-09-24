@@ -149,8 +149,10 @@ namespace Basil
 	// Serialize an entity and its components
 	static void serializeEntity(YAML::Emitter& out, Entity entity)
 	{
+		ASSERT(entity.hasComponent<IDComponent>(), "");
+
 		out << YAML::BeginMap;
-		out << YAML::Key << "Entity" << YAML::Value << "12345678987654321";	// TODO: entity ID
+		out << YAML::Key << "Entity" << YAML::Value << entity.getUUID();	// TODO: entity ID
 
 		// Tag component
 		if (entity.hasComponent<TagComponent>())
@@ -311,7 +313,7 @@ namespace Basil
 		{
 			for (auto entity : entities)
 			{
-				uint64_t uuid = entity["Entity"].as<uint64_t>();	// TODO
+				uint64_t uuid = entity["Entity"].as<uint64_t>();
 
 				// Tag component
 				std::string name;
@@ -321,7 +323,7 @@ namespace Basil
 				LOG_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid, name);
 
 				// Create entity from tag
-				Entity deserializedEntity = scene->createEntity(name);
+				Entity deserializedEntity = scene->createEntityWithUUID(uuid, name);
 
 				// Transform component
 				auto transformComponent = entity["TransformComponent"];

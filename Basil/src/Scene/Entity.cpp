@@ -29,6 +29,12 @@ namespace Basil
 		return (uint32_t)entity;
 	}
 
+	// Get the UUID of a component
+	UUID Entity::getUUID()
+	{
+		return getComponent<IDComponent>().id;
+	}
+
 	// Equality operator
 	bool Entity::operator==(const Entity& other) const
 	{

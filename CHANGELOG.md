@@ -1,6 +1,14 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-09-24
+### Added
+* UUIDs.
+
+### Changed
+* IDs of entities in the example scene files have been made unique.
+
+
 ## 2021-09-18
 ### Added
 * Box2D submodule for physics.
