@@ -444,6 +444,10 @@ namespace Basil
 	// Open a scene (with a given file path)
 	void EditorLayer::openScene(const std::filesystem::path path)
 	{
+		// Close scene if it is playing
+		if (sceneState != SceneState::Edit)
+			onSceneStop();
+
 		if (path.extension().string() != ".scene")
 		{
 			LOG_WARN("Could not load {0} - not a scene file", path.filename().string());

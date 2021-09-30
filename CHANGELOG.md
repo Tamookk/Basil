@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-09-30
+### Fixed
+* Pesto now no longer crashes if you attempt to open a scene while one is playing.
+
+
 ## 2021-09-24
 ### Added
 * UUIDs.
