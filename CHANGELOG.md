@@ -2,6 +2,10 @@
 Change log for the Basil Game Engine project.
 
 ## 2021-09-30
+### Added
+* Copying and resetting scenes when playing them in the editor.
+* Duplicating entities.
+
 ### Fixed
 * Pesto now no longer crashes if you attempt to open a scene while one is playing.
 

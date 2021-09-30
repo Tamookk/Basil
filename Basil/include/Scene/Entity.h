@@ -18,6 +18,7 @@ namespace Basil
 			Entity(entt::entity handle, Scene* scene);
 			Entity(const Entity& other) = default;
 			
+			// Add a component
 			template <typename T, typename ... Args>
 			T& addComponent(Args&&... args)
 			{
@@ -27,6 +28,16 @@ namespace Basil
 				return component;
 			}
 
+			// Add or replace a component
+			template<typename T, typename... Args>
+			T& addOrReplaceComponent(Args&&... args)
+			{
+				T& component = scene->registry.emplace_or_replace<T>(entity, std::forward<Args>(args)...);
+				scene->onComponentAdded<T>(*this, component);
+				return component;
+			}
+
+			// Get a component
 			template <typename T>
 			T& getComponent()
 			{
@@ -34,12 +45,14 @@ namespace Basil
 				return scene->registry.get<T>(entity);
 			}
 
+			// Return whether an entity has a component
 			template <typename T>
 			bool hasComponent()
 			{
 				return scene->registry.all_of<T>(entity);
 			}
 
+			// Remove a component
 			template <typename T>
 			void removeComponent()
 			{
@@ -51,6 +64,7 @@ namespace Basil
 			operator entt::entity() const;
 			operator uint32_t() const;
 			UUID getUUID();
+			const std::string& getName();
 			bool operator==(const Entity& other) const;
 			bool operator!=(const Entity& other) const;
 		private:

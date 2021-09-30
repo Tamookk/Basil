@@ -35,6 +35,12 @@ namespace Basil
 		return getComponent<IDComponent>().id;
 	}
 
+	// Get the name of the entity
+	const std::string& Entity::getName()
+	{
+		return getComponent<TagComponent>().tag;
+	}
+
 	// Equality operator
 	bool Entity::operator==(const Entity& other) const
 	{

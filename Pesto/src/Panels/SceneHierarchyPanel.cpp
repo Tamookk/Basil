@@ -37,23 +37,27 @@ namespace Basil
 	{
 		// Create and render the scene hierarchy panel
 		ImGui::Begin("Scene Hierarchy");
-		context->registry.each([&](auto entityID)
+		
+		if (context)
 		{
-			Entity entity{ entityID, context.get() };
-			drawEntityNode(entity);
-		});
+			context->registry.each([&](auto entityID)
+				{
+					Entity entity{ entityID, context.get() };
+					drawEntityNode(entity);
+				});
 
-		// Clear selection when clicking on a blank space
-		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-			selectionContext = {};
+			// Clear selection when clicking on a blank space
+			if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+				selectionContext = {};
 
-		// Let user create entity when right clicking on a blank space
-		if (ImGui::BeginPopupContextWindow(0, 1, false))
-		{
-			if (ImGui::MenuItem("Create Empty Entity"))
-				context->createEntity("Empty Entity");
+			// Let user create entity when right clicking on a blank space
+			if (ImGui::BeginPopupContextWindow(0, 1, false))
+			{
+				if (ImGui::MenuItem("Create Empty Entity"))
+					context->createEntity("Empty Entity");
 
-			ImGui::EndPopup();
+				ImGui::EndPopup();
+			}
 		}
 
 		ImGui::End();

@@ -387,6 +387,10 @@ namespace Basil
 					else
 						saveScene();
 				break;
+			case (int)Key::D:
+				if (control)
+					onDuplicateEntity();
+				break;
 
 			// Gizmos
 			case (int)Key::Q:
@@ -429,7 +433,7 @@ namespace Basil
 		activeScene = makeShared<Scene>();
 		activeScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 		sceneHierarchyPanel.setContext(activeScene);
-		activeScenePath = "";
+		editorScenePath = std::filesystem::path();
 	}
 
 	// Open a scene
@@ -459,20 +463,22 @@ namespace Basil
 
 		if (serializer.deserialize(path.string()))
 		{
-			activeScene = newScene;
-			activeScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
-			sceneHierarchyPanel.setContext(activeScene);
-			activeScenePath = path;
+			editorScene = newScene;
+			editorScene->onViewportResize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
+			sceneHierarchyPanel.setContext(editorScene);
+
+			activeScene = editorScene;
+			editorScenePath = path;
 		}
 	}
 
 	// Save a scene
 	void EditorLayer::saveScene()
 	{
-		if (activeScenePath.empty())
-			saveSceneAs();
+		if (!editorScenePath.empty())
+			serializeScene(activeScene, editorScenePath);
 		else
-			serializeScene(activeScenePath);
+			saveSceneAs();
 	}
 
 	// Save a scene as
@@ -481,17 +487,15 @@ namespace Basil
 		std::string filePath = FileDialogs::saveFile("Basil Scene (*.scene)\0*.scene\0");
 		if (!filePath.empty())
 		{
-			serializeScene(filePath);
-			activeScenePath = filePath;
+			serializeScene(activeScene, filePath);
+			editorScenePath = filePath;
 		}
 	}
 
 	// Serialize a scene
-	void EditorLayer::serializeScene(const std::filesystem::path& path)
+	void EditorLayer::serializeScene(Shared<Scene> scene, const std::filesystem::path& path)
 	{
-		ASSERT(!path.empty(), "Path is empty");
-
-		SceneSerializer serializer(activeScene);
+		SceneSerializer serializer(scene);
 		serializer.serialize(path.string());
 	}
 
@@ -499,14 +503,34 @@ namespace Basil
 	void EditorLayer::onScenePlay()
 	{
 		sceneState = SceneState::Play;
+
+		activeScene = Scene::copy(editorScene);
 		activeScene->onRuntimeStart();
+
+		sceneHierarchyPanel.setContext(activeScene);
 	}
 
 	// When the scene stops
 	void EditorLayer::onSceneStop()
 	{
 		sceneState = SceneState::Edit;
+
 		activeScene->onRuntimeStop();
+		activeScene = editorScene;
+
+		sceneHierarchyPanel.setContext(activeScene);
+	}
+
+	// When an entity is duplicated
+	void EditorLayer::onDuplicateEntity()
+	{
+		if (sceneState != SceneState::Edit)
+			return;
+
+		Entity selectedEntity = sceneHierarchyPanel.getSelectedEntity();
+		if (selectedEntity)
+			editorScene->duplicateEntity(selectedEntity);
+		
 	}
 
 

@@ -36,7 +36,69 @@ namespace Basil
 	// Destructor
 	Scene::~Scene()
 	{
+	
+	}
 
+	// Copy component
+	template<typename Component>
+	static void copyComponent(entt::registry& dst, entt::registry & src, const std::unordered_map<UUID, entt::entity>& enttMap)
+	{
+		// Loop through each Component
+		auto view = src.view<Component>();
+		for (auto e : view)
+		{
+			// Get the UUID, assert that it exists in enttMap
+			UUID uuid = src.get<IDComponent>(e).id;
+			ASSERT(enttMap.find(uuid) != enttMap.end(), "");
+			entt::entity dstEnttID = enttMap.at(uuid);
+
+			// Add the component to the destination entity
+			auto& component = src.get<Component>(e);
+			dst.emplace_or_replace<Component>(dstEnttID, component);
+		}
+	}
+
+	// Copy component if exists
+	template<typename Component>
+	static void copyComponentIfExists(Entity dst, Entity src)
+	{
+		if (src.hasComponent<Component>())
+			dst.addOrReplaceComponent<Component>(src.getComponent<Component>());
+	}
+
+	// Copy a scene
+	Shared<Scene> Scene::copy(Shared<Scene> other)
+	{
+		// Create the new scene
+		Shared<Scene> newScene = makeShared<Scene>();
+
+		// Copy the viewport size
+		newScene->viewportWidth = other->viewportWidth;
+		newScene->viewportHeight = other->viewportHeight;
+
+		// Create entities in new scene
+		auto& srcSceneRegistry = other->registry;
+		auto& dstSceneRegistry = newScene->registry;
+		std::unordered_map<UUID, entt::entity> enttMap;
+
+		auto idView = srcSceneRegistry.view<IDComponent>();
+		for (auto e : idView)
+		{
+			UUID uuid = srcSceneRegistry.get<IDComponent>(e).id;
+			const auto& name = srcSceneRegistry.get<TagComponent>(e).tag;
+			Entity newEntity = newScene->createEntityWithUUID(uuid, name);
+			enttMap[uuid] = (entt::entity)newEntity;
+		}
+
+		// Copy components (except IDComponent and TagComponent)
+		copyComponent<CameraComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		copyComponent<NativeScriptComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		copyComponent<SpriteRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		copyComponent<TransformComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		copyComponent<Rigidbody2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		copyComponent<BoxCollider2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+
+		return newScene;
 	}
 
 	// Create an entity
@@ -216,6 +278,12 @@ namespace Basil
 			if (!cameraComponent.fixedAspectRatio)
 				cameraComponent.camera.setViewportSize(width, height);
 		}
+	}
+
+	// Duplicate an entity
+	void Scene::duplicateEntity(Entity entity)
+	{
+
 	}
 
 	// Get primary camera entity

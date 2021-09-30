@@ -20,6 +20,7 @@ namespace Basil
 		public:
 			Scene();
 			~Scene();
+			static Shared<Scene> copy(Shared<Scene> other);
 			Entity createEntity(const std::string& name = std::string());
 			Entity createEntityWithUUID(UUID uuid, const std::string& name = std::string());
 			void destroyEntity(Entity entity);
@@ -29,6 +30,7 @@ namespace Basil
 			void onUpdateRuntime(Timestep timeStep);
 			void onUpdateEditor(Timestep timeStep, EditorCamera& camera);
 			void onViewportResize(uint32_t width, uint32_t height);
+			void duplicateEntity(Entity entity);
 			Entity getPrimaryCameraEntity();
 		private:
 			template <typename T>
