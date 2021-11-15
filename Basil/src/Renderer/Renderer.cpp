@@ -76,6 +76,18 @@ namespace Basil
 		rendererAPI->drawIndexed(vao, count);
 	}
 
+	// Draw lines
+	void Renderer::drawLines(const Shared<VertexArray>& vertexArray, uint32_t vertexCount)
+	{
+		rendererAPI->drawLines(vertexArray, vertexCount);
+	}
+
+	// Set line width
+	void Renderer::setLineWidth(float width)
+	{
+		rendererAPI->setLineWidth(width);
+	}
+
 	// Return the rendering API currently being used
 	RendererAPI::API Renderer::getAPI()
 	{

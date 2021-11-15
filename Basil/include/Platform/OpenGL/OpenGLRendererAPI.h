@@ -15,5 +15,7 @@ namespace Basil
 			void setClearColor(const glm::vec4& color) override;
 			void clear() override;
 			void drawIndexed(const Shared<VertexArray>& vao, uint32_t indexCount = 0) override;
+			void drawLines(const Shared<VertexArray>& vao, uint32_t vertexCount) override;
+			void setLineWidth(float width) override;
 	};
 }

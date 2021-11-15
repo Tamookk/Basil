@@ -36,6 +36,16 @@ namespace Basil
 		int EntityID;
 	};
 
+	// For storing the structure of line vertices
+	struct LineVertex
+	{
+		glm::vec3 Position;
+		glm::vec4 Color;
+
+		// Editor only
+		int EntityID;
+	};
+
 	// For storing renderer data
 	struct Renderer2DData
 	{
@@ -53,6 +63,10 @@ namespace Basil
 		Shared<VertexBuffer> circleVertexBuffer;
 		Shared<Shader> circleShader;
 
+		Shared<VertexArray> lineVertexArray;
+		Shared<VertexBuffer> lineVertexBuffer;
+		Shared<Shader> lineShader;
+
 		uint32_t quadIndexCount = 0;
 		QuadVertex* quadVertexBufferBase = nullptr;
 		QuadVertex* quadVertexBufferPtr = nullptr;
@@ -60,6 +74,12 @@ namespace Basil
 		uint32_t circleIndexCount = 0;
 		CircleVertex* circleVertexBufferBase = nullptr;
 		CircleVertex* circleVertexBufferPtr = nullptr;
+
+		uint32_t lineVertexCount = 0;
+		LineVertex* lineVertexBufferBase = nullptr;
+		LineVertex* lineVertexBufferPtr = nullptr;
+
+		float lineWidth = 2.0f;
 
 		std::array<Shared<Texture2D>, maxTextureSlots> textureSlots;
 		uint32_t textureSlotIndex = 1;
@@ -156,6 +176,20 @@ namespace Basil
 		data.circleVertexArray->setIndexBuffer(squareIbo); // Use quad IBO
 		data.circleVertexBufferBase = new CircleVertex[data.maxVertices];
 
+		// == Lines ==
+		// Create a VAO
+		data.lineVertexArray = VertexArray::create();
+
+		// Create a vertex buffer
+		data.lineVertexBuffer = VertexBuffer::create(data.maxVertices * sizeof(LineVertex));
+		data.lineVertexBuffer->setLayout({
+				{ "a_Position",		ShaderDataType::Float3 },
+				{ "a_Color",		ShaderDataType::Float4 },
+				{ "a_EntityID",		ShaderDataType::Int }
+			});
+		data.lineVertexArray->addVertexBuffer(data.lineVertexBuffer);
+		data.lineVertexBufferBase = new LineVertex[data.maxVertices];
+
 		// Create white texture
 		data.whiteTexture = Texture2D::create(1, 1);
 		uint32_t whiteTextureData = 0xffffffff;
@@ -168,6 +202,7 @@ namespace Basil
 		// Initialise shader
 		data.quadShader = Shader::create("assets/shaders/2D_Quad.glsl");
 		data.circleShader = Shader::create("assets/shaders/2D_Circle.glsl");
+		data.lineShader = Shader::create("assets/shaders/2D_Line.glsl");
 
 		// Set texture slot 0 to the white texture
 		data.textureSlots[0] = data.whiteTexture;
@@ -237,6 +272,9 @@ namespace Basil
 		data.circleIndexCount = 0;
 		data.circleVertexBufferPtr = data.circleVertexBufferBase;
 
+		data.lineVertexCount = 0;
+		data.lineVertexBufferPtr = data.lineVertexBufferBase;
+
 		data.textureSlotIndex = 1;
 	}
 
@@ -272,6 +310,19 @@ namespace Basil
 			Renderer::drawIndexed(data.circleVertexArray, data.circleIndexCount);
 
 			// Increment draw calls
+			data.stats.drawCalls++;
+		}
+
+		// Clear line data
+		if (data.lineVertexCount)
+		{
+			uint32_t dataSize = (uint32_t)((uint8_t*)data.lineVertexBufferPtr - (uint8_t*)data.lineVertexBufferBase);
+			data.lineVertexBuffer->setData(data.lineVertexBufferBase, dataSize);
+
+			// Bind shader
+			data.lineShader->bind();
+			Renderer::setLineWidth(data.lineWidth);
+			Renderer::drawLines(data.lineVertexArray, data.lineVertexCount);
 			data.stats.drawCalls++;
 		}
 	}
@@ -392,6 +443,34 @@ namespace Basil
 		// Increment index and quad count
 		data.circleIndexCount += 6;
 		data.stats.quadCount++;
+	}
+
+	// Draw a line
+	void Renderer2D::drawLine(const glm::vec3& p0, const glm::vec3& p1, const glm::vec4& color, int entityID)
+	{
+		data.lineVertexBufferPtr->Position = p0;
+		data.lineVertexBufferPtr->Color = color;
+		data.lineVertexBufferPtr->EntityID = entityID;
+		data.lineVertexBufferPtr++;
+
+		data.lineVertexBufferPtr->Position = p1;
+		data.lineVertexBufferPtr->Color = color;
+		data.lineVertexBufferPtr->EntityID = entityID;
+		data.lineVertexBufferPtr++;
+
+		data.lineVertexCount += 2;
+	}
+
+	// Get line width
+	float Renderer2D::getLineWidth()
+	{
+		return data.lineWidth;
+	}
+
+	// Set line width
+	void Renderer2D::setLineWidth(float width)
+	{
+		data.lineWidth = width;
 	}
 
 	// Reset statistics

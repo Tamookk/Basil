@@ -42,6 +42,7 @@ namespace Basil
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_LINE_SMOOTH);
 	}
 
 	// Change the viewport
@@ -68,5 +69,18 @@ namespace Basil
 		vao->bind();
 		uint32_t count = indexCount ? indexCount : vao->getIndexBuffer()->getSize();
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+	}
+
+	// Draw lines
+	void OpenGLRendererAPI::drawLines(const Shared<VertexArray>& vao, uint32_t vertexCount)
+	{
+		vao->bind();
+		glDrawArrays(GL_LINES, 0, vertexCount);
+	}
+
+	// Set the line width
+	void OpenGLRendererAPI::setLineWidth(float width)
+	{
+		glLineWidth(width);
 	}
 }

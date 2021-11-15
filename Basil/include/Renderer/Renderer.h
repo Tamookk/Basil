@@ -20,7 +20,9 @@ namespace Basil
 			static void submit(const Shared<Shader>& shader, const Shared<VertexArray>& vao, const glm::mat4& transform = glm::mat4(1.0f));
 			static void setClearColor(const glm::vec4& color);
 			static void clear();
-			static void drawIndexed(const Shared<VertexArray>& vao, uint32_t count = 0);
+			static void drawIndexed(const Shared<VertexArray>& vao, uint32_t indexCount = 0);
+			static void drawLines(const Shared<VertexArray>& vertexArray, uint32_t vertexCount);
+			static void setLineWidth(float width);
 			static RendererAPI::API getAPI();
 		private:
 			struct SceneData
