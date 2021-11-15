@@ -1,16 +1,27 @@
 Scene: Untitled
 Entities:
-  - Entity: 2472057443917139139
+  - Entity: 16237477006134672406
     TagComponent:
-      Tag: Ground
+      Tag: Circle
     TransformComponent:
-      Translation: [0, -4, 0.800000012]
+      Translation: [-1.89999998, 0, 0]
       Rotation: [0, 0, 0]
-      Scale: [10, 1, 1]
+      Scale: [1, 1, 1]
+    CircleRendererComponent:
+      Color: [1, 0, 0, 1]
+      Thickness: 1
+      Fade: 0.0250000004
+  - Entity: 1447925147540849254
+    TagComponent:
+      Tag: White Square
+    TransformComponent:
+      Translation: [2.80118347e-05, 0, 0]
+      Rotation: [0, 0, 6.31334274e-07]
+      Scale: [1, 1, 1]
     SpriteRendererComponent:
-      Color: [0.178571463, 1, 0, 1]
+      Color: [1, 1, 1, 1]
     Rigidbody2DComponent:
-      Type: Static
+      Type: Dynamic
       FixedRotation: false
     BoxCollider2DComponent:
       Offset: [0, 0]
@@ -37,17 +48,17 @@ Entities:
         OrthographicFar: 1
       Primary: true
       FixedAspectRatio: false
-  - Entity: 1447925147540849254
+  - Entity: 2472057443917139139
     TagComponent:
-      Tag: White Square
+      Tag: Ground
     TransformComponent:
-      Translation: [2.80118347e-05, 0, 0]
-      Rotation: [0, 0, 6.31334274e-07]
-      Scale: [1, 1, 1]
+      Translation: [0, -4, 0]
+      Rotation: [0, 0, 0]
+      Scale: [10, 1, 1]
     SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
+      Color: [0.178571463, 1, 0, 1]
     Rigidbody2DComponent:
-      Type: Dynamic
+      Type: Static
       FixedRotation: false
     BoxCollider2DComponent:
       Offset: [0, 0]

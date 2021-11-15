@@ -23,6 +23,19 @@ namespace Basil
 		int EntityID;
 	};
 
+	// For storing the structure of a circle
+	struct CircleVertex
+	{
+		glm::vec3 WorldPosition;
+		glm::vec3 LocalPosition;
+		glm::vec4 Color;
+		float Thickness;
+		float Fade;
+
+		// Editor only
+		int EntityID;
+	};
+
 	// For storing renderer data
 	struct Renderer2DData
 	{
@@ -33,12 +46,20 @@ namespace Basil
 
 		Shared<VertexArray> quadVertexArray;
 		Shared<VertexBuffer> quadVertexBuffer;
-		Shared<Shader> textureShader;
+		Shared<Shader> quadShader;
 		Shared<Texture2D> whiteTexture;
+
+		Shared<VertexArray> circleVertexArray;
+		Shared<VertexBuffer> circleVertexBuffer;
+		Shared<Shader> circleShader;
 
 		uint32_t quadIndexCount = 0;
 		QuadVertex* quadVertexBufferBase = nullptr;
 		QuadVertex* quadVertexBufferPtr = nullptr;
+
+		uint32_t circleIndexCount = 0;
+		CircleVertex* circleVertexBufferBase = nullptr;
+		CircleVertex* circleVertexBufferPtr = nullptr;
 
 		std::array<Shared<Texture2D>, maxTextureSlots> textureSlots;
 		uint32_t textureSlotIndex = 1;
@@ -117,6 +138,24 @@ namespace Basil
 		Shared<IndexBuffer> squareIbo = IndexBuffer::create(quadIndices);
 		data.quadVertexArray->setIndexBuffer(squareIbo);
 
+		// == Circles ==
+		// Create a VAO
+		data.circleVertexArray = VertexArray::create();
+
+		// Create a vertex buffer
+		data.circleVertexBuffer = VertexBuffer::create(data.maxVertices * sizeof(CircleVertex));
+		data.circleVertexBuffer->setLayout({
+				{ "a_WorldPosition",	ShaderDataType::Float3 },
+				{ "a_LocalPosition",	ShaderDataType::Float3 },
+				{ "a_Color",			ShaderDataType::Float4 },
+				{ "a_Thickness",		ShaderDataType::Float },
+				{ "a_Fade",				ShaderDataType::Float },
+				{ "a_EntityID",			ShaderDataType::Int }
+			});
+		data.circleVertexArray->addVertexBuffer(data.circleVertexBuffer);
+		data.circleVertexArray->setIndexBuffer(squareIbo); // Use quad IBO
+		data.circleVertexBufferBase = new CircleVertex[data.maxVertices];
+
 		// Create white texture
 		data.whiteTexture = Texture2D::create(1, 1);
 		uint32_t whiteTextureData = 0xffffffff;
@@ -127,7 +166,8 @@ namespace Basil
 			samplers[i] = i;
 
 		// Initialise shader
-		data.textureShader = Shader::create("assets/shaders/Texture.glsl");
+		data.quadShader = Shader::create("assets/shaders/2D_Quad.glsl");
+		data.circleShader = Shader::create("assets/shaders/2D_Circle.glsl");
 
 		// Set texture slot 0 to the white texture
 		data.textureSlots[0] = data.whiteTexture;
@@ -157,12 +197,7 @@ namespace Basil
 		data.cameraBuffer.viewProjection = camera.getProjection() * glm::inverse(transform);
 		data.cameraUniformBuffer->setData(&data.cameraBuffer, sizeof(Renderer2DData::CameraData));
 
-		// Initialise buffer variables
-		data.quadIndexCount = 0;
-		data.quadVertexBufferPtr = data.quadVertexBufferBase;
-
-		// Set texture slot index
-		data.textureSlotIndex = 1;
+		startBatch();
 	}
 
 	void Renderer2D::beginScene(const OrthographicCamera& camera)
@@ -199,29 +234,46 @@ namespace Basil
 		data.quadIndexCount = 0;
 		data.quadVertexBufferPtr = data.quadVertexBufferBase;
 
+		data.circleIndexCount = 0;
+		data.circleVertexBufferPtr = data.circleVertexBufferBase;
+
 		data.textureSlotIndex = 1;
 	}
 
 	// Flush
 	void Renderer2D::flush()
 	{
-		// Skip if there is nothing to render
-		if (data.quadIndexCount == 0)
-			return;
+		// Clear quad data
+		if (data.quadIndexCount)
+		{
+			uint32_t dataSize = (uint32_t)((uint8_t*)data.quadVertexBufferPtr - (uint8_t*)data.quadVertexBufferBase);
+			data.quadVertexBuffer->setData(data.quadVertexBufferBase, dataSize);
 
-		uint32_t dataSize = (uint32_t)((uint8_t*)data.quadVertexBufferPtr - (uint8_t*)data.quadVertexBufferBase);
-		data.quadVertexBuffer->setData(data.quadVertexBufferBase, dataSize);
+			// Bind textures
+			for (uint32_t i = 0; i < data.textureSlotIndex; i++)
+				data.textureSlots[i]->bind(i);
 
-		// Bind textures
-		for (uint32_t i = 0; i < data.textureSlotIndex; i++)
-			data.textureSlots[i]->bind(i);
+			// Draw
+			data.quadShader->bind();
+			Renderer::drawIndexed(data.quadVertexArray, data.quadIndexCount);
 
-		// Draw
-		data.textureShader->bind();
-		Renderer::drawIndexed(data.quadVertexArray, data.quadIndexCount);
+			// Increment draw calls
+			data.stats.drawCalls++;
+		}
 
-		// Increment draw calls
-		data.stats.drawCalls++;
+		// Clear circle data
+		if (data.circleIndexCount)
+		{
+			uint32_t dataSize = (uint32_t)((uint8_t*)data.circleVertexBufferPtr - (uint8_t*)data.circleVertexBufferBase);
+			data.circleVertexBuffer->setData(data.circleVertexBufferBase, dataSize);
+
+			// Bind shader
+			data.circleShader->bind();
+			Renderer::drawIndexed(data.circleVertexArray, data.circleIndexCount);
+
+			// Increment draw calls
+			data.stats.drawCalls++;
+		}
 	}
 
 	void Renderer2D::nextBatch()
@@ -318,6 +370,28 @@ namespace Basil
 			drawQuad(transform, src.texture, src.tilingFactor, src.color, entityID);
 		else
 			drawQuad(transform, src.color, entityID);
+	}
+
+	// Draw a circle
+	void Renderer2D::drawCircle(const glm::mat4& transform, const::glm::vec4& color, float thickness, float fade, int entityID)
+	{
+		PROFILE_FUNCTION();
+
+		// Set vertex data
+		for (int i = 0; i < 4; i++)
+		{
+			data.circleVertexBufferPtr->WorldPosition = transform * data.quadVertexPositions[i];
+			data.circleVertexBufferPtr->LocalPosition = data.quadVertexPositions[i] * 2.0f;
+			data.circleVertexBufferPtr->Color = color;
+			data.circleVertexBufferPtr->Thickness = thickness;
+			data.circleVertexBufferPtr->Fade = fade;
+			data.circleVertexBufferPtr->EntityID = entityID;
+			data.circleVertexBufferPtr++;
+		}
+
+		// Increment index and quad count
+		data.circleIndexCount += 6;
+		data.stats.quadCount++;
 	}
 
 	// Reset statistics

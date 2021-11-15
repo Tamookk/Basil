@@ -218,6 +218,20 @@ namespace Basil
 			out << YAML::EndMap;
 		}
 
+		// Circle renderer component
+		if (entity.hasComponent<CircleRendererComponent>())
+		{
+			out << YAML::Key << "CircleRendererComponent";
+			out << YAML::BeginMap;
+
+			auto& circleRendererComponent = entity.getComponent<CircleRendererComponent>();
+			out << YAML::Key << "Color" << YAML::Value << circleRendererComponent.color;
+			out << YAML::Key << "Thickness" << YAML::Value << circleRendererComponent.thickness;
+			out << YAML::Key << "Fade" << YAML::Value << circleRendererComponent.fade;
+
+			out << YAML::EndMap;
+		}
+
 		// Rigidbody 2D component
 		if (entity.hasComponent<Rigidbody2DComponent>())
 		{
@@ -363,6 +377,16 @@ namespace Basil
 				{
 					auto& src = deserializedEntity.addComponent<SpriteRendererComponent>();
 					src.color = spriteRendererComponent["Color"].as<glm::vec4>();
+				}
+
+				// Circle renderer component
+				auto circleRendererComponent = entity["CircleRendererComponent"];
+				if (circleRendererComponent)
+				{
+					auto& src = deserializedEntity.addComponent<CircleRendererComponent>();
+					src.color = circleRendererComponent["Color"].as<glm::vec4>();
+					src.thickness = circleRendererComponent["Thickness"].as<float>();
+					src.fade = circleRendererComponent["Fade"].as<float>();
 				}
 
 				// Rigidbody 2D component

@@ -47,16 +47,6 @@ namespace Basil
 		}
 	};
 
-	struct SpriteRendererComponent
-	{
-		SpriteRendererComponent() = default;
-		SpriteRendererComponent(const SpriteRendererComponent&) = default;
-		SpriteRendererComponent(const glm::vec4& color) : color(color) {}
-		float tilingFactor = 1.0f;
-		glm::vec4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
-		Shared<Texture2D> texture;
-	};
-
 	struct TagComponent
 	{
 		TagComponent() = default;
@@ -85,7 +75,31 @@ namespace Basil
 		glm::vec3 scale{ 1.0f, 1.0f, 1.0f };
 	};
 
-	// Physics
+
+	// == 2D Rendering ==
+	struct SpriteRendererComponent
+	{
+		SpriteRendererComponent() = default;
+		SpriteRendererComponent(const SpriteRendererComponent&) = default;
+		SpriteRendererComponent(const glm::vec4& color) : color(color) {}
+		float tilingFactor = 1.0f;
+		glm::vec4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
+		Shared<Texture2D> texture;
+	};
+
+	struct CircleRendererComponent
+	{
+		glm::vec4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
+		float thickness = 1.0f;
+		float fade = 0.005f;
+
+
+		CircleRendererComponent() = default;
+		CircleRendererComponent(const CircleRendererComponent&) = default;
+	};
+
+
+	// == Physics ==
 	struct Rigidbody2DComponent
 	{
 		enum class BodyType { Static = 0, Dynamic, Kinematic };

@@ -1,6 +1,16 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-11-15
+### Added
+* Circle rendering.
+* Saving and loading circles from scene files.
+* A circle to the 2D Physics demo scene.
+
+### Changed
+* Renamed `Texture.glsl` in `Pesto/assets/shaders` to `2D_Quad.glsl`.
+
+
 ## 2021-09-30
 ### Added
 * Copying and resetting scenes when playing them in the editor.

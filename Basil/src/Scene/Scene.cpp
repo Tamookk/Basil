@@ -93,8 +93,9 @@ namespace Basil
 		// Copy components (except IDComponent and TagComponent)
 		copyComponent<CameraComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		copyComponent<NativeScriptComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
-		copyComponent<SpriteRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		copyComponent<TransformComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		copyComponent<SpriteRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		copyComponent<CircleRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		copyComponent<Rigidbody2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		copyComponent<BoxCollider2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 
@@ -240,12 +241,27 @@ namespace Basil
 		if (mainCamera)
 		{
 			Renderer2D::beginScene(*mainCamera, cameraTransform);
-			auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-			for (auto entity : group)
+			
+			// Draw sprites
 			{
-				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-				Renderer2D::drawSprite(transform.getTransform(), sprite, (int)entity);
+				auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+				for (auto entity : group)
+				{
+					auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+					Renderer2D::drawSprite(transform.getTransform(), sprite, (int)entity);
+				}
 			}
+
+			// Draw circles
+			{
+				auto view = registry.view<TransformComponent, CircleRendererComponent>();
+				for (auto entity : view)
+				{
+					auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
+					Renderer2D::drawCircle(transform.getTransform(), circle.color, circle.thickness, circle.fade, (int)entity);
+				}
+			}
+
 			Renderer2D::endScene();
 		}
 	}
@@ -254,12 +270,27 @@ namespace Basil
 	void Scene::onUpdateEditor(Timestep timeStep, EditorCamera& camera)
 	{
 		Renderer2D::beginScene(camera);
-		auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		for (auto entity : group)
+
+		// Draw sprites
 		{
-			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-			Renderer2D::drawSprite(transform.getTransform(), sprite, (int)entity);
+			auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			for (auto entity : group)
+			{
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+				Renderer2D::drawSprite(transform.getTransform(), sprite, (int)entity);
+			}
 		}
+
+		// Draw circles
+		{
+			auto view = registry.view<TransformComponent, CircleRendererComponent>();
+			for (auto entity : view)
+			{
+				auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
+				Renderer2D::drawCircle(transform.getTransform(), circle.color, circle.thickness, circle.fade, (int)entity);
+			}
+		}
+
 		Renderer2D::endScene();
 	}
 
@@ -283,7 +314,7 @@ namespace Basil
 	// Duplicate an entity
 	void Scene::duplicateEntity(Entity entity)
 	{
-
+		// TODO
 	}
 
 	// Get primary camera entity
@@ -322,13 +353,16 @@ namespace Basil
 	void Scene::onComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component) {}
 
 	template <>
-	void Scene::onComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component) {}
-
-	template <>
 	void Scene::onComponentAdded<TagComponent>(Entity entity, TagComponent& component) {}
 
 	template <>
 	void Scene::onComponentAdded<TransformComponent>(Entity entity, TransformComponent& component) {}
+
+	template <>
+	void Scene::onComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component) {}
+
+	template <>
+	void Scene::onComponentAdded<CircleRendererComponent>(Entity entity, CircleRendererComponent& component) {}
 
 	template <>
 	void Scene::onComponentAdded<Rigidbody2DComponent>(Entity entity, Rigidbody2DComponent& component) {}
