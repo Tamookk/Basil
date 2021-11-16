@@ -7,6 +7,7 @@
 
 #include <box2d/b2_body.h>
 #include <box2d/b2_fixture.h>
+#include <box2d/b2_circle_shape.h>
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_world.h>
 #include <glm/glm.hpp>
@@ -98,6 +99,7 @@ namespace Basil
 		copyComponent<CircleRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		copyComponent<Rigidbody2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		copyComponent<BoxCollider2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		copyComponent<CircleCollider2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 
 		return newScene;
 	}
@@ -163,6 +165,26 @@ namespace Basil
 				fixtureDef.friction = bc2d.friction;
 				fixtureDef.restitution = bc2d.restitution;
 				fixtureDef.restitutionThreshold = bc2d.restitutionThreshold;
+				body->CreateFixture(&fixtureDef);
+			}
+
+			if (entity.hasComponent<CircleCollider2DComponent>())
+			{
+				// Get the circle collider 2D component
+				auto& cc2d = entity.getComponent<CircleCollider2DComponent>();
+
+				// Create the b2CircleShape object and set its parameters
+				b2CircleShape circleShape;
+				circleShape.m_p.Set(cc2d.offset.x, cc2d.offset.y);
+				circleShape.m_radius = cc2d.radius;
+
+				// Set b2FixtureDef object parameters
+				b2FixtureDef fixtureDef;
+				fixtureDef.shape = &circleShape;
+				fixtureDef.density = cc2d.density;
+				fixtureDef.friction = cc2d.friction;
+				fixtureDef.restitution = cc2d.restitution;
+				fixtureDef.restitutionThreshold = cc2d.restitutionThreshold;
 				body->CreateFixture(&fixtureDef);
 			}
 		}
@@ -369,5 +391,8 @@ namespace Basil
 
 	template <>
 	void Scene::onComponentAdded<BoxCollider2DComponent>(Entity entity, BoxCollider2DComponent& component) {}
+
+	template <>
+	void Scene::onComponentAdded<CircleCollider2DComponent>(Entity entity, CircleCollider2DComponent& component) {}
 
 }

@@ -4,6 +4,9 @@ Change log for the Basil Game Engine project.
 ## 2021-11-16
 ### Added
 * Rectangle rendering.
+* Circle colliders.
+* Saving and loading Circle Collider 2D Components.
+* A collider to the circle in the 2D Physics demo scene.
 
 
 ## 2021-11-15
