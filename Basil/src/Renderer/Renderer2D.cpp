@@ -461,6 +461,38 @@ namespace Basil
 		data.lineVertexCount += 2;
 	}
 
+	// Draw a rectangle given position and size
+	void Renderer2D::drawRect(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, int entityID)
+	{
+		// Generate points of the rectangle
+		glm::vec3 p0 = glm::vec3{ position.x - size.x * 0.5f, position.y - size.y * 0.5f, position.z };
+		glm::vec3 p1 = glm::vec3{ position.x + size.x * 0.5f, position.y - size.y * 0.5f, position.z };
+		glm::vec3 p2 = glm::vec3{ position.x + size.x * 0.5f, position.y + size.y * 0.5f, position.z };
+		glm::vec3 p3 = glm::vec3{ position.x - size.x * 0.5f, position.y + size.y * 0.5f, position.z };
+
+		// Draw the rectangle
+		drawLine(p0, p1, color, entityID);
+		drawLine(p1, p2, color, entityID);
+		drawLine(p2, p3, color, entityID);
+		drawLine(p3, p0, color, entityID);
+	}
+
+	// Draw a rectangle given a transform
+	void Renderer2D::drawRect(const glm::mat4& transform, const glm::vec4& color, int entityID)
+	{
+		// Note: these are out of order due to the way in which quad vertex positions are generated.
+		// This works properly, but quads should be reworked in the future.
+		glm::vec3 lineVertices[4];
+		lineVertices[0] = transform * data.quadVertexPositions[0];
+		lineVertices[1] = transform * data.quadVertexPositions[1];
+		lineVertices[2] = transform * data.quadVertexPositions[3];
+		lineVertices[3] = transform * data.quadVertexPositions[2];
+		
+		// Draw the rectangle
+		for (int i = 0; i < 4; i++)
+			drawLine(lineVertices[i], lineVertices[(i + 1) % 4], color, entityID);
+	}
+
 	// Get line width
 	float Renderer2D::getLineWidth()
 	{

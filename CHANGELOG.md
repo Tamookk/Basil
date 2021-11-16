@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-11-16
+### Added
+* Rectangle rendering.
+
+
 ## 2021-11-15
 ### Added
 * Circle rendering.
