@@ -18,6 +18,7 @@ namespace Basil
 	{
 		viewportFocused = false;
 		viewportHovered = false;
+		showPhysicsColliders = false;
 		gizmoType = -1;
 		sceneState = SceneState::Edit;
 	}
@@ -161,6 +162,9 @@ namespace Basil
 				hoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, activeScene.get());
 			}
 
+			// Render the overlay
+			onOverlayRender();
+
 			framebuffer->unbind();
 		}
 	}
@@ -264,7 +268,7 @@ namespace Basil
 		// Properties panel
 		propertiesPanel.onImGuiRender(sceneHierarchyPanel.getSelectedEntity());
 
-		// Settings panel
+		// Stats panel
 		ImGui::Begin("Stats");
 		Renderer2D::Statistics stats = Renderer2D::getStats();
 		ImGui::Text("Renderer2D Stats:");
@@ -274,6 +278,11 @@ namespace Basil
 		ImGui::Text("Indices: %d", stats.getTotalIndexCount());
 		ImGui::End();
 
+
+		// Settings panel
+		ImGui::Begin("Settings");
+		ImGui::Checkbox("Show Physics Colliders", &showPhysicsColliders);
+		ImGui::End();
 
 		// Viewport
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0, 0 });
@@ -425,6 +434,73 @@ namespace Basil
 				sceneHierarchyPanel.setSelectedEntity(hoveredEntity);
 		}
 		return false;
+	}
+
+	// On overlay render function
+	void EditorLayer::onOverlayRender()
+	{
+		// Start a new batch to render physics colliders
+		if (sceneState == SceneState::Play)
+		{
+			Entity camera = activeScene->getPrimaryCameraEntity();
+			Renderer2D::beginScene(camera.getComponent<CameraComponent>().camera, camera.getComponent<TransformComponent>().getTransform());
+		}
+		else
+		{
+			Renderer2D::beginScene(editorCamera);
+		}
+
+		// If visualising physics colliders is enabled
+		if (showPhysicsColliders)
+		{
+			// Render box colliders
+			{
+				PROFILE_SCOPE("Render Box Colliders");
+				
+				// Get all components with box collider 2D components
+				auto view = activeScene->getAllEntitiesWith<TransformComponent, BoxCollider2DComponent>();
+				for (auto entity : view)
+				{
+					// Get the transform and box collider 2D components for the entity
+					auto [tc, bc2d] = view.get<TransformComponent, BoxCollider2DComponent>(entity);
+
+					// Calculate the translation, scale, and transform of the box collider
+					glm::vec3 translation = tc.translation + glm::vec3(bc2d.offset, 0.001f);
+					glm::vec3 scale = tc.scale * glm::vec3(bc2d.size * 2.0f, 1.0f);
+					glm::mat4 transform = glm::translate(glm::mat4(1.0f), translation)
+						* glm::rotate(glm::mat4(1.0f), tc.rotation.z, glm::vec3(0.0f, 0.0f, 1.0f))
+						* glm::scale(glm::mat4(1.0f), scale);
+
+					// Render the box collider visualisation
+					Renderer2D::drawRect(transform, glm::vec4(0, 1, 0, 1));
+				}
+			}
+
+			// Render circle colliders
+			{
+				PROFILE_SCOPE("Render Circle Colliders");
+				
+				// Get all components with circle collider 2D components
+				auto view = activeScene->getAllEntitiesWith<TransformComponent, CircleCollider2DComponent>();
+				for (auto entity : view)
+				{
+					// Get the transform and circle collider 2D components for the entity
+					auto [tc, cc2d] = view.get<TransformComponent, CircleCollider2DComponent>(entity);
+
+					// Calculate the translation, scale, and transform of the box collider
+					glm::vec3 translation = tc.translation + glm::vec3(cc2d.offset, 0.001f);
+					glm::vec3 scale = tc.scale * glm::vec3(cc2d.radius * 2.0f);
+					glm::mat4 transform = glm::translate(glm::mat4(1.0f), translation)
+						* glm::scale(glm::mat4(1.0f), scale);
+
+					// Render the circle collider visualisation
+					Renderer2D::drawCircle(transform, glm::vec4(0, 1, 0, 1), 0.01f);
+				}
+			}
+		}
+
+		// Finish the batch
+		Renderer2D::endScene();
 	}
 
 	// Make a new scene

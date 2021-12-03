@@ -176,7 +176,7 @@ namespace Basil
 				// Create the b2CircleShape object and set its parameters
 				b2CircleShape circleShape;
 				circleShape.m_p.Set(cc2d.offset.x, cc2d.offset.y);
-				circleShape.m_radius = cc2d.radius;
+				circleShape.m_radius = transform.scale.x * cc2d.radius;
 
 				// Set b2FixtureDef object parameters
 				b2FixtureDef fixtureDef;

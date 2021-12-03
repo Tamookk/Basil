@@ -1,6 +1,14 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2021-12-3
+### Added
+* Physics collider visualisation.
+
+### Fixed
+* Circle collider scale.
+
+
 ## 2021-11-16
 ### Added
 * Rectangle rendering.

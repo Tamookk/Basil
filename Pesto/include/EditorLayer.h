@@ -33,6 +33,8 @@ namespace Basil
 		private:
 			bool onKeyPressed(KeyPressedEvent& e);
 			bool onMouseButtonPressed(MouseButtonPressedEvent& e);
+
+			void onOverlayRender();
 			
 			void newScene();
 			void openScene();
@@ -74,6 +76,7 @@ namespace Basil
 			bool viewportFocused;
 			bool viewportHovered;
 			bool primaryCamera = true;
+			bool showPhysicsColliders;
 
 			int gizmoType;
 
