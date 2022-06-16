@@ -28,11 +28,15 @@ namespace Basil
 			
 			void onRuntimeStart();
 			void onRuntimeStop();
+
+			void onSimulationStart();
+			void onSimulationStop();
 			
 			entt::registry& reg();
 			
 			void onUpdateRuntime(Timestep timeStep);
 			void onUpdateEditor(Timestep timeStep, EditorCamera& camera);
+			void onUpdateSimulation(Timestep timeStep, EditorCamera& camera);
 			void onViewportResize(uint32_t width, uint32_t height);
 			
 			void duplicateEntity(Entity entity);
@@ -46,6 +50,11 @@ namespace Basil
 			}
 
 		private:
+			void onPhysics2DStart();
+			void onPhysics2DStop();
+
+			void renderScene(EditorCamera& camera);
+			
 			template <typename T>
 			void onComponentAdded(Entity entity, T& component);
 

@@ -27,8 +27,9 @@ namespace Basil
 	{
 		PROFILE_FUNCTION();
 
-		// Set play and stop icons
+		// Set play, simulate, and stop icons
 		iconPlay = Texture2D::create("res/icons/editor_play_stop/play_button.png");
+		iconSimulate = Texture2D::create("res/icons/editor_play_stop/simulate_button.png");
 		iconStop = Texture2D::create("res/icons/editor_play_stop/stop_button.png");
 
 		// Create framebuffer
@@ -39,7 +40,8 @@ namespace Basil
 		framebuffer = Framebuffer::create(fbSpec);
 
 		// Create scene
-		activeScene = makeShared<Scene>();
+		editorScene = makeShared<Scene>();
+		activeScene = editorScene;
 
 		auto commandLineArgs = Application::get().getCommandLineArgs();
 		if (commandLineArgs.count > 1)
@@ -146,8 +148,16 @@ namespace Basil
 					activeScene->onUpdateRuntime(timeStep);
 					break;
 				}
+				case SceneState::Simulate:
+				{
+					PROFILE_SCOPE("Simulate Update");
+					editorCamera.onUpdate(timeStep);
+					activeScene->onUpdateSimulation(timeStep, editorCamera);
+					break;
+				}
 			}
 
+			// For mouse picking entities
 			auto [mx, my] = ImGui::GetMousePos();
 			mx -= viewportBounds[0].x;
 			my -= viewportBounds[0].y;
@@ -443,6 +453,11 @@ namespace Basil
 		if (sceneState == SceneState::Play)
 		{
 			Entity camera = activeScene->getPrimaryCameraEntity();
+
+			// Return if there is no camera
+			if (!camera)
+				return;
+
 			Renderer2D::beginScene(camera.getComponent<CameraComponent>().camera, camera.getComponent<TransformComponent>().getTransform());
 		}
 		else
@@ -578,6 +593,10 @@ namespace Basil
 	// When the scene plays
 	void EditorLayer::onScenePlay()
 	{
+		// Stop playing if the state is simulate
+		if (sceneState == SceneState::Simulate)
+			onSceneStop();
+
 		sceneState = SceneState::Play;
 
 		activeScene = Scene::copy(editorScene);
@@ -586,9 +605,35 @@ namespace Basil
 		sceneHierarchyPanel.setContext(activeScene);
 	}
 
+	// When physics simulation starts
+	void EditorLayer::onSceneSimulate()
+	{
+		// Stop the scene if we have changed from playing
+		if (sceneState == SceneState::Play)
+			onSceneStop();
+
+		// Set the current scene state to simulate
+		sceneState = SceneState::Simulate;
+
+		// Copy the editor scene and start the simulation
+		activeScene = Scene::copy(editorScene);
+		activeScene->onSimulationStart();
+		
+		// Set the context
+		sceneHierarchyPanel.setContext(activeScene);
+	}
+
 	// When the scene stops
 	void EditorLayer::onSceneStop()
 	{
+		// Assert we are stopping a playing or simulating scene
+		ASSERT(sceneState == SceneState::Play || sceneState == SceneState::Simulate, "");
+
+		if (sceneState == SceneState::Play)
+			activeScene->onRuntimeStop();
+		else if (sceneState == SceneState::Simulate)
+			activeScene->onSimulationStop();
+
 		sceneState = SceneState::Edit;
 
 		activeScene->onRuntimeStop();
@@ -630,20 +675,51 @@ namespace Basil
 
 		// Begin toolbar
 		ImGui::Begin("##Toolbar", nullptr, toolbarFlags);
+		
+		// Check if there is an active scene
+		bool toolbarEnabled = (bool)activeScene;
+		ImVec4 tintColor = ImVec4(1, 1, 1, 1);
 
-		// Set button size and icon
+		// If there is not an active scene, 
+		if (!toolbarEnabled)
+			tintColor.w = 0.5f;
+
+		// Set button size
 		float size = ImGui::GetWindowHeight() - 4;
-		Shared<Texture2D> icon = sceneState == SceneState::Edit ? iconPlay : iconStop;
-	
-		ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5) - (size * 0.5));
-
-		// If button pressed
-		if (ImGui::ImageButton((ImTextureID)icon->getRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0))
+		
+		// Draw play button
 		{
-			if (sceneState == SceneState::Edit)
-				onScenePlay();
-			else if (sceneState == SceneState::Play)
-				onSceneStop();
+			// Set icon to play button if we are not playing, stop button otherwise
+			Shared<Texture2D> icon = (sceneState == SceneState::Edit || sceneState == SceneState::Simulate) ? iconPlay : iconStop;
+
+			// Draw the play button in the top middle of the window
+			ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - (size * 0.5f));
+
+			// If the play button is pressed and the toolbar is enabled
+			if (ImGui::ImageButton((ImTextureID)icon->getRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0, 0, 0, 0), tintColor) && toolbarEnabled)
+			{
+				if (sceneState == SceneState::Edit || sceneState == SceneState::Simulate)
+					onScenePlay();
+				else if (sceneState == SceneState::Play)
+					onSceneStop();
+			}
+		}
+
+		ImGui::SameLine();
+
+		// Draw physics simulation button
+		{
+			// Set icon to simulate button if we are not simulating, stop button otherwise
+			Shared<Texture2D> icon = (sceneState == SceneState::Edit || sceneState == SceneState::Play) ? iconSimulate : iconStop;
+
+			// If the simulate button is pressed and the toolbar is enabled
+			if (ImGui::ImageButton((ImTextureID)icon->getRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0, 0, 0, 0), tintColor) && toolbarEnabled)
+			{
+				if (sceneState == SceneState::Edit || sceneState == SceneState::Play)
+					onSceneSimulate();
+				else if (sceneState == SceneState::Simulate)
+					onSceneStop();
+			}
 		}
 
 		// End toolbar

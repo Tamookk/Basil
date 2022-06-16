@@ -37,7 +37,7 @@ namespace Basil
 	// Destructor
 	Scene::~Scene()
 	{
-	
+		delete box2DWorld;
 	}
 
 	// Copy component
@@ -135,66 +135,25 @@ namespace Basil
 	// On runtime start
 	void Scene::onRuntimeStart()
 	{
-		box2DWorld = new b2World({ 0.0f, -9.8f });
-		auto view = registry.view<Rigidbody2DComponent>();
-		for (auto e : view)
-		{
-			Entity entity = { e, this };
-			auto& transform = entity.getComponent<TransformComponent>();
-			auto& rb2d = entity.getComponent<Rigidbody2DComponent>();
-
-			b2BodyDef bodyDef;
-			bodyDef.type = BasilRigidbody2DTypeToBox2D(rb2d.type);
-			bodyDef.position.Set(transform.translation.x, transform.translation.y);
-			bodyDef.angle = transform.rotation.z;
-
-			b2Body* body = box2DWorld->CreateBody(&bodyDef);
-			body->SetFixedRotation(rb2d.fixedRotation);
-			rb2d.runtimeBody = body;
-
-			if (entity.hasComponent<BoxCollider2DComponent>())
-			{
-				auto& bc2d = entity.getComponent<BoxCollider2DComponent>();
-
-				b2PolygonShape polygonShape;
-				polygonShape.SetAsBox(bc2d.size.x * transform.scale.x, bc2d.size.y * transform.scale.y);
-
-				b2FixtureDef fixtureDef;
-				fixtureDef.shape = &polygonShape;
-				fixtureDef.density = bc2d.density;
-				fixtureDef.friction = bc2d.friction;
-				fixtureDef.restitution = bc2d.restitution;
-				fixtureDef.restitutionThreshold = bc2d.restitutionThreshold;
-				body->CreateFixture(&fixtureDef);
-			}
-
-			if (entity.hasComponent<CircleCollider2DComponent>())
-			{
-				// Get the circle collider 2D component
-				auto& cc2d = entity.getComponent<CircleCollider2DComponent>();
-
-				// Create the b2CircleShape object and set its parameters
-				b2CircleShape circleShape;
-				circleShape.m_p.Set(cc2d.offset.x, cc2d.offset.y);
-				circleShape.m_radius = transform.scale.x * cc2d.radius;
-
-				// Set b2FixtureDef object parameters
-				b2FixtureDef fixtureDef;
-				fixtureDef.shape = &circleShape;
-				fixtureDef.density = cc2d.density;
-				fixtureDef.friction = cc2d.friction;
-				fixtureDef.restitution = cc2d.restitution;
-				fixtureDef.restitutionThreshold = cc2d.restitutionThreshold;
-				body->CreateFixture(&fixtureDef);
-			}
-		}
+		onPhysics2DStart();
 	}
 
 	// On runtime stop
 	void Scene::onRuntimeStop()
 	{
-		delete box2DWorld;
-		box2DWorld = nullptr;
+		onPhysics2DStop();
+	}
+
+	// On simulation start
+	void Scene::onSimulationStart()
+	{
+		onPhysics2DStart();
+	}
+
+	// On simulation stop
+	void Scene::onSimulationStop()
+	{
+		onPhysics2DStop();
 	}
 
 	// Return the registry
@@ -291,29 +250,35 @@ namespace Basil
 	// On update function for the editor
 	void Scene::onUpdateEditor(Timestep timeStep, EditorCamera& camera)
 	{
-		Renderer2D::beginScene(camera);
+		renderScene(camera);
+	}
 
-		// Draw sprites
+	// On simulation update
+	void Scene::onUpdateSimulation(Timestep timeStep, EditorCamera& camera)
+	{
+		// Physics
 		{
-			auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-			for (auto entity : group)
+			// Step the physics world
+			const int32_t velocityIterations = 6;
+			const int32_t positionIterations = 6;
+			box2DWorld->Step(timeStep, velocityIterations, positionIterations);
+
+			// Retrieve transform from Box2D, update transform component with it
+			auto view = registry.view<Rigidbody2DComponent>();
+			for (auto e : view)
 			{
-				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-				Renderer2D::drawSprite(transform.getTransform(), sprite, (int)entity);
+				Entity entity = { e, this };
+				auto& transform = entity.getComponent<TransformComponent>();
+				auto& rb2d = entity.getComponent<Rigidbody2DComponent>();
+				b2Body* body = (b2Body*)rb2d.runtimeBody;
+				const auto& position = body->GetPosition();
+				transform.translation.x = position.x;
+				transform.translation.y = position.y;
+				transform.rotation.z = body->GetAngle();
 			}
 		}
 
-		// Draw circles
-		{
-			auto view = registry.view<TransformComponent, CircleRendererComponent>();
-			for (auto entity : view)
-			{
-				auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
-				Renderer2D::drawCircle(transform.getTransform(), circle.color, circle.thickness, circle.fade, (int)entity);
-			}
-		}
-
-		Renderer2D::endScene();
+		renderScene(camera);
 	}
 
 	// On viewport resize
@@ -351,6 +316,99 @@ namespace Basil
 		}
 
 		return {};
+	}
+
+	// On 2D physics start
+	void Scene::onPhysics2DStart()
+	{
+		box2DWorld = new b2World({ 0.0f, -9.8f });
+		auto view = registry.view<Rigidbody2DComponent>();
+		for (auto e : view)
+		{
+			Entity entity = { e, this };
+			auto& transform = entity.getComponent<TransformComponent>();
+			auto& rb2d = entity.getComponent<Rigidbody2DComponent>();
+
+			b2BodyDef bodyDef;
+			bodyDef.type = BasilRigidbody2DTypeToBox2D(rb2d.type);
+			bodyDef.position.Set(transform.translation.x, transform.translation.y);
+			bodyDef.angle = transform.rotation.z;
+
+			b2Body* body = box2DWorld->CreateBody(&bodyDef);
+			body->SetFixedRotation(rb2d.fixedRotation);
+			rb2d.runtimeBody = body;
+
+			if (entity.hasComponent<BoxCollider2DComponent>())
+			{
+				auto& bc2d = entity.getComponent<BoxCollider2DComponent>();
+
+				b2PolygonShape polygonShape;
+				polygonShape.SetAsBox(bc2d.size.x * transform.scale.x, bc2d.size.y * transform.scale.y);
+
+				b2FixtureDef fixtureDef;
+				fixtureDef.shape = &polygonShape;
+				fixtureDef.density = bc2d.density;
+				fixtureDef.friction = bc2d.friction;
+				fixtureDef.restitution = bc2d.restitution;
+				fixtureDef.restitutionThreshold = bc2d.restitutionThreshold;
+				body->CreateFixture(&fixtureDef);
+			}
+
+			if (entity.hasComponent<CircleCollider2DComponent>())
+			{
+				// Get the circle collider 2D component
+				auto& cc2d = entity.getComponent<CircleCollider2DComponent>();
+
+				// Create the b2CircleShape object and set its parameters
+				b2CircleShape circleShape;
+				circleShape.m_p.Set(cc2d.offset.x, cc2d.offset.y);
+				circleShape.m_radius = transform.scale.x * cc2d.radius;
+
+				// Set b2FixtureDef object parameters
+				b2FixtureDef fixtureDef;
+				fixtureDef.shape = &circleShape;
+				fixtureDef.density = cc2d.density;
+				fixtureDef.friction = cc2d.friction;
+				fixtureDef.restitution = cc2d.restitution;
+				fixtureDef.restitutionThreshold = cc2d.restitutionThreshold;
+				body->CreateFixture(&fixtureDef);
+			}
+		}
+	}
+
+	// On 2D physics stop
+	void Scene::onPhysics2DStop()
+	{
+		delete box2DWorld;
+		box2DWorld = nullptr;
+	}
+
+	// Render scene as seen from camera
+	void Scene::renderScene(EditorCamera& camera)
+	{
+		Renderer2D::beginScene(camera);
+
+		// Draw sprites
+		{
+			auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			for (auto entity : group)
+			{
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+				Renderer2D::drawSprite(transform.getTransform(), sprite, (int)entity);
+			}
+		}
+
+		// Draw circles
+		{
+			auto view = registry.view<TransformComponent, CircleRendererComponent>();
+			for (auto entity : view)
+			{
+				auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
+				Renderer2D::drawCircle(transform.getTransform(), circle.color, circle.thickness, circle.fade, (int)entity);
+			}
+		}
+
+		Renderer2D::endScene();
 	}
 
 	// On component added (only called if component you are trying to add does not exist)

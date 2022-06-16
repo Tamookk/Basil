@@ -2,6 +2,9 @@
 Change log for the Basil Game Engine project.
 
 ## 2022-06-16
+### Added
+* Physics simulation.
+
 ### Changed
 * Updated Premake.
 * Changed scripts to generate project files for Visual Studio 2022.

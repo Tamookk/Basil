@@ -18,7 +18,8 @@ namespace Basil
 			enum class SceneState
 			{
 				Edit = 0,
-				Play = 1
+				Play = 1,
+				Simulate = 2
 			};
 
 		public:
@@ -44,6 +45,7 @@ namespace Basil
 			void serializeScene(Shared<Scene> scene, const std::filesystem::path& path);
 
 			void onScenePlay();
+			void onSceneSimulate();
 			void onSceneStop();
 
 			void onDuplicateEntity();
@@ -84,6 +86,7 @@ namespace Basil
 
 			// -- Editor Resources -- //
 			Shared<Texture2D> iconPlay;
+			Shared<Texture2D> iconSimulate;
 			Shared<Texture2D> iconStop;
 	};
 }
