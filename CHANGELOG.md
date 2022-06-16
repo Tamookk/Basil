@@ -1,6 +1,14 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2022-06-16
+### Changed
+* Updated Premake.
+* Changed scripts to generate project files for Visual Studio 2022.
+
+### Fixed
+* Added setup batch scripts that were missing from the repository.
+
 ## 2021-12-3
 ### Added
 * Physics collider visualisation.
