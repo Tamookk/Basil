@@ -1,6 +1,13 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2022-07-01
+### Added
+* Code for duplicating entities.
+
+### Changed
+* Made copy component functions variadic template functions.
+
 ## 2022-06-16
 ### Added
 * Physics simulation.

@@ -41,30 +41,54 @@ namespace Basil
 	}
 
 	// Copy component
-	template<typename Component>
+	template<typename... Component>
 	static void copyComponent(entt::registry& dst, entt::registry & src, const std::unordered_map<UUID, entt::entity>& enttMap)
 	{
-		// Loop through each Component
-		auto view = src.view<Component>();
-		for (auto e : view)
-		{
-			// Get the UUID, assert that it exists in enttMap
-			UUID uuid = src.get<IDComponent>(e).id;
-			ASSERT(enttMap.find(uuid) != enttMap.end(), "");
-			entt::entity dstEnttID = enttMap.at(uuid);
+		([&]()
+			{
+				// Get component view of source entity
+				auto view = src.view<Component>();
 
-			// Add the component to the destination entity
-			auto& component = src.get<Component>(e);
-			dst.emplace_or_replace<Component>(dstEnttID, component);
-		}
+				// For each source entity
+				for (auto srcEntity : view)
+				{
+					// Copy the destination entity
+					entt::entity dstEntity = enttMap.at(src.get<IDComponent>(srcEntity).id);
+
+					// Get reference to source component
+					auto& srcComponent = src.get<Component>(srcEntity);
+
+					// Replace component in destination with one from source
+					dst.emplace_or_replace<Component>(dstEntity, srcComponent);
+				}
+			}(), ...);
+	}
+
+	// Copy component group
+	template<typename... Component>
+	static void copyComponent(ComponentGroup<Component...>, entt::registry& dst, entt::registry& src, const std::unordered_map<UUID, entt::entity>& enttMap)
+	{
+		// Call copy component for each component in the group
+		copyComponent<Component...>(dst, src, enttMap);
 	}
 
 	// Copy component if exists
-	template<typename Component>
+	template<typename... Component>
 	static void copyComponentIfExists(Entity dst, Entity src)
 	{
-		if (src.hasComponent<Component>())
-			dst.addOrReplaceComponent<Component>(src.getComponent<Component>());
+		([&]()
+			{
+				if (src.hasComponent<Component>())
+					dst.addOrReplaceComponent<Component>(src.getComponent<Component>());
+
+			}(), ...);
+	}
+
+	// Copy component if exists for component group
+	template<typename... Component>
+	static void copyComponentIfExists(ComponentGroup<Component...>, Entity dst, Entity src)
+	{
+		copyComponentIfExists<Component...>(dst, src);
 	}
 
 	// Copy a scene
@@ -92,14 +116,7 @@ namespace Basil
 		}
 
 		// Copy components (except IDComponent and TagComponent)
-		copyComponent<CameraComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
-		copyComponent<NativeScriptComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
-		copyComponent<TransformComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
-		copyComponent<SpriteRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
-		copyComponent<CircleRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
-		copyComponent<Rigidbody2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
-		copyComponent<BoxCollider2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
-		copyComponent<CircleCollider2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		copyComponent(AllComponents{}, dstSceneRegistry, srcSceneRegistry, enttMap);
 
 		return newScene;
 	}
@@ -301,7 +318,8 @@ namespace Basil
 	// Duplicate an entity
 	void Scene::duplicateEntity(Entity entity)
 	{
-		// TODO
+		Entity newEntity = createEntity(entity.getName());
+		copyComponentIfExists(AllComponents{}, newEntity, entity);
 	}
 
 	// Get primary camera entity

@@ -139,4 +139,14 @@ namespace Basil
 		float restitutionThreshold = 0.5f;
 		void* runtimeBody = nullptr;
 	};
+
+	template<typename... Component>
+	struct ComponentGroup
+	{
+
+	};
+
+	using AllComponents =
+		ComponentGroup<TransformComponent, SpriteRendererComponent, CameraComponent, NativeScriptComponent,
+						Rigidbody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent>;
 }
