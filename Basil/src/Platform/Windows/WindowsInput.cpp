@@ -14,7 +14,7 @@ namespace Basil
 
 		// Check to see if key is being pressed
 		int state = glfwGetKey(window, static_cast<int32_t>(keyCode));
-		return state == GLFW_PRESS || state == GLFW_REPEAT;
+		return state == GLFW_PRESS;
 	}
 
 	// Return if mouse button is being pressed

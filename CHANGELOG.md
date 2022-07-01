@@ -9,6 +9,9 @@ Change log for the Basil Game Engine project.
 * Made copy component functions variadic template functions.
 * Key pressed event repeat count to a boolean.
 
+### Removed
+* GLFW key repeat check as it was unecessary.
+
 ## 2022-06-16
 ### Added
 * Physics simulation.
