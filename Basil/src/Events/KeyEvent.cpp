@@ -4,14 +4,14 @@
 namespace Basil
 {
 	// -- Key Pressed Event -- //
-	KeyPressedEvent::KeyPressedEvent(int keycode, int repeatCount)
+	KeyPressedEvent::KeyPressedEvent(int keycode, bool isRepeat)
 	{
 		this->keycode = keycode;
-		this->repeatCount = repeatCount;
+		this->isRepeat = isRepeat;
 	}
 
 	int KeyPressedEvent::getKeycode() const { return keycode; }
-	int KeyPressedEvent::getRepeatCount() const { return repeatCount; }
+	bool KeyPressedEvent::isRepeating() const { return isRepeat; }
 	EventType KeyPressedEvent::getEventType() const { return KeyPressedEvent::getStaticType(); }
 	EventType KeyPressedEvent::getStaticType() { return EventType::KeyPressed; }
 	const char* KeyPressedEvent::getName() const { return "KeyPressed"; }
@@ -19,7 +19,7 @@ namespace Basil
 	std::string KeyPressedEvent::toString() const
 	{
 		std::stringstream ss;
-		ss << "KeyPressedEvent: " << keycode << " (" << repeatCount << " repeats)";
+		ss << "KeyPressedEvent: " << keycode << " (repeat = " << isRepeat << " repeats)";
 		return ss.str();
 	}
 

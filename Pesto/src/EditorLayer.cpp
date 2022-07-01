@@ -384,7 +384,7 @@ namespace Basil
 	bool EditorLayer::onKeyPressed(KeyPressedEvent& e)
 	{
 		// Shortcuts
-		if (e.getRepeatCount() > 0)
+		if (e.isRepeating())
 			return false;
 
 		bool control = Input::isKeyPressed(Key::LeftControl) || Input::isKeyPressed(Key::RightControl);

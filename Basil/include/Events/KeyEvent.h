@@ -10,9 +10,9 @@ namespace Basil
 	class KeyPressedEvent : public Event
 	{
 		public:
-			KeyPressedEvent(int keycode, int repeatCount);
+			KeyPressedEvent(int keycode, bool isRepeat = false);
 			int getKeycode() const;
-			int getRepeatCount() const;
+			bool isRepeating() const;
 			virtual EventType getEventType() const override;
 			static EventType getStaticType();
 			virtual const char* getName() const override;
@@ -20,7 +20,7 @@ namespace Basil
 			virtual int getCategory() const override;
 		private:
 			int keycode;
-			int repeatCount;
+			bool isRepeat;
 	};
 
 	class KeyReleasedEvent : public Event

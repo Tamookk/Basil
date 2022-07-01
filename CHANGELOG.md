@@ -7,6 +7,7 @@ Change log for the Basil Game Engine project.
 
 ### Changed
 * Made copy component functions variadic template functions.
+* Key pressed event repeat count to a boolean.
 
 ## 2022-06-16
 ### Added
