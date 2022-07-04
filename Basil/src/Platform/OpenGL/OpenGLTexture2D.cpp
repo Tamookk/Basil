@@ -140,6 +140,6 @@ namespace Basil
 	// Equality operator override
 	bool OpenGLTexture2D::operator==(const Texture& other) const
 	{
-		return rendererID == ((OpenGLTexture2D&)other).rendererID;
+		return rendererID == other.getRendererID();
 	}
 }
