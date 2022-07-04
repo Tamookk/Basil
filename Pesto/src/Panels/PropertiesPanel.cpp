@@ -153,6 +153,23 @@ namespace Basil
 		ImGui::End();
 	}
 
+	// Templated function for displaying "add component" entries
+	template<typename T>
+	void PropertiesPanel::displayAddComponentEntry(const std::string& entryName, Entity& entity)
+	{
+		// Only display entry for component T if the entity does not have it
+		if (!entity.hasComponent<T>())
+		{
+			// If menu item of entry name is clicked
+			if (ImGui::MenuItem(entryName.c_str()))
+			{
+				// Add component T and close the menu
+				entity.addComponent<T>();
+				ImGui::CloseCurrentPopup();
+			}
+		}
+	}
+
 	// Draw the components for a given entity
 	void PropertiesPanel::drawComponents(Entity entity)
 	{
@@ -182,65 +199,13 @@ namespace Basil
 
 		if (ImGui::BeginPopup("AddComponent"))
 		{
-			// Camera menu item - add a Camera Component
-			if (!entity.hasComponent<CameraComponent>())
-			{
-				if (ImGui::MenuItem("Camera"))
-				{
-					entity.addComponent<CameraComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-			}
-
-			// Sprite renderer menu item - add a Sprite Renderer Component
-			if (!entity.hasComponent<SpriteRendererComponent>())
-			{
-				if (ImGui::MenuItem("Sprite Renderer"))
-				{
-					entity.addComponent<SpriteRendererComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-			}
-
-			// Circle renderer menu item - add a Circle Renderer Component
-			if (!entity.hasComponent<CircleRendererComponent>())
-			{
-				if (ImGui::MenuItem("Circle Renderer"))
-				{
-					entity.addComponent<CircleRendererComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-			}
-
-			// Rigidbody 2D menu item - add a Rigidbody 2D Component
-			if (!entity.hasComponent<Rigidbody2DComponent>())
-			{
-				if (ImGui::MenuItem("Rigidbody 2D"))
-				{
-					entity.addComponent<Rigidbody2DComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-			}
-
-			// Box collider 2D menu item - add a Box Collider 2D Component
-			if (!entity.hasComponent<BoxCollider2DComponent>())
-			{
-				if (ImGui::MenuItem("Box Collider 2D"))
-				{
-					entity.addComponent<BoxCollider2DComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-			}
-
-			// Circle collider 2D menu item - add a Circle Collider 2D Component
-			if (!entity.hasComponent<CircleCollider2DComponent>())
-			{
-				if (ImGui::MenuItem("Circle Collider 2D"))
-				{
-					entity.addComponent<CircleCollider2DComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-			}
+			// Draw list of components that can be added to an entity
+			displayAddComponentEntry<CameraComponent>("Camera", entity);
+			displayAddComponentEntry<SpriteRendererComponent>("Sprite Renderer", entity);
+			displayAddComponentEntry<CircleRendererComponent>("Circle Renderer", entity);
+			displayAddComponentEntry<Rigidbody2DComponent>("Rigidbody 2D", entity);
+			displayAddComponentEntry<BoxCollider2DComponent>("Box Collider 2D", entity);
+			displayAddComponentEntry<CircleCollider2DComponent>("Circle Collider 2D", entity);
 
 			ImGui::EndPopup();
 		}

@@ -18,6 +18,9 @@ namespace Basil
 			void setContext(const Shared<Scene>& context);
 			void onImGuiRender(Entity& selectionContext);
 		private:
+			template<typename T>
+			void displayAddComponentEntry(const std::string& entryName, Entity& entity);
+
 			void drawComponents(Entity entity);
 			Shared<Scene> context;
 			Entity selectionContext;
