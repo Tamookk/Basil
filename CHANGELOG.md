@@ -5,6 +5,9 @@ Change log for the Basil Game Engine project.
 ### Added
 * Serializing textures and tiling factors.
 
+### Fixed
+* Circles not rendering when playing or simulating a scene.
+
 ## 2022-07-04
 ### Added
 * Outline for selected entity.

@@ -147,6 +147,6 @@ namespace Basil
 	};
 
 	using AllComponents =
-		ComponentGroup<TransformComponent, SpriteRendererComponent, CameraComponent, NativeScriptComponent,
+		ComponentGroup<TransformComponent, SpriteRendererComponent, CircleRendererComponent, CameraComponent, NativeScriptComponent,
 						Rigidbody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent>;
 }
