@@ -30,10 +30,17 @@ namespace Basil
 		}
 	};
 
+	struct ApplicationSpecification
+	{
+		std::string name = "Basil Application";
+		std::string workingDirectory;
+		ApplicationCommandLineArgs applicationCommandLineArgs = ApplicationCommandLineArgs();
+	};
+
 	class Application
 	{
 		public:
-			Application(const std::string& name = "Basil Application", ApplicationCommandLineArgs args = ApplicationCommandLineArgs());
+			Application(const ApplicationSpecification& specification);
 			virtual ~Application();
 			void close();
 			ImGuiLayer* getImGuiLayer();
@@ -41,6 +48,7 @@ namespace Basil
 			void pushLayer(Layer* layer);
 			void pushOverlay(Layer* layer);
 			static Application& get();
+			const ApplicationSpecification& getSpecification() const;
 			ApplicationCommandLineArgs getCommandLineArgs() const;
 			Window& getWindow();
 		private:
@@ -49,6 +57,7 @@ namespace Basil
 			bool onWindowResize(WindowResizeEvent& e);
 			
 			ApplicationCommandLineArgs commandLineArgs;
+			ApplicationSpecification specification;
 			Unique<Window> window;
 			ImGuiLayer* imGuiLayer;
 			bool running;

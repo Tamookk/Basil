@@ -6,7 +6,7 @@
 class Sandbox : public Basil::Application
 {
 	public:
-		Sandbox(Basil::ApplicationCommandLineArgs args)
+		Sandbox(const Basil::ApplicationSpecification& specification) : Basil::Application(specification)
 		{
 			//pushLayer(new ExampleLayer());
 			pushLayer(new Sandbox2D());
@@ -21,5 +21,11 @@ class Sandbox : public Basil::Application
 // Create a new instance of Sandbox
 Basil::Application* Basil::createApplication(Basil::ApplicationCommandLineArgs args)
 {
-	return new Sandbox(args);
+	// Create application specification
+	ApplicationSpecification spec;
+	spec.name = "Sandbox";
+	spec.workingDirectory = "../Pesto";
+	spec.applicationCommandLineArgs = args;
+
+	return new Sandbox(spec);
 }

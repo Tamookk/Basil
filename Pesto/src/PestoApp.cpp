@@ -7,7 +7,7 @@ namespace Basil
 	class Pesto : public Application
 	{
 		public:
-			Pesto(ApplicationCommandLineArgs args) : Application("Pesto", args)
+			Pesto(const ApplicationSpecification& spec) : Application(spec)
 			{
 				pushLayer(new EditorLayer());
 			}
@@ -21,6 +21,10 @@ namespace Basil
 	// Create a new instance of Sandbox
 	Application* createApplication(ApplicationCommandLineArgs args)
 	{
-		return new Pesto(args);
+		ApplicationSpecification spec;
+		spec.name = "Pesto";
+		spec.applicationCommandLineArgs = args;
+
+		return new Pesto(spec);
 	}
 }

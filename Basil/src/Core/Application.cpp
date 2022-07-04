@@ -9,7 +9,7 @@ namespace Basil
 	Application* Application::instance = nullptr;
 
 	// Constructor
-	Application::Application(const std::string& name, ApplicationCommandLineArgs args)
+	Application::Application(const ApplicationSpecification& specification)
 	{
 		PROFILE_FUNCTION();
 
@@ -17,7 +17,7 @@ namespace Basil
 		ASSERT(!instance, "Application already exists!");
 
 		// Initialise variables
-		commandLineArgs = args;
+		commandLineArgs = specification.applicationCommandLineArgs;
 		running = true;
 		minimised = false;
 		lastFrameTime = 0.0f;
@@ -25,8 +25,12 @@ namespace Basil
 		// Set application instance
 		instance = this;
 
+		// Set working directory if it is specified
+		if (!specification.workingDirectory.empty())
+			std::filesystem::current_path(specification.workingDirectory);
+
 		// Set create the window and set the window callback
-		window = Window::create(WindowProps(name));
+		window = Window::create(WindowProps(specification.name));
 		window->setEventCallback(BIND_EVENT(Application::onEvent));
 
 		// Initialise the renderer
@@ -97,6 +101,12 @@ namespace Basil
 	Application& Application::get()
 	{
 		return *instance;
+	}
+
+	// Return the application specification
+	const ApplicationSpecification& Application::getSpecification() const
+	{
+		return specification;
 	}
 
 	// Return command line arguments

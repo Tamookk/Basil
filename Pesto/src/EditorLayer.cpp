@@ -43,7 +43,7 @@ namespace Basil
 		editorScene = makeShared<Scene>();
 		activeScene = editorScene;
 
-		auto commandLineArgs = Application::get().getCommandLineArgs();
+		auto commandLineArgs = Application::get().getSpecification().applicationCommandLineArgs;
 		if (commandLineArgs.count > 1)
 		{
 			auto sceneFilePath = commandLineArgs[1];
