@@ -50,8 +50,7 @@ namespace Basil
 		{
 			// Get the path, relative path, and file name of the item
 			const auto& path = directoryEntry.path();
-			auto relativePath = std::filesystem::relative(path, assetPath);
-			std::string fileNameString = relativePath.filename().string();
+			std::string fileNameString = path.filename().string();
 
 			// Push an ImGui ID
 			ImGui::PushID(fileNameString.c_str());
@@ -64,6 +63,7 @@ namespace Basil
 			// Send drag and drop data to the viewport (currently a scene file)
 			if (ImGui::BeginDragDropSource())
 			{
+				auto relativePath = std::filesystem::relative(path, assetPath);
 				const wchar_t* itemPath = relativePath.c_str();
 				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t), ImGuiCond_Once);
 				ImGui::EndDragDropSource();

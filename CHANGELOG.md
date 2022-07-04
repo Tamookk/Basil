@@ -8,6 +8,7 @@ Change log for the Basil Game Engine project.
 
 ### Fixed
 * Editor camera now only processes events when in edit state.
+* Use of file system operation in the main loop of the content browser of Pesto to improve performance.
 
 ## 2022-07-01
 ### Added
