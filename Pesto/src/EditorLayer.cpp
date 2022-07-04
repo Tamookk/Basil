@@ -182,7 +182,8 @@ namespace Basil
 	void EditorLayer::onEvent(Event& e)
 	{
 		// Editor camera on event
-		editorCamera.onEvent(e);
+		if (sceneState == SceneState::Edit)
+			editorCamera.onEvent(e);
 
 		// Dispatch key pressed event
 		EventDispatcher dispatcher(e);

@@ -5,6 +5,9 @@ Change log for the Basil Game Engine project.
 ### Changed
 * Changed code for the add component drop-down in Pesto to make it templated.
 
+### Fixed
+* Editor camera now only processes events when in edit state.
+
 ## 2022-07-01
 ### Added
 * Code for duplicating entities.
