@@ -54,6 +54,9 @@ namespace Basil
 		// Set up editor camera
 		editorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
+		// Set line width
+		Renderer2D::setLineWidth(4.0f);
+
 		// Create square entities
 		auto square = activeScene->createEntity("Green Square");
 		square.addComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
@@ -514,6 +517,15 @@ namespace Basil
 				}
 			}
 		}
+		
+		// Draw outline over the selected entity
+		if (Entity selectedEntity = sceneHierarchyPanel.getSelectedEntity())
+		{
+			// Get transform of the selected entity and draw an orange outline around it
+			const TransformComponent transform = selectedEntity.getComponent<TransformComponent>();
+			Renderer2D::drawRect(transform.getTransform(), glm::vec4(1.0f, 0.5f, 0.0f, 1.0f));
+		}
+
 
 		// Finish the batch
 		Renderer2D::endScene();

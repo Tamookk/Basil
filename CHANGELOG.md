@@ -2,6 +2,9 @@
 Change log for the Basil Game Engine project.
 
 ## 2022-07-04
+### Added
+* Outline for selected entity.
+
 ### Changed
 * Changed code for the add component drop-down in Pesto to make it templated.
 * Made static assert condition work for more compilers.
