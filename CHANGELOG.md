@@ -1,6 +1,10 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2022-07-05
+### Added
+* Serializing textures and tiling factors.
+
 ## 2022-07-04
 ### Added
 * Outline for selected entity.

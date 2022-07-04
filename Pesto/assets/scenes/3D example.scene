@@ -1,32 +1,25 @@
 Scene: Untitled
 Entities:
-  - Entity: 341150226231709257
+  - Entity: 16693015533584359771
     TagComponent:
-      Tag: Blue Square
+      Tag: Green Square
     TransformComponent:
-      Translation: [0.000131324196, 0.5, -0.349999994]
-      Rotation: [1.57079613, 0.785398245, -4.21468513e-08]
-      Scale: [0.999999881, 0.999999285, 0.999981046]
-    SpriteRendererComponent:
-      Color: [0, 0.380961895, 1, 1]
-  - Entity: 15087625727562898791
-    TagComponent:
-      Tag: Clip-Space Entity
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
+      Translation: [-0.349999994, 0, 0]
+      Rotation: [0, -0.785398185, 0]
       Scale: [1, 1, 1]
-    CameraComponent:
-      Camera:
-        CameraType: 1
-        PerspectiveFOV: 0.785398185
-        PerspectiveNear: 0.00999999978
-        PerspectiveFar: 1000
-        OrthographicSize: 10
-        OrthographicNear: -1
-        OrthographicFar: 1
-      Primary: false
-      FixedAspectRatio: false
+    SpriteRendererComponent:
+      Color: [0, 1, 0, 1]
+      TilingFactor: 1
+  - Entity: 912291167855916961
+    TagComponent:
+      Tag: Red Square
+    TransformComponent:
+      Translation: [0.349999994, 0, 0]
+      Rotation: [0, 0.785398185, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 0, 0, 1]
+      TilingFactor: 1
   - Entity: 4913648291362059674
     TagComponent:
       Tag: Camera
@@ -45,21 +38,31 @@ Entities:
         OrthographicFar: 1
       Primary: true
       FixedAspectRatio: false
-  - Entity: 912291167855916961
+  - Entity: 15087625727562898791
     TagComponent:
-      Tag: Red Square
+      Tag: Clip-Space Entity
     TransformComponent:
-      Translation: [0.349999994, 0, 0]
-      Rotation: [0, 0.785398185, 0]
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [1, 0, 0, 1]
-  - Entity: 16693015533584359771
+    CameraComponent:
+      Camera:
+        CameraType: 1
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 1000
+        OrthographicSize: 10
+        OrthographicNear: -1
+        OrthographicFar: 1
+      Primary: false
+      FixedAspectRatio: false
+  - Entity: 341150226231709257
     TagComponent:
-      Tag: Green Square
+      Tag: Blue Square
     TransformComponent:
-      Translation: [-0.349999994, 0, 0]
-      Rotation: [0, -0.785398185, 0]
-      Scale: [1, 1, 1]
+      Translation: [0.000131324196, 0.5, -0.349999994]
+      Rotation: [1.57079613, 0.785398245, -4.21468513e-08]
+      Scale: [0.999999881, 0.999999285, 0.999981046]
     SpriteRendererComponent:
-      Color: [0, 1, 0, 1]
+      Color: [0, 0.380961895, 1, 1]
+      TilingFactor: 1

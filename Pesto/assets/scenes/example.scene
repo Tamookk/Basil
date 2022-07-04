@@ -9,6 +9,7 @@ Entities:
       Scale: [1, 1, 1]
     SpriteRendererComponent:
       Color: [0, 1, 0, 1]
+      TilingFactor: 1
   - Entity: 2039051065260538623
     TagComponent:
       Tag: Red Square
@@ -18,6 +19,7 @@ Entities:
       Scale: [1, 1, 1]
     SpriteRendererComponent:
       Color: [1, 0, 0, 1]
+      TilingFactor: 1
   - Entity: 5393449905059430083
     TagComponent:
       Tag: Camera
@@ -63,6 +65,7 @@ Entities:
       Scale: [1, 1, 1]
     SpriteRendererComponent:
       Color: [0.988084316, 0, 1, 1]
+      TilingFactor: 1
   - Entity: 8851484641623859425
     TagComponent:
       Tag: Clip-Space Entity
@@ -108,6 +111,7 @@ Entities:
       Scale: [1, 1, 1]
     SpriteRendererComponent:
       Color: [1, 0, 0, 1]
+      TilingFactor: 1
   - Entity: 5954458383626091219
     TagComponent:
       Tag: Green Square
@@ -117,3 +121,4 @@ Entities:
       Scale: [1, 1, 1]
     SpriteRendererComponent:
       Color: [0, 1, 0, 1]
+      TilingFactor: 1

@@ -18,6 +18,7 @@ namespace Basil
 			uint32_t getWidth() const override;
 			uint32_t getHeight() const override;
 			uint32_t getRendererID() const override;
+			const std::string& getPath() const override;
 			void setData(void* data, uint32_t size) override;
 			void bind(unsigned int slot = 0) const override;
 			bool isTextureLoaded() const override;

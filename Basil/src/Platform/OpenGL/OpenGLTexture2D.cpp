@@ -113,6 +113,12 @@ namespace Basil
 		return rendererID;
 	}
 
+	// Return the texture's location
+	const std::string& OpenGLTexture2D::getPath() const
+	{
+		return path;
+	}
+
 	// Set texture data
 	void OpenGLTexture2D::setData(void* data, uint32_t size)
 	{

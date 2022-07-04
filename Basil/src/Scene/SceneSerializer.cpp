@@ -215,6 +215,12 @@ namespace Basil
 			auto& spriteRendererComponent = entity.getComponent<SpriteRendererComponent>();
 			out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.color;
 
+			// Serialize texture if there is one
+			if (spriteRendererComponent.texture)
+				out << YAML::Key << "TexturePath" << YAML::Value << spriteRendererComponent.texture->getPath();
+
+			out << YAML::Key << "TilingFactor" << YAML::Value << spriteRendererComponent.tilingFactor;
+
 			out << YAML::EndMap;
 		}
 
@@ -394,6 +400,11 @@ namespace Basil
 				{
 					auto& src = deserializedEntity.addComponent<SpriteRendererComponent>();
 					src.color = spriteRendererComponent["Color"].as<glm::vec4>();
+
+					if (spriteRendererComponent["TexturePath"])
+						src.texture = Texture2D::create(spriteRendererComponent["TexturePath"].as<std::string>());
+
+					src.tilingFactor = spriteRendererComponent["TilingFactor"].as<float>();
 				}
 
 				// Circle renderer component
