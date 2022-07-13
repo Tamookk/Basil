@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Core/Application.h"
+#include "Scripting/ScriptEngine.h"
 
 #include <GLFW/glfw3.h>	// temporary
 
@@ -33,8 +34,9 @@ namespace Basil
 		window = Window::create(WindowProps(specification.name));
 		window->setEventCallback(BIND_EVENT(Application::onEvent));
 
-		// Initialise the renderer
+		// Initialise the renderer and script engine
 		Renderer::init();
+		ScriptEngine::init();
 
 		// Create and push ImGui overlay
 		imGuiLayer = new ImGuiLayer();
@@ -46,6 +48,7 @@ namespace Basil
 	{
 		PROFILE_FUNCTION();
 
+		ScriptEngine::shutdown();
 		Renderer::shutdown();
 	}
 

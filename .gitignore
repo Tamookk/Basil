@@ -401,6 +401,7 @@ FodyWeavers.xsd
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
+**.csproj
 **.ini
 **.json
 **.log

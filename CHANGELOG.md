@@ -4,6 +4,7 @@ Change log for the Basil Game Engine project.
 ## 2022-07-14
 ### Added
 * .NET libraries.
+* Initial C# scripting support.
 
 ## 2022-07-13
 ### Added
