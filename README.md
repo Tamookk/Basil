@@ -20,9 +20,21 @@ Clone the repository with `git clone --recursive https://github.com/Tamookk/Basi
 This project requires [Python 3](https://www.python.org/) for setup.
 
 ### Windows Instructions
+#### Project Setup
 1. From the `scripts` directory inside the project directory, open a command prompt and run `Setup.bat`. This will install all dependencies and generate all necessary project files for building this project within Visual Studio 2022.
 2. If you do not have the Vulkan SDK installed already, then this script will have to be run again after restarting your computer.
 3. Once done, simply open `Basil.sln` and build away!
+
+#### Building Mono Libraries
+Debug and Build x64 Mono libraries for Windows have been included in the repository, as they are required for C# scripting support. I do plan on keeping these updated, however the following instructions can be followed for rebuilding them if necessary.
+
+1. Clone Mono with `git clone https://github.com/mono/mono` into a folder separate from the one containing Basil. I recommend then checking out the latest release commit.
+2. Navigate to the `msvc` directory within the cloned Mono repository, then open `mono.sln` in Visual Studio.
+3. Build `libmono-static` in both Debug and Release configurations, using the x64 architecture. Make a note of the directory that these files are built to - they should be in `mono/msvc/build/sgen/x64/lib/`.
+4. The `libmono-static-sgen.lib` files in the `Debug` and `Release` folders need to be copied to the `Debug` and `Release` folders in `Basil/Basil/vendor/mono/lib/`.
+5. Following that, build `libmono-dynamic` in any configuration - this is just to get the header files.
+6. Copy the `jit`, `metadata`, and `util` folders from `mono/msvc/include/mono` into `Basil/Basil/vendor/mono/include/mono`.
+7. We are now done with the Mono repository!
 
 ## Third-Party Dependencies
 A list of third-party software used in this project:
@@ -39,3 +51,4 @@ A list of third-party software used in this project:
 * [SPIRV-Cross](https://github.com/KhronosGroup/SPIRV-Cross) for converting SPIR-V to other shader languages
 * [Shaderc](https://github.com/google/shaderc) for shader compilation.
 * [Box2D](https://github.com/erincatto/box2d) for physics.
+* [Mono](https://github.com/mono/mono) for C# scripting support.

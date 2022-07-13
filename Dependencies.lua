@@ -14,16 +14,20 @@ IncludeDir["EnTT"] = "%{wks.location}/Basil/vendor/entt"
 IncludeDir["ImGuizmo"] = "%{wks.location}/Basil/vendor/ImGuizmo"
 IncludeDir["yaml_cpp"] = "%{wks.location}/Basil/vendor/yaml-cpp/include"
 IncludeDir["Box2D"] = "%{wks.location}/Basil/vendor/box2d/include"
+IncludeDir["mono"] = "%{wks.location}/Basil/vendor/mono/include"
 IncludeDir["SPIRV_Cross"] = "%{wks.location}/Basil/vendor/SPIRV-Cross"
 IncludeDir["shaderc"] = "%{wks.location}/Basil/vendor/shaderc/include"
 IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
 
 LibraryDir = {}
+LibraryDir["mono"] = "%{wks.location}/Basil/vendor/mono/lib/%{cfg.buildcfg}"
 LibraryDir["VulkanSDK"] = "%{VULKAN_SDK}/Lib"
 LibraryDir["VulkanSDK_Debug"] = "%{wks.location}/Basil/vendor/VulkanSDK/Lib"
 LibraryDir["VulkanSDK_DebugDLL"] = "%{wks.location}/Basil/vendor/VulkanSDK/Bin"
 
 Library = {}
+Library["mono"] = "%{LibraryDir.mono}/libmono-static-sgen.lib"
+
 Library["Vulkan"] = "%{LibraryDir.VulkanSDK}/vulkan-1.lib"
 Library["VulkanUtils"] = "%{LibraryDir.VulkanSDK}/VkLayer_utils.lib"
 

@@ -53,13 +53,14 @@ project "Basil"
 		"%{IncludeDir.GLM}",
 		"%{IncludeDir.stb}",
 		"%{IncludeDir.EnTT}",
+		"%{IncludeDir.mono}",
 		"%{IncludeDir.yaml_cpp}",
 		"%{IncludeDir.ImGuizmo}",
 		"%{IncludeDir.Box2D}",
 		"%{IncludeDir.VulkanSDK}",
 	}
 
-	links { "GLFW", "GLAD", "ImGui", "yaml-cpp", "Box2D", "opengl32.lib" }
+	links { "GLFW", "GLAD", "ImGui", "yaml-cpp", "Box2D", "opengl32.lib", "%{Library.mono}" }
 	
 	filter "files:Basil/vendor/ImGuizmo/**.cpp"
 		flags { "NoPCH" }
