@@ -36,6 +36,10 @@ Debug and Build x64 Mono libraries for Windows have been included in the reposit
 6. Copy the `jit`, `metadata`, and `util` folders from `mono/msvc/include/mono` into `Basil/Basil/vendor/mono/include/mono`.
 7. We are now done with the Mono repository!
 
+Windows .NET 4.5 libraries from the [Mono release](https://www.mono-project.com/download/stable/) are contained within the working directory, `Pesto\mono\lib\`. I do not recommend updating these!
+
+For more information on incorporating Mono into a game engine, please check out this guide written by Peter Nilsson: [Mono Embedding for Game Engines](https://peter1745.github.io/introduction.html).
+
 ## Third-Party Dependencies
 A list of third-party software used in this project:
 * [spdlog](https://github.com/gabime/spdlog) for logging
