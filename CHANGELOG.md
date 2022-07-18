@@ -1,6 +1,10 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2022-07-19
+### Added
+* Internal calls from C# scripts.
+
 ## 2022-07-14
 ### Added
 * .NET libraries.
