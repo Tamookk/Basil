@@ -4,6 +4,7 @@ Change log for the Basil Game Engine project.
 ## 2022-08-03
 ### Added
 * Script Component UI to Pesto.
+* Example C# scripts.
 
 
 ## 2022-08-02
