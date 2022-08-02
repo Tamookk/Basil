@@ -206,6 +206,17 @@ namespace Basil
 			out << YAML::EndMap;
 		}
 
+		// Script component
+		if (entity.hasComponent<ScriptComponent>())
+		{
+			auto& scriptComponent = entity.getComponent<ScriptComponent>();
+
+			out << YAML::Key << "ScriptComponent";
+			out << YAML::BeginMap;
+			out << YAML::Key << "ClassName" << YAML::Value << scriptComponent.className;
+			out << YAML::EndMap;
+		}
+
 		// Sprite Renderer component
 		if (entity.hasComponent<SpriteRendererComponent>())
 		{
@@ -392,6 +403,14 @@ namespace Basil
 
 					cc.primary = cameraComponent["Primary"].as<bool>();
 					cc.fixedAspectRatio = cameraComponent["FixedAspectRatio"].as<bool>();
+				}
+
+				// Script component
+				auto scriptComponent = entity["ScriptComponent"];
+				if (scriptComponent)
+				{
+					auto& sc = deserializedEntity.addComponent<ScriptComponent>();
+					sc.className = scriptComponent["ClassName"].as<std::string>();
 				}
 
 				// Sprite Renderer component

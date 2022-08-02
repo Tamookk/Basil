@@ -31,6 +31,14 @@ namespace Basil
 		IDComponent(const IDComponent&) = default;
 	};
 
+	struct ScriptComponent
+	{
+		std::string className;
+
+		ScriptComponent() = default;
+		ScriptComponent(const ScriptComponent&) = default;
+	};
+
 	class ScriptableEntity;	// Forward declaration
 	struct NativeScriptComponent
 	{
@@ -147,6 +155,6 @@ namespace Basil
 	};
 
 	using AllComponents =
-		ComponentGroup<TransformComponent, SpriteRendererComponent, CircleRendererComponent, CameraComponent, NativeScriptComponent,
-						Rigidbody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent>;
+		ComponentGroup<TransformComponent, SpriteRendererComponent, CircleRendererComponent, CameraComponent, ScriptComponent,
+						NativeScriptComponent, Rigidbody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent>;
 }

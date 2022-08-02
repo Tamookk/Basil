@@ -4,19 +4,24 @@ Change log for the Basil Game Engine project.
 ## 2022-08-02
 ### Added
 * Getting an entity by its UUID.
+* Script Components.
+
 
 ## 2022-07-19
 ### Added
 * Internal calls from C# scripts.
+
 
 ## 2022-07-14
 ### Added
 * .NET libraries.
 * Initial C# scripting support.
 
+
 ## 2022-07-13
 ### Added
 * Mono.
+
 
 ## 2022-07-05
 ### Added
@@ -24,6 +29,7 @@ Change log for the Basil Game Engine project.
 
 ### Fixed
 * Circles not rendering when playing or simulating a scene.
+
 
 ## 2022-07-04
 ### Added
@@ -42,6 +48,7 @@ Change log for the Basil Game Engine project.
 ### Removed
 * Unnecessary cast when comparing textures.
 
+
 ## 2022-07-01
 ### Added
 * Code for duplicating entities.
@@ -53,6 +60,7 @@ Change log for the Basil Game Engine project.
 ### Removed
 * GLFW key repeat check as it was unecessary.
 
+
 ## 2022-06-16
 ### Added
 * Physics simulation.
@@ -63,6 +71,7 @@ Change log for the Basil Game Engine project.
 
 ### Fixed
 * Added setup batch scripts that were missing from the repository.
+
 
 ## 2021-12-3
 ### Added

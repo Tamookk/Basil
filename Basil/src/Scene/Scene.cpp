@@ -169,12 +169,27 @@ namespace Basil
 	void Scene::onRuntimeStart()
 	{
 		onPhysics2DStart();
+
+		// Scripting
+		{
+			ScriptEngine::onRuntimeStart(this);
+
+			// Instantiate all script entities
+			auto view = registry.view<ScriptComponent>();
+			for (auto e : view)
+			{
+				Entity entity = { e, this };
+				ScriptEngine::onCreateEntity(entity);
+			}
+		}
 	}
 
 	// On runtime stop
 	void Scene::onRuntimeStop()
 	{
 		onPhysics2DStop();
+
+		ScriptEngine::onRuntimeStop();
 	}
 
 	// On simulation start
@@ -200,6 +215,16 @@ namespace Basil
 	{
 		// Update scripts
 		{
+			// C# scripts
+			{
+				auto view = registry.view<ScriptComponent>();
+				for (auto e : view)
+				{
+					Entity entity = { e, this };
+					ScriptEngine::onUpdateEntity(entity, timeStep);
+				}
+			}
+
 			registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
 			{
 				if (!nsc.instance)
@@ -462,6 +487,9 @@ namespace Basil
 		if(viewportWidth > 0 && viewportHeight > 0)
 			component.camera.setViewportSize(viewportWidth, viewportHeight);
 	}
+
+	template <>
+	void Scene::onComponentAdded<ScriptComponent>(Entity entity, ScriptComponent& component) {}
 
 	template <>
 	void Scene::onComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component) {}
