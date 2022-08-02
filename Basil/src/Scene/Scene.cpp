@@ -4,6 +4,7 @@
 #include "Scene/Entity.h"
 #include "Scene/Scene.h"
 #include "Scene/ScriptableEntity.h"
+#include "Scripting/ScriptEngine.h"
 
 #include <box2d/b2_body.h>
 #include <box2d/b2_fixture.h>
@@ -139,14 +140,29 @@ namespace Basil
 		auto& tag = entity.addComponent<TagComponent>();
 		tag.tag = name.empty() ? "Entity" : name;
 
+		// Add entity to the entity map
+		entityMap[uuid] = entity;
+
 		// Return the entity
 		return entity;
+	}
+
+	// Return entity by UUID
+	Entity Scene::getEntityByUUID(UUID uuid)
+	{
+		// If entity is in entity map, return a new instance of it
+		if (entityMap.find(uuid) != entityMap.end())
+			return { entityMap.at(uuid), this };
+
+		// Otherwise return an empty entity
+		return {};
 	}
 
 	// Destroy an entity
 	void Scene::destroyEntity(Entity entity)
 	{
 		registry.destroy(entity);
+		entityMap.erase(entity.getUUID());
 	}
 
 	// On runtime start

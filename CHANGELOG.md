@@ -1,6 +1,10 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2022-08-02
+### Added
+* Getting an entity by its UUID.
+
 ## 2022-07-19
 ### Added
 * Internal calls from C# scripts.

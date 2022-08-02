@@ -24,6 +24,7 @@ namespace Basil
 			
 			Entity createEntity(const std::string& name = std::string());
 			Entity createEntityWithUUID(UUID uuid, const std::string& name = std::string());
+			Entity getEntityByUUID(UUID uuid);
 			void destroyEntity(Entity entity);
 			
 			void onRuntimeStart();
@@ -63,6 +64,8 @@ namespace Basil
 			uint32_t viewportHeight;
 
 			b2World* box2DWorld;
+
+			std::unordered_map<UUID, entt::entity> entityMap;
 
 			friend class Entity;
 			friend class PropertiesPanel;
