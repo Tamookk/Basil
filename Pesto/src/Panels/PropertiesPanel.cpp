@@ -1,6 +1,7 @@
 #include "Panels/PropertiesPanel.h"
 
 #include "Scene/Component.h"
+#include "Scripting/ScriptEngine.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
@@ -201,6 +202,7 @@ namespace Basil
 		{
 			// Draw list of components that can be added to an entity
 			displayAddComponentEntry<CameraComponent>("Camera", entity);
+			displayAddComponentEntry<ScriptComponent>("Script", entity);
 			displayAddComponentEntry<SpriteRendererComponent>("Sprite Renderer", entity);
 			displayAddComponentEntry<CircleRendererComponent>("Circle Renderer", entity);
 			displayAddComponentEntry<Rigidbody2DComponent>("Rigidbody 2D", entity);
@@ -288,6 +290,27 @@ namespace Basil
 
 				ImGui::Checkbox("Fixed Aspect Ratio", &component.fixedAspectRatio);
 			}
+		});
+
+		drawComponent<ScriptComponent>("Script", entity, [](auto& component)
+		{
+				// Determine whether the script name exists
+				bool scriptClassExists = ScriptEngine::entityClassExists(component.className);
+
+				// Copy the name of the script into a buffer
+				static char buffer[64];
+				strcpy(buffer, component.className.c_str());
+
+				// Push a red color if the script does not exist
+				if (!scriptClassExists)
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.9f, 0.2f, 0.3f, 1.0f));
+
+				// Set component class name to buffer text
+				if (ImGui::InputText("Class", buffer, sizeof(buffer)))
+					component.className = buffer;
+
+				if (!scriptClassExists)
+					ImGui::PopStyleColor();
 		});
 
 		drawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
