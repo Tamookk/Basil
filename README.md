@@ -25,7 +25,7 @@ This project requires [Python 3](https://www.python.org/) for setup.
 2. If you do not have the Vulkan SDK installed already, then this script will have to be run again after restarting your computer.
 3. Once done, simply open `Basil.sln` and build away!
 
-Note that before the included C# scripts will work properly, and/or if you create any custom C# scripts, the `Basil-ScriptCore` project will need to be (re)compiled.
+For an example of how to add C# scripts to your projects, see `Pesto/SandboxProject/Assets/Scripts`. In this folder is a Premake Lua script for generating a Visual Studio 2022 C# project, a batch file for doing this automatically, and the C# scripts themselves.
 
 #### Building Mono Libraries
 Debug and Build x64 Mono libraries for Windows have been included in the repository, as they are required for C# scripting support. I do plan on keeping these updated, however the following instructions can be followed for rebuilding them if necessary.

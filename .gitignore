@@ -407,6 +407,7 @@ FodyWeavers.xsd
 **.log
 !scripts/**.bat
 !Basil/vendor/mono/lib/**
+!Pesto/SandboxProject/Assets/Scripts/**.bat
 Basil/vendor/VulkanSDK/**
 Sandbox/assets/cache/**
 Pesto/assets/cache/**

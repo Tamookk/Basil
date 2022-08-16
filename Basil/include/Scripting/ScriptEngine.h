@@ -13,7 +13,7 @@ namespace Basil
 	{
 		public:
 			ScriptClass() = default;
-			ScriptClass(const std::string& classNamespace, const std::string& className);
+			ScriptClass(const std::string& classNamespace, const std::string& className, bool isCore = false);
 
 			MonoObject* instantiate();
 			MonoMethod* getMethod(const std::string& name, int parameterCount);
@@ -48,6 +48,7 @@ namespace Basil
 		static void init();
 		static void shutdown();
 		static void loadAssembly(const std::filesystem::path& filePath);
+		static void loadAppAssembly(const std::filesystem::path& filePath);
 
 		static void onRuntimeStart(Scene* scene);
 		static void onRuntimeStop();
@@ -64,7 +65,7 @@ namespace Basil
 		static void initMono();
 		static void shutdownMono();
 		static MonoObject* instantiateClass(MonoClass* monoClass);
-		static void loadAssemblyClasses(MonoAssembly* assembly);
+		static void loadAssemblyClasses();
 
 		friend class ScriptClass;
 		friend class ScriptGlue;

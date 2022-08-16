@@ -98,8 +98,13 @@ namespace Basil
 	{
 		MonoDomain* rootDomain = nullptr;
 		MonoDomain* appDomain = nullptr;
+
 		MonoAssembly* coreAssembly = nullptr;
 		MonoImage* coreAssemblyImage = nullptr;
+		
+		MonoAssembly* appAssembly = nullptr;
+		MonoImage* appAssemblyImage = nullptr;
+
 		Scene* sceneContext = nullptr;
 
 		ScriptClass entityClass;
@@ -110,12 +115,13 @@ namespace Basil
 
 	static ScriptEngineData* scriptEngineData = nullptr;
 
-	ScriptClass::ScriptClass(const std::string& classNamespace, const std::string& className)
+	ScriptClass::ScriptClass(const std::string& classNamespace, const std::string& className, bool isCore)
 	{
 		this->classNamespace = classNamespace;
 		this->className = className;
 
-		this->monoClass = mono_class_from_name(scriptEngineData->coreAssemblyImage, classNamespace.c_str(), className.c_str());
+		this->monoClass = mono_class_from_name(isCore ? scriptEngineData->coreAssemblyImage : scriptEngineData->appAssemblyImage,
+			classNamespace.c_str(), className.c_str());
 	}
 
 	MonoObject* ScriptClass::instantiate()
@@ -181,13 +187,14 @@ namespace Basil
 
 		// Load assembly and classes
 		loadAssembly("Resources/Scripts/Basil-ScriptCore.dll");
-		loadAssemblyClasses(scriptEngineData->coreAssembly);
+		loadAppAssembly("SandboxProject/Assets/Scripts/Binaries/Sandbox.dll");
+		loadAssemblyClasses();
 
 		// Register components and functions
 		ScriptGlue::registerComponents();
 		ScriptGlue::registerFunctions();
 
-		scriptEngineData->entityClass = ScriptClass("Basil", "Entity");
+		scriptEngineData->entityClass = ScriptClass("Basil", "Entity", true);
 
 		/* Example code
 		MonoObject* instance = scriptEngineData->entityClass.instantiate();
@@ -223,6 +230,7 @@ namespace Basil
 		delete scriptEngineData;
 	}
 
+	// Load assembly (usually core one)
 	void ScriptEngine::loadAssembly(const std::filesystem::path& filePath)
 	{
 		// Create an app domain
@@ -231,6 +239,14 @@ namespace Basil
 
 		scriptEngineData->coreAssembly = Utils::loadMonoAssembly(filePath);
 		scriptEngineData->coreAssemblyImage = mono_assembly_get_image(scriptEngineData->coreAssembly);
+	}
+
+	// Load app assembly
+	void ScriptEngine::loadAppAssembly(const std::filesystem::path& filePath)
+	{
+		// Set app assembly and app assembly image
+		scriptEngineData->appAssembly = Utils::loadMonoAssembly(filePath);
+		scriptEngineData->appAssemblyImage = mono_assembly_get_image(scriptEngineData->appAssembly);
 	}
 
 	// On runtime start
@@ -332,18 +348,17 @@ namespace Basil
 	}
 
 	// Load assembly classes from Mono assembly
-	void ScriptEngine::loadAssemblyClasses(MonoAssembly* assembly)
+	void ScriptEngine::loadAssemblyClasses()
 	{
 		// Clear entity classes map
 		scriptEngineData->entityClasses.clear();
 
-		// Get entity Mono image and table info
-		MonoImage* image = mono_assembly_get_image(assembly);
-		const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
+		// Get table info
+		const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(scriptEngineData->appAssemblyImage, MONO_TABLE_TYPEDEF);
 
 		// Get number of types and entity class by name
 		int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
-		MonoClass* entityClass = mono_class_from_name(image, "Basil", "Entity");
+		MonoClass* entityClass = mono_class_from_name(scriptEngineData->coreAssemblyImage, "Basil", "Entity");
 
 		// For each type
 		for (int32_t i = 0; i < numTypes; i++)
@@ -353,8 +368,8 @@ namespace Basil
 			mono_metadata_decode_row(typeDefinitionsTable, i, cols, MONO_TYPEDEF_SIZE);
 
 			// Get namespace and name
-			const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
-			const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
+			const char* nameSpace = mono_metadata_string_heap(scriptEngineData->appAssemblyImage, cols[MONO_TYPEDEF_NAMESPACE]);
+			const char* name = mono_metadata_string_heap(scriptEngineData->appAssemblyImage, cols[MONO_TYPEDEF_NAME]);
 			std::string fullName;
 
 			// If namespace exists, append name to it to make fullName
@@ -365,7 +380,7 @@ namespace Basil
 				fullName = name;
 
 			// Get Mono class from the name
-			MonoClass* monoClass = mono_class_from_name(image, nameSpace, name);
+			MonoClass* monoClass = mono_class_from_name(scriptEngineData->appAssemblyImage, nameSpace, name);
 
 			// If the Mono class is the entity class, continue
 			if (monoClass == entityClass)

@@ -1,6 +1,11 @@
 # Change Log
 Change log for the Basil Game Engine project.
 
+## 2022-08-17
+### Changed
+* Moved game scripts into separate module.
+
+
 ## 2022-08-16
 ### Added
 * Premake customization.
