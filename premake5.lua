@@ -186,21 +186,4 @@ project "Pesto"
 		runtime "Release"
 		optimize "On"
 
-project "Basil-ScriptCore"
-	location "Basil-ScriptCore"
-    kind "SharedLib"
-    language "C#"
-    dotnetframework "4.7.2"
-
-    targetdir ("%{wks.location}/Pesto/Resources/Scripts")
-    objdir ("%{wks.location}/Pesto/Resources/Scripts/Intermediates")
-
-    files { "%{prj.name}/Source/**.cs", "%{prj.name}/Properties/**.cs" }
-
-    filter "configurations:Debug"
-        optimize "Off"
-        symbols "Default"
-
-    filter "configurations:Release"
-        optimize "On"
-        symbols "Default"
+include "Basil-ScriptCore"

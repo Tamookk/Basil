@@ -5,6 +5,12 @@ Change log for the Basil Game Engine project.
 ### Added
 * Premake customization.
 
+### Changed
+* Moved Basil-ScriptCore Premake script.
+
+### Removed
+* Removed scene-specific C# scripts from Basil-ScriptCore.
+
 
 ## 2022-08-03
 ### Added
