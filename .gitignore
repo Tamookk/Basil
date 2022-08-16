@@ -411,4 +411,4 @@ Basil/vendor/VulkanSDK/**
 Sandbox/assets/cache/**
 Pesto/assets/cache/**
 scripts/__pycache__/**
-vendor/premake/**
+vendor/premake/bin/**
